@@ -1,0 +1,23 @@
+{
+  "name": "smartsheet-connect",
+  "version": "1.0.0",
+  "description": "Smartsheet connect MDM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon ../api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kripu77/Smartsheet-Connect.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kripu77/Smartsheet-Connect/issues"
+  },
+  "homepage": "https://github.com/Kripu77/Smartsheet-Connect#readme",
+  "dependencies": {
+    "smartsheet": "^2.126.0"
+  }
+}
