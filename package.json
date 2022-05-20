@@ -2,10 +2,10 @@
   "name": "smartsheet-connect",
   "version": "1.0.0",
   "description": "Smartsheet connect MDM",
-  "main": "index.js",
+  "main": "sheetSender.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "nodemon ../api/index.js"
+    "start" : "nodemon sheetSender.js"
   },
   "repository": {
     "type": "git",

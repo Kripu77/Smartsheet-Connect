@@ -1,40 +1,20 @@
-const http = require('http');
-var fs = require("fs")
-const { stringify } = require('querystring');
-var client = require("smartsheet");
-var smartsheet = client.createClient({
-  accessToken: "9RwrziYobnX1MCLRYQ6w7cbfGGS6cI6knXJq1",
-  
-});
+// const datexx = new Date().getDate();
+// console.log(datexx)
 
+const todaysDate = new Date().getDate();
+const thisMonth = new Date().getMonth();
+const thisYear = new Date().getFullYear();
 
+// console.log(tomorrowsDate)
 
+const dateCalc = `${thisYear}-0${thisMonth+1}-${todaysDate}`;
+const tommorowDateCal = `${thisYear}-0${thisMonth+1 }-${todaysDate+1}`;
+const yesterDayDateCal = `${thisYear}-0${thisMonth+1}-${todaysDate - 1}`;
 
-// Set options
-var options = {
-  sheetId: 126087943481220 // Id of Sheet
-, columnId:6710390647220100
- 
-  };
-  
-  smartsheet.sheets.getColumns(options)
-  .then(function(columnList) {
-    console.log(columnList);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
+// console.log(dateCalc, tommorowDateCal, yesterDayDateCal)
 
-
-// smartsheet.sheets.getColumns(options).then((resp)=>{
-
-// fs.writeFile("test.txt", `${resp.title} \t ${resp.options}` , 'utf-8', (err, res)=>{
-//   if(err) throw  err
-// console.log(res)
-// })
-
-//   }) 
-  
-//   .catch(function(error) {
-//     console.log(error);
-//   });
+module.exports = {
+  dateCalc,
+  tommorowDateCal,
+  yesterDayDateCal,
+};
