@@ -1,40 +1,40 @@
+const http = require('http');
+var fs = require("fs")
+const { stringify } = require('querystring');
 var client = require("smartsheet");
 var smartsheet = client.createClient({
   accessToken: "9RwrziYobnX1MCLRYQ6w7cbfGGS6cI6knXJq1",
-  logLevel:'info'
+  
 });
 
+
+
+
+// Set options
 var options = {
-  queryParameters: {
-    include: "attachments",
-    includeAll: true,
-  },
-};
-smartsheet.sheets
-  .listSheets(options)
-  .then(function (sheetList) {
-    console.log(sheetList[92]);
+  sheetId: 126087943481220 // Id of Sheet
+, columnId:6710390647220100
+ 
+  };
+  
+  smartsheet.sheets.getColumns(options)
+  .then(function(columnList) {
+    console.log(columnList);
   })
-  .catch(function (error) {
+  .catch(function(error) {
     console.log(error);
   });
 
 
-// smartsheet.sheets
-//   .listSheets(options)
-//   .then(function (result) {
-//     var sheetId = result.data.id; // Choose the first sheet
+// smartsheet.sheets.getColumns(options).then((resp)=>{
 
-//     // Load one sheet
-//     smartsheet.sheets
-//       .getSheet({ id: sheetId })
-//       .then(function (sheetInfo) {
-//         console.log(sheetInfo);
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//       });
-//   })
-//   .catch(function (error) {
+// fs.writeFile("test.txt", `${resp.title} \t ${resp.options}` , 'utf-8', (err, res)=>{
+//   if(err) throw  err
+// console.log(res)
+// })
+
+//   }) 
+  
+//   .catch(function(error) {
 //     console.log(error);
 //   });
