@@ -42,8 +42,9 @@ smartsheet.sheets
       return cells[45].value === dateCalc || cells[45].value === tommorowDateCal || cells[45].value===yesterDayDateCal
    })
    neededData.push(...filterd)
-  //  console.log(...filterd)
+   console.log(...filterd)
   });
+
 
   //cell 45 for effective data column id 6956681251841924
 
@@ -55,8 +56,13 @@ smartsheet.sheets
 neededData.forEach((singleStore)=>{
 
   const {cells}= singleStore
-  console.log(cells[0].value);
+  console.log(cells);
 
-  fs.writeFileSync("trading hours.csv", `${cells[0].value}, ${cells[1].value}\n`, {flags:"a"} ,{encoding:'utf-8'})
+  fs.writeFile("trading hours.csv", `${cells.map((cell)=>{
+    return !cell.value ? "mm " : cell.value
+
+  })}\n`,{flag:'a'},(err, res)=>{
+if(err) throw err
+  } )
 })
   }, 15000)
