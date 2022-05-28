@@ -5,7 +5,7 @@
   "main": "sheetSender.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "nodemon sheetSender.js"
+    "start": "nodemon sheetSender.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Kripu77/Smartsheet-Connect#readme",
   "dependencies": {
+    "nodemailer": "^6.7.5",
     "smartsheet": "^2.126.0"
   }
 }

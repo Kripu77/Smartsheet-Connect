@@ -58,7 +58,7 @@ neededData.forEach((singleStore)=>{
   const {cells}= singleStore
   console.log(cells);
 
-  fs.writeFile("trading hours.csv", `${cells.map((cell)=>{
+  fs.writeFile("trading hours.xls", `${cells.map((cell)=>{
     return !cell.value ? "mm " : cell.value
 
   })}\n`,{flag:'a'},(err, res)=>{
