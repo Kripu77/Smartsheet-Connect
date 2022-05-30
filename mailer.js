@@ -6,7 +6,7 @@ require("dotenv").config();
 
 //smartsheet instance
 var smartsheet = client.createClient({
-  accessToken: "9RwrziYobnX1MCLRYQ6w7cbfGGS6cI6knXJq1",
+  accessToken: process.env.ACCESS_TOKEN,
 });
 //nodemailer instance
 var transporter = nodemailer.createTransport({
