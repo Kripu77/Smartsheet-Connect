@@ -3,7 +3,6 @@ var cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 require("dotenv").config();
-const { parse } = require("json2csv");
 
 //smartsheet instance
 var smartsheet = client.createClient({
