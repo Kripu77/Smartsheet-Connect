@@ -2,11 +2,12 @@ var client = require("smartsheet");
 var cron = require("node-cron");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
+require("dotenv").config();
 
 
 //smartsheet instance
 var smartsheet = client.createClient({
-  accessToken: "9RwrziYobnX1MCLRYQ6w7cbfGGS6cI6knXJq1",
+  accessToken: process.env.ACCESS_TOKEN,
 });
 
 //node mailer instace
