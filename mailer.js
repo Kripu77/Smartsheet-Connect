@@ -72,7 +72,7 @@ setTimeout(() => {
     const { cells } = eachCell;
     cells.map((singleCell) => {
       const { value } = singleCell;
-      finalRowData.push(!value ? "" : value.toString().replace(",", " "));
+      finalRowData.push(!value ? "" : value.toString().replace(/,/g, "-"));
     
     });
        finalRowData.push("\n");
