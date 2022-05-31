@@ -34,7 +34,7 @@ console.log(dateCalc);
 
 
 //cron will execute task every minute
-// cron.schedule("0 18 * * *", () => {
+cron.schedule("0 15 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -111,3 +111,4 @@ setTimeout(() => {
   finalRowData = [];
  compiledData = [];
 }, 15000);
+})
