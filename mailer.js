@@ -34,7 +34,7 @@ console.log(dateCalc);
 
 
 //cron will execute task every minute
-// cron.schedule("0 18 * * *", () => {
+//  cron.schedule("0 21 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -93,7 +93,8 @@ setTimeout(() => {
     attachments: [
       {
         filename: `Trading hours ${dateCalc}.csv`,
-        content: csv,
+        content: Buffer.from(csv,'utf-8') ,
+       
       },
     ],
   };
@@ -111,3 +112,4 @@ setTimeout(() => {
   finalRowData = [];
  compiledData = [];
 }, 15000);
+//  })
