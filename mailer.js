@@ -34,11 +34,7 @@ console.log(dateCalc);
 
 
 //cron will execute task every minute
-<<<<<<< HEAD
 //  cron.schedule("0 21 * * *", () => {
-=======
-cron.schedule("0 15 * * *", () => {
->>>>>>> 2331e88b8575268520f74b5ad2293d06b621b9de
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -75,8 +71,8 @@ setTimeout(() => {
   neededData.forEach((eachCell) => {
     const { cells } = eachCell;
     cells.map((singleCell) => {
-      const { value } = singleCell;
-      finalRowData.push(!value ? "" : value.toString().replace(/,/g, "-"));
+      const { value, displayValue } = singleCell;
+      finalRowData.push(!value ? "" :  value.toString().replace(/,/g, "-") ||displayValue.toString().replace(/,/g, "-") );
     
     });
        finalRowData.push("\n");
@@ -86,6 +82,8 @@ setTimeout(() => {
  
   compiledData.push(columnHeader);
   compiledData.push(finalRowData);
+
+  // const csv = [ "Store Number", "Restaurant", "Menulog", "Day", "Open", "Close", "Effective Date", "\n", "3105", "Morley", "Y", "Monday", "05:00", "05:00", "01/06/2022", "\n" ,"3105", "Morley", "Y", "Tuesday", "05:00", "05:00", "01/06/2022", "\n", "3105", "Morley", "Y", "Wednesday", "05:00", "05:00", "01/06/2022"].toString()
   const csv = compiledData.toString();
   console.log(csv)
 
@@ -97,7 +95,7 @@ setTimeout(() => {
     attachments: [
       {
         filename: `Trading hours ${dateCalc}.csv`,
-        content: Buffer.from(csv,'utf-8') ,
+        content: csv ,
        
       },
     ],
@@ -116,8 +114,4 @@ setTimeout(() => {
   finalRowData = [];
  compiledData = [];
 }, 15000);
-<<<<<<< HEAD
 //  })
-=======
-})
->>>>>>> 2331e88b8575268520f74b5ad2293d06b621b9de
