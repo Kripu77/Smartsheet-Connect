@@ -1,76 +1,91 @@
-const {MongoClient} = require('mongodb');
-
+const { MongoClient } = require('mongodb');
 const env = require('dotenv');
+
 env.config();
 
 
 
-//estalish connection
+//connection handler function 
 
 const dbconnect = async()=>{
 
 
-//mongouri 
+    const uri = process.env.MONGODB_URI;
 
-const uri = process.env.MONGODB_URI;
-
-const client = new MongoClient(uri);
+    const client = new MongoClient(uri);
 
 
-//wrap the connection in try, catch block for better error handling
+    try{
 
-try{
-    await client.connect();
-await listDatabases(client)
-await allData(client)
+        await client.connect();
+    
+        await getallDatabases(client)
+
+        await collectionData(client)
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+    }
+
+    finally{
+        await client.close();
+    }
 }
 
-catch(err){
-    console.log(err)
-}
 
-finally{
-    await client.close();
-}
+//call the connection function
+dbconnect().catch((err)=>console.log(err)) 
+
+//get the list of databases available in our cluster
 
 
+const getallDatabases = async(client)=>{
 
-}
+//store the info of all DBS
+    const databases = await client.db().admin().listDatabases();
+//store the name of all DBS
+const dbNames = [];
 
+  databases.databases.forEach((database)=>{
 
-//invoke the connection function
+       const {name} = database;
 
-dbconnect().catch((err)=>console.log(err))
-
-
-//list all the databases available in our cluster
-
-const listDatabases = async(client)=>{
-
-
-    const databaselist = await client.db().admin().listDatabases();
-
-
-    databaselist.databases.forEach((data)=>{
-console.log(data.name)
-    })
-
-}
-
-//get all collections in the database
-
-const allData = async(client)=>{
-
-
-  const collections =  await client.db("MDM-EXTRACT").collection("storeInfo").find()
-if(collections){
-
-   collections.forEach((data)=>{
-console.log(data)
+       dbNames.push(name)
    })
+
+
+   console.log(...dbNames) //outputs all the databases that we have in our cluster
+
 }
 
-else{
-    console.log("No results found")
-}
+//get all collections
+
+const collectionData = async(client)=>{
+
+const database = client.db("MDM-EXTRACT")
+const storeInfo = database.collection("storeInfo");
+const uberuuiDs = database.collection("uberID");
+const deliverooids = database.collection("deliverooID");
+
+
+await storeInfo.find().forEach((data)=>{
+    console.log(data)
+})
+
+
+await uberuuiDs.find().forEach((data)=>{
+
+    console.log(data.storeName)
+})
+
+
+await deliverooids.find().forEach((data)=>{
+
+    console.log(data.deliverooId)
+})
+
 }
