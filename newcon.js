@@ -72,20 +72,22 @@ const uberuuiDs = database.collection("uberID");
 const deliverooids = database.collection("deliverooID");
 
 
-await storeInfo.find().forEach((data)=>{
-    console.log(data)
-})
+// const changeStore= await storeInfo.findOne({storeNumber: '3431'})
+// console.log(changeStore)
 
 
-await uberuuiDs.find().forEach((data)=>{
+// const changeStoreUUIDS = await uberuuiDs.findOne({storeCode:'3431'})
 
-    console.log(data.storeName)
-})
+// console.log(changeStoreUUIDS)
+
+// const changeStoreDeliverooIDS = await deliverooids.findOne({storeNumber:'3431'})
+
+// console.log(changeStoreDeliverooIDS)
 
 
-await deliverooids.find().forEach((data)=>{
 
-    console.log(data.deliverooId)
+await storeInfo.find({storeNumber: ["3431", "5309"]}).forEach((data)=>{
+console.log(data)
 })
 
 }
