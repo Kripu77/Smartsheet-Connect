@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
 const env = require('dotenv');
+const {collectionData}= require('./collectionData.js')
 
 env.config();
 
@@ -7,87 +8,76 @@ env.config();
 
 //connection handler function 
 
-const dbconnect = async()=>{
+// setTimeout(()=>{
+const dbconnect = async () => {
+  const uri = process.env.MONGODB_URI;
 
+  const client = new MongoClient(uri);
 
-    const uri = process.env.MONGODB_URI;
+  try {
+    await client.connect();
 
-    const client = new MongoClient(uri);
+    await getallDatabases(client);
 
-
-    try{
-
-        await client.connect();
-    
-        await getallDatabases(client)
-
-        await collectionData(client)
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-    }
-
-    finally{
-        await client.close();
-    }
-}
-
+    await collectionData(client);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
 
 //call the connection function
-dbconnect().catch((err)=>console.log(err)) 
+dbconnect().catch((err) => console.log(err));
 
 //get the list of databases available in our cluster
 
+const getallDatabases = async (client) => {
+  //store the info of all DBS
+  const databases = await client.db().admin().listDatabases();
+  //store the name of all DBS
+  const dbNames = [];
 
-const getallDatabases = async(client)=>{
+  databases.databases.forEach((database) => {
+    const { name } = database;
 
-//store the info of all DBS
-    const databases = await client.db().admin().listDatabases();
-//store the name of all DBS
-const dbNames = [];
+    dbNames.push(name);
+  });
 
-  databases.databases.forEach((database)=>{
+  console.log(...dbNames); //outputs all the databases that we have in our cluster
+};
 
-       const {name} = database;
+// },8000)
 
-       dbNames.push(name)
-   })
-
-
-   console.log(...dbNames) //outputs all the databases that we have in our cluster
-
-}
 
 //get all collections
 
-const collectionData = async(client)=>{
-
-const database = client.db("MDM-EXTRACT")
-const storeInfo = database.collection("storeInfo");
-const uberuuiDs = database.collection("uberID");
-const deliverooids = database.collection("deliverooID");
-
-
-// const changeStore= await storeInfo.findOne({storeNumber: '3431'})
-// console.log(changeStore)
+// const collectionData = async(client)=>{
+// const checkedData = ["3431"];
+// const database = client.db("MDM-EXTRACT")
+// const storeInfo = database.collection("storeInfo");
+// const uberuuiDs = database.collection("uberID");
+// const deliverooids = database.collection("deliverooID");
 
 
-// const changeStoreUUIDS = await uberuuiDs.findOne({storeCode:'3431'})
-
-// console.log(changeStoreUUIDS)
-
-// const changeStoreDeliverooIDS = await deliverooids.findOne({storeNumber:'3431'})
-
-// console.log(changeStoreDeliverooIDS)
+// // const changeStore= await storeInfo.findOne({storeNumber: '3431'})
+// // console.log(changeStore)
 
 
+// // const changeStoreUUIDS = await uberuuiDs.findOne({storeCode:'3431'})
 
-await storeInfo.find({storeNumber: ["3431", "5309"]}).forEach((data)=>{
-console.log(data)
-})
+// // console.log(changeStoreUUIDS)
 
-}
+// // const changeStoreDeliverooIDS = await deliverooids.findOne({storeNumber:'3431'})
+
+// // console.log(changeStoreDeliverooIDS)
+
+
+
+// await storeInfo
+//   .find({ storeNumber: { $in: checkedData} })
+//   .forEach((data) => {
+//     console.log(data);
+//   });
+
+// }
