@@ -3,6 +3,9 @@ var cron = require("node-cron");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 require("dotenv").config();
+const exceljs = require('exceljs');
+
+
 
 
 //smartsheet instance
@@ -42,8 +45,12 @@ console.log(dateCalc);
 // cron.schedule("0 18 * * *", () => {
   smartsheet.sheets.getSheet(options).then((sheetInfo) => {
     //   console.log(sheetInfo.rows)
+    
+
     const newSheet = Array.from(sheetInfo.rows);
     const columnData = Array.from(sheetInfo.columns); //for default column header
+    
+    
     const fullColumnData = columnData.map((data) => {
       const { title } = data;
 
@@ -72,33 +79,45 @@ console.log(dateCalc);
   // },4000)
 
   setTimeout(() => {
+    const workbook = new exceljs.Workbook();
+    const worksheet = workbook.addWorksheet("Trading Hours");
     console.log(neededData.length);
-    fs.writeFile(
-      "trading hours.csv",
-      `${columnHeader.map((column) => {
-        return `${column} `;
-      })}\n`,
-      (err, res) => {
-        if (err) throw err;
+    console.log(columnHeader)
+   worksheet.columns = [ 
+     {header:"id", key:`${columnHeader.map((data)=>{
+
+      return data
+     })}`}
+   ];
+     
+   worksheet.addRows([
+     [ neededData.forEach((singleStore) => {
+      return singleStore;})]
+   ])
+      
+      async function test() {
+        await workbook.xlsx.writeFile("exceljs.xlsx");
       }
-    );
+      test();
+   
     neededData.forEach((singleStore) => {
       const { cells } = singleStore;
-      console.log(cells);
+      //console.log(cells);
+// 
 
-      fs.writeFile(
-        "trading hours.csv",
-        `${cells.map((cell) => {
-          return !cell.value
-            ? " "
-            : `${cell.value.toString().replace(",", " ")}`;
-        })}\n`,
-        { flag: "a" },
-        (err, res) => {
-          if (err) throw err;
-        }
-      );
-    });
+    //   fs.writeFile(
+    //     "trading hours.csv",
+    //     `${cells.map((cell) => {
+    //       return !cell.value
+    //         ? " "
+    //         : `${cell.value.toString().replace(",", " ")}`;
+    //     })}\n`,
+    //     { flag: "a" },
+    //     (err, res) => {
+    //       if (err) throw err;
+    //     }
+    //   );
+     });
     neededData = [];
     columnHeader=[];
   }, 15000);

@@ -83,7 +83,7 @@ setTimeout(() => {
   compiledData.push(columnHeader);
   compiledData.push(finalRowData);
 
-  // const csv = [ "Store Number", "Restaurant", "Menulog", "Day", "Open", "Close", "Effective Date", "\n", "3105", "Morley", "Y", "Monday", "05:00", "05:00", "01/06/2022", "\n" ,"3105", "Morley", "Y", "Tuesday", "05:00", "05:00", "01/06/2022", "\n", "3105", "Morley", "Y", "Wednesday", "05:00", "05:00", "01/06/2022"].toString()
+  const menulog = [ "Store Number", "Restaurant", "Menulog", "Day", "Open", "Close", "Effective Date", "\n", "3105", "Morley", "Y", "Monday", "05:00", "05:00", "01/06/2022", "\n" ,"3105", "Morley", "Y", "Tuesday", "05:00", "05:00", "01/06/2022", "\n", "3105", "Morley", "Y", "Wednesday", "05:00", "05:00", "01/06/2022"].toString()
   const csv = compiledData.toString();
   console.log(csv)
 
@@ -95,8 +95,11 @@ setTimeout(() => {
     attachments: [
       {
         filename: `Trading hours ${dateCalc}.csv`,
-        content: csv ,
-       
+        content: csv,
+      },
+      {
+        filename: `Menulog Trading hours ${dateCalc}.csv`,
+        content: menulog,
       },
     ],
   };
