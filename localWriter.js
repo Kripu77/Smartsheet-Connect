@@ -53,6 +53,7 @@ console.log(dateCalc);
 
     const data = neededData.map((datax) => {
       const { cells } = datax;
+      console.log(cells)
       return cells;
      
     });

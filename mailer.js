@@ -2,6 +2,7 @@ var client = require("smartsheet");
 var cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
+const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./index.js");
 require("dotenv").config();
 
 //smartsheet instance
@@ -28,8 +29,8 @@ const options = {
   id: 126087943481220,
 };
 
-const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./index.js");
-console.log(dateCalc);
+
+// console.log(dateCalc);
 
 
 
@@ -72,7 +73,7 @@ setTimeout(() => {
     const { cells } = eachCell;
     cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
-      finalRowData.push(!value ? "" :  value.toString().replace(/,/g, "-") ||displayValue.toString().replace(/,/g, "-") );
+      finalRowData.push(!value ? "" :  displayValue ? displayValue.toString().replace(/,/g, "-") : value.toString().replace(/,/g, "-") );
     
     });
        finalRowData.push("\n");
