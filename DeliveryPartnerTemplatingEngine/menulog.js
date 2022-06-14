@@ -5,8 +5,8 @@ const mlHeader = [
   "Day",
   "Open",
   "Close",
-  "Effective Date",
-  "\n",
+  "Effective Date"
+  ,"\n"
 ];
 
 //templating function
@@ -16,7 +16,7 @@ function menulogWriter(data, isMenulog) {
     ...data.map((value) => {
       if (value[8].value === "Drive Thru") {
         const driveT = [
-          value[0].value,
+           value[0].value,
           value[1].value,
           "Y",
           "Monday",
@@ -71,7 +71,7 @@ function menulogWriter(data, isMenulog) {
           value[39].value,
           value[40].value,
           "",
-          "\n",
+          "\n"
         ];
         return driveT;
       }
@@ -133,7 +133,7 @@ function menulogWriter(data, isMenulog) {
           value[25].value,
           value[26].value,
           "",
-          "\n",
+          "\n"
         ];
         return dineIn;
       }

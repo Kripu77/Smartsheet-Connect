@@ -1,6 +1,7 @@
 var client = require("smartsheet");
 var cron = require("node-cron");
 const nodemailer = require("nodemailer");
+
 const fs = require("fs");
 const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
 require("dotenv").config();
@@ -36,7 +37,7 @@ const options = {
 
 
 //cron will execute as per the hour we set
-cron.schedule("0 23 * * *", () => {
+// cron.schedule("0 23 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -91,10 +92,16 @@ setTimeout(() => {
   compiledData.push(finalRowData);
 
   //ml compiled
-const menulog = [mlHeader, menulogWriter(data)].toString();
+const menulog = mlHeader
+  .concat(...menulogWriter(data))
+  .toString()
+  .replace("\t", " ")
+ 
+console.log(mlHeader.concat(...menulogWriter(data)));
+
 
   const csv = compiledData.toString();
-  console.log(csv)
+  // console.log(csv)
 
   var mailOptions = {
     from: "kripu.12345@gmail.com",
@@ -126,4 +133,4 @@ const menulog = [mlHeader, menulogWriter(data)].toString();
   finalRowData = [];
  compiledData = [];
 }, 15000);
- })
+//  })
