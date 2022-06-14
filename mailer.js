@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
 require("dotenv").config();
-const{menulogWriter, mlHeader} = require("./DeliveryPartnerCalc/menulog.js")
+const{menulogWriter, mlHeader} = require("./DeliveryPartnerTemplatingEngine/menulog.js")
 
 //smartsheet instance
 var smartsheet = client.createClient({
@@ -35,8 +35,8 @@ const options = {
 
 
 
-//cron will execute task every minute
-//  cron.schedule("0 21 * * *", () => {
+//cron will execute as per the hour we set
+cron.schedule("0 23 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -126,4 +126,4 @@ const menulog = [mlHeader, menulogWriter(data)].toString();
   finalRowData = [];
  compiledData = [];
 }, 15000);
-//  })
+ })

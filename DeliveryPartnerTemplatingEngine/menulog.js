@@ -9,6 +9,8 @@ const mlHeader = [
   "\n",
 ];
 
+//templating function
+
 function menulogWriter(data, isMenulog) {
   return [].concat(
     ...data.map((value) => {

@@ -3,7 +3,7 @@ var cron = require("node-cron");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 require("dotenv").config();
-const{menulogWriter}= require("./menulog")
+const{menulogWriter}= require("./DeliveryPartnerTemplatingEngine/menulog")
 
 //smartsheet instance
 var smartsheet = client.createClient({
@@ -21,11 +21,11 @@ const options = {
   id: 126087943481220,
 };
 
-const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./index.js");
+const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
 console.log(dateCalc);
 
 //cron will execute task every minute
-// cron.schedule("0 18 * * *", () => {
+cron.schedule("0 23 * * *", () => {
   
 
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
@@ -69,6 +69,10 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   menulogWriter(data);
   const menulogData = menulogWriter(data);
 console.log(menulogData)
+
+
+
+
   const final = data.map((value) => {
     return value[0].displayValue;
   });
@@ -76,7 +80,7 @@ console.log(menulogData)
   checkerData.push(...final);
   // console.log(checkerData);
 });
-
+})
 module.exports = {
   checkerData,
  
