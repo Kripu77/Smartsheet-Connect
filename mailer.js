@@ -2,8 +2,9 @@ var client = require("smartsheet");
 var cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
-const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./index.js");
+const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
 require("dotenv").config();
+const{menulogWriter, mlHeader} = require("./DeliveryPartnerCalc/menulog.js")
 
 //smartsheet instance
 var smartsheet = client.createClient({
@@ -18,7 +19,7 @@ var transporter = nodemailer.createTransport({
   },
 });
 
-//for row and column
+//for row and column initial state
 var columnHeader = [];
 var neededData = [];
 var finalRowData =[];
@@ -30,7 +31,7 @@ const options = {
 };
 
 
-// console.log(dateCalc);
+
 
 
 
@@ -44,12 +45,11 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
     const { title } = data;
 
     return title;
-  }); //extracts the title
+  });
+   //extracts the title
   columnHeader.push(...fullColumnData);
   columnHeader.push("\n")
-  // console.log(fullColumnData);
 
-  // console.log(newSheet[43].cells[45])
   const filterd = newSheet.filter((idx) => {
     const { cells, rowNumber } = idx;
     return (
@@ -59,16 +59,13 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
     );
   });
   neededData.push(...filterd);
-  //  console.log(...filterd)
+ 
 });
 
-//cell 45 for effective data column id 6956681251841924
 
-// setTimeout(()=>{
-//     console.log(columnHeader);
-// },4000)
 
 setTimeout(() => {
+  //for regular extraction
   neededData.forEach((eachCell) => {
     const { cells } = eachCell;
     cells.map((singleCell) => {
@@ -80,11 +77,22 @@ setTimeout(() => {
    
   });
 
- 
+  //for Delivery Aggs Cleansing
+  const data = neededData.map((datax) => {
+    const { cells } = datax;
+    // console.log(cells)
+    const storeData = [...cells];
+    return storeData;
+  });
+
+
+ //complied state 
   compiledData.push(columnHeader);
   compiledData.push(finalRowData);
 
-  const menulog = [ "Store Number", "Restaurant", "Menulog", "Day", "Open", "Close", "Effective Date", "\n", "3105", "Morley", "Y", "Monday", "05:00", "05:00", "01/06/2022", "\n" ,"3105", "Morley", "Y", "Tuesday", "05:00", "05:00", "01/06/2022", "\n", "3105", "Morley", "Y", "Wednesday", "05:00", "05:00", "01/06/2022"].toString()
+  //ml compiled
+const menulog = [mlHeader, menulogWriter(data)].toString();
+
   const csv = compiledData.toString();
   console.log(csv)
 
