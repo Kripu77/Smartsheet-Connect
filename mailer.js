@@ -37,7 +37,7 @@ const options = {
 
 
 //cron will execute as per the hour we set
-cron.schedule("0 20 * * *", () => {
+// cron.schedule("0 20 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);
@@ -149,4 +149,4 @@ const menulog = mlHeader
   finalRowData = [];
  compiledData = [];
 }, 15000);
- })
+//  })
