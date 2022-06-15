@@ -1,11 +1,11 @@
 var client = require("smartsheet");
 var cron = require("node-cron");
 const nodemailer = require("nodemailer");
-
-const fs = require("fs");
 const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
 require("dotenv").config();
-const{menulogWriter, mlHeader} = require("./DeliveryPartnerTemplatingEngine/menulog.js")
+const{menulogWriter, mlHeader} = require("./DeliveryPartnerTemplatingEngine/menulog.js");
+const {deliverooHeader, deliverooWriter} = require("./DeliveryPartnerTemplatingEngine/deliveroo.js");
+const {uberHeader, uberWriter}= require("./DeliveryPartnerTemplatingEngine/uber.js")
 
 //smartsheet instance
 var smartsheet = client.createClient({
@@ -71,12 +71,16 @@ setTimeout(() => {
     const { cells } = eachCell;
     cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
-      finalRowData.push(!value ? "" :  displayValue ? displayValue.toString().replace(/,/g, "-") : value.toString().replace(/,/g, "-") );
+      finalRowData.push(!value ? "" :  displayValue ? `"${displayValue.toString()}"` : `"${value.toString()}"`  );
     
     });
        finalRowData.push("\n");
    
   });
+
+   //complied state for normal hours file
+   compiledData.push(columnHeader);
+   compiledData.push(finalRowData);
 
   //for Delivery Aggs Cleansing
   const data = neededData.map((datax) => {
@@ -87,17 +91,21 @@ setTimeout(() => {
   });
 
 
- //complied state 
-  compiledData.push(columnHeader);
-  compiledData.push(finalRowData);
+
 
   //ml compiled
 const menulog = mlHeader
   .concat(...menulogWriter(data))
   .toString()
-  .replace("\t", " ")
+  
  
-console.log(mlHeader.concat(...menulogWriter(data)));
+  //deliveroo complied
+
+  const deliveroo = deliverooHeader.concat(...deliverooWriter(data)).toString();
+
+  //uber compiled
+
+  const uber = uberHeader.concat(...uberWriter(data)).toString();
 
 
   const csv = compiledData.toString();
@@ -114,8 +122,16 @@ console.log(mlHeader.concat(...menulogWriter(data)));
         content: csv,
       },
       {
-        filename: `Menulog Trading hours ${dateCalc}.csv`,
+        filename: `Menulog Trading hours Update ${dateCalc}.csv`,
         content: menulog,
+      },
+      {
+        filename: `Deliveroo Trading hours Update ${dateCalc}.csv`,
+        content: deliveroo,
+      },
+      {
+        filename: `Uber Trading hours Update ${dateCalc}.csv`,
+        content: uber,
       },
     ],
   };
@@ -127,7 +143,7 @@ console.log(mlHeader.concat(...menulogWriter(data)));
       console.log("Email sent: " + info.response);
     }
   });
-  //for row and column
+  //for row and column clear existing state
   columnHeader = [];
   neededData = [];
   finalRowData = [];
