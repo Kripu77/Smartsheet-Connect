@@ -37,7 +37,7 @@ const options = {
 
 
 //cron will execute as per the hour we set
-// cron.schedule("0 23 * * *", () => {
+// cron.schedule("0 18 * * *", () => {
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //   console.log(sheetInfo.rows)
   const newSheet = Array.from(sheetInfo.rows);

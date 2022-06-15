@@ -26,8 +26,28 @@ function uberDataPrep(dayHour) {
   }
 }
 
+//brekky hr checker/ format fixxer
+
+function brekkyHrValidator(brekkyHour){
+
+  let timeNumParser = formatChecker(brekkyHour);
+
+  if(timeNumParser>=11){
+    return 'Closed'
+  }
+
+  else{
+    return timeNumParser >= 10 ? `${brekkyHour}-10:45` : `0${brekkyHour}-10:45`;
+  }
+
+
+}
+
+console.log(brekkyHrValidator("9:30"))
+
 // console.log(uberDataPrep("0:00"));
 
-module.exports={
-  uberDataPrep
-}
+module.exports = {
+  uberDataPrep,
+  brekkyHrValidator,
+};

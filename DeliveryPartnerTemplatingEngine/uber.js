@@ -1,4 +1,4 @@
-const { uberDataPrep } = require("../utils/uberPrepper");
+const { uberDataPrep, brekkyHrValidator } = require("../utils/uberPrepper");
 
 const uberHeader = [
   "Store UUID",
@@ -11,7 +11,7 @@ const uberHeader = [
   "Thursday",
   "Friday",
   "Saturday\n",
-];
+]
 
 //main fn
 
@@ -36,13 +36,13 @@ function uberWriter(data, isUber) {
           "Uber ID here",
           "Breakfast",
           "TRUE",
-          `${value[39].value}-10:45`,
-          `${value[27].value}-10:45`,
-          `${value[29].value}-10:45`,
-          `${value[31].value}-10:45`,
-          `${value[33].value}-10:45`,
-          `${value[35].value}-10:45`,
-          `${value[37].value}-10:45`,
+          brekkyHrValidator(value[39].value),
+          brekkyHrValidator(value[27].value),
+          brekkyHrValidator(value[29].value),
+          brekkyHrValidator(value[31].value),
+          brekkyHrValidator(value[33].value),
+          brekkyHrValidator(value[35].value),
+          brekkyHrValidator(value[37].value),
 
           "\n",
         ];
@@ -55,7 +55,7 @@ function uberWriter(data, isUber) {
           "MENU",
           "TRUE",
           uberDataPrep(value[26].value),
-            uberDataPrep(value[14].value),
+          uberDataPrep(value[14].value),
           uberDataPrep(value[16].value),
           uberDataPrep(value[18].value),
           uberDataPrep(value[20].value),
@@ -66,13 +66,13 @@ function uberWriter(data, isUber) {
           "Uber ID here",
           "Breakfast",
           "TRUE",
-          `${value[25].value}-10:45`,
-          `${value[13].value}-10:45`,
-          `${value[15].value}-10:45`,
-          `${value[17].value}-10:45`,
-          `${value[19].value}-10:45`,
-          `${value[21].value}-10:45`,
-          `${value[23].value}-10:45`,
+          brekkyHrValidator(value[25].value),
+          brekkyHrValidator(value[13].value),
+          brekkyHrValidator(value[15].value),
+          brekkyHrValidator(value[17].value),
+          brekkyHrValidator(value[19].value),
+          brekkyHrValidator(value[21].value),
+          brekkyHrValidator(value[23].value),
 
           "\n",
         ];
