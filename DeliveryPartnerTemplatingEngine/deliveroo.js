@@ -51,13 +51,13 @@ function deliverooWriter(data, isDeliveroo){
               const dineIn = [
                 "Deliveroo ID Here",
                 value[0].value,
-                `${value[13].value}- ${fifteenMinSub(value[14].value)}`,
-                `${value[15].value}- ${fifteenMinSub(value[16].value)}`,
-                `${value[17].value}- ${fifteenMinSub(value[18].value)}`,
-                `${value[19].value}- ${fifteenMinSub(value[20].value)}`,
-                `${value[21].value}- ${fifteenMinSub(value[22].value)}`,
-                `${value[23].value}- ${fifteenMinSub(value[24].value)}`,
-                `${value[25].value}- ${fifteenMinSub(value[26].value)}`,
+                `${value[13].value}-${fifteenMinSub(value[14].value)}`,
+                `${value[15].value}-${fifteenMinSub(value[16].value)}`,
+                `${value[17].value}-${fifteenMinSub(value[18].value)}`,
+                `${value[19].value}-${fifteenMinSub(value[20].value)}`,
+                `${value[21].value}-${fifteenMinSub(value[22].value)}`,
+                `${value[23].value}-${fifteenMinSub(value[24].value)}`,
+                `${value[25].value}-${fifteenMinSub(value[26].value)}`,
                 "\n",
               ];
               return dineIn;

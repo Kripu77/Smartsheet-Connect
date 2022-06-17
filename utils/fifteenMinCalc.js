@@ -13,6 +13,6 @@ function fifteenMinSub(closeHour) {
   return converted;
 }
 
-console.log(fifteenMinSub('2:00'))
+// console.log(fifteenMinSub('2:00'))
 
 module.exports = { fifteenMinSub };
