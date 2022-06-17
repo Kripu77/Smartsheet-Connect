@@ -1,5 +1,4 @@
-const {checkerData} = require("./localWriter.js")
-console.log(checkerData)
+const {  checkerData} = require("../localWriter.js");
 
 const collectionData = async (client) => {
   const database = client.db("MDM-EXTRACT");
@@ -22,9 +21,10 @@ const collectionData = async (client) => {
 
   // console.log(changeStoreDeliverooIDS)
 
-  const newxxx = ["3451", "3444", "3481", "8470"];
+  const newxxx = ["3104", "3603", "3501", "3541", "3593", "5362"];
+ 
   
- await storeInfo.find({ storeNumber: { $in: newxxx } }).forEach((data) => {
+ await storeInfo.find({ storeNumber: { $in: newxxx  } }).forEach((data) => {
   storeDetails.push(data)
   });
 
@@ -37,10 +37,8 @@ const collectionData = async (client) => {
   await deliverooids.find({ storeNumber: { $in: newxxx } }).forEach((data) => {
     storeDeliverooID.push(data)
   });
-
-    console.log(storeDetails);
-    console.log(storeUberUUID);
-    console.log(storeDeliverooID)
+return storeDetails, storeUberUUID, storeDeliverooID
+   
 };
 
 module.exports = { collectionData };

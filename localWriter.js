@@ -3,7 +3,9 @@ var cron = require("node-cron");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 require("dotenv").config();
-const{menulogWriter}= require("./DeliveryPartnerTemplatingEngine/menulog")
+const{menulogWriter}= require("./DeliveryPartnerTemplatingEngine/menulog");
+const {dataMongo}= require("./mongoConnection/dbconnect")
+
 
 //smartsheet instance
 var smartsheet = client.createClient({
@@ -22,10 +24,12 @@ const options = {
 };
 
 const { dateCalc, tommorowDateCal, yesterDayDateCal } = require("./utils/dateCalculator.js");
+
+
 console.log(dateCalc);
 
-//cron will execute task every minute
-cron.schedule("0 23 * * *", () => {
+// //cron will execute task every minute
+// cron.schedule("0 23 * * *", () => {
   
 
 smartsheet.sheets.getSheet(options).then((sheetInfo) => {
@@ -58,17 +62,13 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
     return storeData;
   });
 
-  // console.log(data[2])
-
-  
-
-  // menulogWriter(data);
+ 
 
   //merge all tha two-dimensional array obtained from the fn.
 
   menulogWriter(data);
   const menulogData = menulogWriter(data);
-console.log(menulogData)
+
 
 
 
@@ -76,12 +76,14 @@ console.log(menulogData)
   const final = data.map((value) => {
     return value[0].displayValue;
   });
-  //  console.log(final);
+   console.log(final);
   checkerData.push(...final);
+
+ 
   // console.log(checkerData);
 });
-})
+
 module.exports = {
-  checkerData,
+checkerData
  
 };

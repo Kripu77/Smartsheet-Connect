@@ -70,7 +70,7 @@ function menulogWriter(data, isMenulog) {
           "Sunday",
           value[39].value,
           value[40].value,
-          "",
+          " ",
           "\n"
         ];
         return driveT;
@@ -132,7 +132,7 @@ function menulogWriter(data, isMenulog) {
           "Sunday",
           value[25].value,
           value[26].value,
-          "",
+          " ",
           "\n"
         ];
         return dineIn;

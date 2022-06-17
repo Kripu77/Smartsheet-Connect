@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const env = require('dotenv');
-const {collectionData}= require('./collectionData.js')
+const {collectionData}= require('../utils/collectionData.js')
 
 env.config();
 
@@ -19,7 +19,10 @@ const dbconnect = async () => {
 
     await getallDatabases(client);
 
-    await collectionData(client);
+   let dataTest= await collectionData(client);
+   console.log(dataTest)
+
+   module.exports={dataTest}
   } catch (err) {
     console.log(err);
   } finally {
@@ -46,6 +49,8 @@ const getallDatabases = async (client) => {
 
   console.log(...dbNames); //outputs all the databases that we have in our cluster
 };
+
+module.exports ={dbconnect}
 
 // },8000)
 

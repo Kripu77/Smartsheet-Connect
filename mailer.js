@@ -68,19 +68,23 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
 setTimeout(() => {
   //for regular extraction
   neededData.forEach((eachCell) => {
+
     const { cells } = eachCell;
+    
     cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
       finalRowData.push(!value ? "" :  displayValue ? `"${displayValue.toString()}"` : `"${value.toString()}"`  );
     
     });
-       finalRowData.push("\n");
+       finalRowData.push('+\n');
    
   });
 
    //complied state for normal hours file
    compiledData.push(columnHeader);
    compiledData.push(finalRowData);
+  //  console.log(finalRowData)
+  //  console.log(compiledData)
 
   //for Delivery Aggs Cleansing
   const data = neededData.map((datax) => {
@@ -90,6 +94,7 @@ setTimeout(() => {
     return storeData;
   });
 
+  console.log(data)
 
 
 
@@ -100,16 +105,47 @@ const menulog = mlHeader
   
  
   //deliveroo complied
-
-  const deliveroo = deliverooHeader.concat(...deliverooWriter(data)).toString();
-
+  const deliverooTest = [
+    {
+      // _id: new ObjectId("6295727a59dfcc77018fa4f5"),
+      storeNumber: "3104",
+      storeName: "Belmont WA",
+      deliverooId: "314054",
+    },
+    {
+      // _id: new ObjectId("6295727a59dfcc77018fa5a7"),
+      storeNumber: "3541",
+      storeName: "Morayfield",
+      deliverooId: "348687",
+    },
+    {
+      // _id: new ObjectId("6295727a59dfcc77018fa5a8"),
+      storeNumber: "3501",
+      storeName: "Kippa Ring",
+      deliverooId: "348685",
+    },
+    {
+      // _id: new ObjectId("6295727a59dfcc77018fa5cf"),
+      storeNumber: "3603",
+      storeName: "Smith Street",
+      deliverooId: "376811",
+    },
+    {
+      // _id: new ObjectId("6295727a59dfcc77018fa5e1"),
+      storeNumber: "3593",
+      storeName: "Burpengary",
+      deliverooId: "394413",
+    },
+  ];
+const deliverooPre = deliverooWriter(data, deliverooTest)
+  const deliveroo = deliverooHeader.concat(...deliverooPre).toString();
+console.log(deliveroo)
   //uber compiled
 
   const uber = uberHeader.concat(...uberWriter(data)).toString();
 
 
   const csv = compiledData.toString();
-  // console.log(csv)
 
   var mailOptions = {
     from: "kripu.12345@gmail.com",

@@ -1,26 +1,33 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
 require("dotenv").config();
 
-async function main() {
-  const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI;
 
-  const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+});
 
-  try {
-    await client.connect();
+let dataMongo = [];
 
-    const database = client.db("MDM-EXTRACT");
-    const storeInfo = database.collection("storeInfo");
+client.connect((err) => {
+  const newxxx = ["3451", "3444", "3481", "8470"];
 
-    const query = { storeName: "Kings Cross" };
-    const singleStore = await storeInfo.find().forEach((data) => {
-      console.log(data._id.toHexString());
-    });
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await client.close();
-  }
-}
+  const database = client.db("MDM-EXTRACT");
 
-main();
+  const collection = database.collection("storeInfo");
+
+  const cursor = collection.find({ storeNumber: { $in: newxxx } });
+
+  cursor.forEach((doc) => dataMongo.push(doc));
+
+  setTimeout(() => client.close(), 10000);
+});
+
+setTimeout(() => {
+  console.log(dataMongo);
+}, 4000);
+
+module.exports = { dataMongo };
