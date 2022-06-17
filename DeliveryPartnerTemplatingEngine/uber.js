@@ -1,25 +1,28 @@
 const { uberDataPrep, brekkyHrValidator } = require("../utils/uberPrepper");
 
 const uberHeader = [
-  "Store UUID",
-  "Menu",
-  "Overwrite Existing Hours",
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday\n",
-]
+  [
+    "Store UUID",
+    "Menu",
+    "Overwrite Existing Hours",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday\n",
+  ],
+];
 
 //main fn
 
 function uberWriter(data, isUber) {
-  return [].concat(
-    ...data.map((value) => {
+  let storeHours = [];
+   [].concat(
+    data.map((value) => {
       if (value[8].value === "Drive Thru") {
-        const driveT = [
+        const menuHours = [
           "Uber ID Here",
 
           "MENU",
@@ -30,9 +33,11 @@ function uberWriter(data, isUber) {
           uberDataPrep(value[32].value),
           uberDataPrep(value[34].value),
           uberDataPrep(value[36].value),
-          uberDataPrep(value[38].value),
+          `${uberDataPrep(value[38].value)}\n`,
+        ];
+        storeHours.push(menuHours);
 
-          "\n",
+        const brekfastHours = [
           "Uber ID here",
           "Breakfast",
           "TRUE",
@@ -42,15 +47,13 @@ function uberWriter(data, isUber) {
           brekkyHrValidator(value[31].value),
           brekkyHrValidator(value[33].value),
           brekkyHrValidator(value[35].value),
-          brekkyHrValidator(value[37].value),
-
-          "\n",
+          `${brekkyHrValidator(value[37].value)}\n`,
         ];
-        return driveT;
+        storeHours.push(brekfastHours);
       }
 
       if (value[8].value === "Dine In") {
-        const dineIn = [
+        const dineinMenu = [
           "uber ID Here",
           "MENU",
           "TRUE",
@@ -63,23 +66,30 @@ function uberWriter(data, isUber) {
           uberDataPrep(value[24].value),
 
           "\n",
-          "Uber ID here",
-          "Breakfast",
-          "TRUE",
-          brekkyHrValidator(value[25].value),
-          brekkyHrValidator(value[13].value),
-          brekkyHrValidator(value[15].value),
-          brekkyHrValidator(value[17].value),
-          brekkyHrValidator(value[19].value),
-          brekkyHrValidator(value[21].value),
-          brekkyHrValidator(value[23].value),
-
-          "\n",
+          
         ];
-        return dineIn;
+        storeHours.push(dineinMenu);
+
+        
+      const dineinBreakfast = [
+        "Uber ID here",
+        "Breakfast",
+        "TRUE",
+        brekkyHrValidator(value[25].value),
+        brekkyHrValidator(value[13].value),
+        brekkyHrValidator(value[15].value),
+        brekkyHrValidator(value[17].value),
+        brekkyHrValidator(value[19].value),
+        brekkyHrValidator(value[21].value),
+        brekkyHrValidator(value[23].value),
+        "\n",
+      ];
+      storeHours.push(dineinBreakfast);
       }
+
     })
   );
+  return storeHours;
 }
 
 module.exports = { uberHeader, uberWriter };

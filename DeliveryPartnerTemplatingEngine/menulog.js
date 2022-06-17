@@ -1,13 +1,14 @@
 const{fifteenMinSub}= require('../utils/fifteenMinCalc')
 
+
 const mlHeader = [
-  "Store Number",
+ [ "Store Number",
   "Restaurant",
   "Menulog",
   "Day",
   "Open",
   "Close",
-  "Effective Date\n"
+  "Effective Date\n"]
   
 ];
 
@@ -15,7 +16,7 @@ const mlHeader = [
 
 function menulogWriter(data, isMenulog) {
   return [].concat(
-    ...data.map((value) => {
+    data.map((value) => {
       if (value[8].value === "Drive Thru") {
         const driveT = [
            value[0].value,

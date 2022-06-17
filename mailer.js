@@ -6,6 +6,7 @@ const {
   tommorowDateCal,
   yesterDayDateCal,
 } = require("./utils/dateCalculator.js");
+const { arrayJoine } = require("./utils/arrayJoin.js");
 const {
   menulogWriter,
   mlHeader,
@@ -63,26 +64,25 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
 
 setTimeout(() => {
   //for regular extraction
-  neededData.forEach((eachCell) => {
+  const storeDataArray = neededData.map((eachCell) => {
     const { cells } = eachCell;
+    // console.log(cells)
 
-    cells.map((singleCell) => {
+    return (finalRowData = cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
-      finalRowData.push(
-        !value
-          ? ""
-          : displayValue
-          ? `"${displayValue.toString()}"`
-          : `"${value.toString()}"`
-      );
-    });
-    finalRowData.push("+\n");
+      return !value
+        ? ""
+        : displayValue
+        ? `"${displayValue.toString()}"`
+        : `"${value.toString()}"`;
+    }));
   });
 
+  
   //complied state for normal hours file
   compiledData.push(columnHeader);
-  compiledData.push(finalRowData);
- 
+  compiledData.push(storeDataArray);
+  // console.log(finalRowData)
 
   //for Delivery Aggs Cleansing
   const data = neededData.map((datax) => {
@@ -93,7 +93,7 @@ setTimeout(() => {
   });
 
   //ml compiled
-  const menulog = mlHeader.concat(...menulogWriter(data)).toString();
+  const menulog = arrayJoine(mlHeader.concat(menulogWriter(data))).toString();
 
   //deliveroo complied
   const deliverooTest = [
@@ -129,15 +129,16 @@ setTimeout(() => {
     },
   ];
   const deliverooPre = deliverooWriter(data, deliverooTest);
-  const deliveroo = deliverooHeader.concat(...deliverooPre).toString();
+  const deliveroo = arrayJoine(deliverooHeader.concat(deliverooPre)).toString();
 
   //uber compiled
 
-  const uber = uberHeader.concat(...uberWriter(data)).toString();
-  const csv = compiledData.toString();
+  const uber = arrayJoine(uberHeader.concat(uberWriter(data))).toString();
+
+  const csv = arrayJoine(compiledData).toString();
 
   //mailEngine call
-  callMailengine(dateCalc, csv, menulog, deliveroo, uber);
+   callMailengine(dateCalc, csv, menulog, deliveroo, uber);
 
   //for row and column clear existing state
   columnHeader = [];
