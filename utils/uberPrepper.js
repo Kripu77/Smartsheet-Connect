@@ -5,7 +5,6 @@ function formatChecker(arr) {
 
   if (arrx.length > 4) {
     const value = arrx[0] + arrx[1];
-
     return value;
   } else {
     return arrx[0];
@@ -15,7 +14,6 @@ function formatChecker(arr) {
 //data cleaner and prep fn
 function uberDataPrep(dayHour) {
   let timeNumParser = formatChecker(dayHour);
-console.log(dayHour)
   if (timeNumParser <= 5 && timeNumParser > 0) {
     return `"10:45-23:59,00:00-0${dayHour==='5:00'?'4:59':fifteenMinSub(dayHour)}"`;
   } else {

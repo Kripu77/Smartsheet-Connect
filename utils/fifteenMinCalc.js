@@ -2,6 +2,7 @@ function converToMinutes(s) {
  let c = s.split(":");
   return parseInt(c[0]) * 60 + parseInt(c[1]);
 }
+
 function parseTime(s) {
   return Math.floor(parseInt(s) / 60) + ":" + (parseInt(s) % 60);
 }
@@ -13,6 +14,5 @@ function fifteenMinSub(closeHour) {
   return converted;
 }
 
-// console.log(fifteenMinSub('2:00'))
 
 module.exports = { fifteenMinSub };

@@ -29,7 +29,7 @@ const yesterDayDateCal = `${thisYear}-${zeroChecker(
   fullDate.getMonth() + 1
 )}-${zeroChecker(fullDate.getDate() )}`;
 
-console.log(dateCalc, tommorowDateCal, yesterDayDateCal)
+
 
 module.exports = {
   dateCalc,
