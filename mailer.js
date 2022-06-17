@@ -18,12 +18,11 @@ const {
   uberHeader,
   uberWriter,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
-const {callMailengine}= require('./utils/mailEngine')
+const { callMailengine } = require("./utils/mailEngine");
 //smartsheet instance
 var smartsheet = client.createClient({
   accessToken: process.env.ACCESS_TOKEN,
 });
-
 
 //for row and column initial state
 var columnHeader = [];
@@ -33,7 +32,7 @@ var compiledData = [];
 
 //smartsheet sheet id
 const options = {
-  id: process.env.SHEET_ID
+  id: process.env.SHEET_ID,
 };
 
 //cron will execute as per the hour we set
@@ -45,7 +44,6 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   //extract all col headers
   const fullColumnData = columnData.map((data) => {
     const { title } = data;
-
     return title;
   });
   //extracts the title
@@ -84,8 +82,7 @@ setTimeout(() => {
   //complied state for normal hours file
   compiledData.push(columnHeader);
   compiledData.push(finalRowData);
-  //  console.log(finalRowData)
-  //  console.log(compiledData)
+ 
 
   //for Delivery Aggs Cleansing
   const data = neededData.map((datax) => {
@@ -94,8 +91,6 @@ setTimeout(() => {
     const storeData = [...cells];
     return storeData;
   });
-
-  console.log(data);
 
   //ml compiled
   const menulog = mlHeader.concat(...menulogWriter(data)).toString();
@@ -135,16 +130,14 @@ setTimeout(() => {
   ];
   const deliverooPre = deliverooWriter(data, deliverooTest);
   const deliveroo = deliverooHeader.concat(...deliverooPre).toString();
-  console.log(deliveroo);
+
   //uber compiled
 
   const uber = uberHeader.concat(...uberWriter(data)).toString();
-
   const csv = compiledData.toString();
 
   //mailEngine call
-callMailengine(dateCalc, csv, menulog, deliveroo, uber)
-
+  callMailengine(dateCalc, csv, menulog, deliveroo, uber);
 
   //for row and column clear existing state
   columnHeader = [];
