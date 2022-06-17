@@ -1,3 +1,5 @@
+const{fifteenMinSub}= require('../utils/fifteenMinCalc')
+
 const deliverooHeader = [
   "Deliveroo Restaurant ID",
   "HJ Store Number",
@@ -32,13 +34,13 @@ function deliverooWriter(data, isDeliveroo){
               const driveT = [
                 isDeliveroo[deliVerooindex].deliverooId,
                 value[0].value,
-                `${value[27].value}- ${value[28].value}`,
-                `${value[29].value}- ${value[30].value}`,
-                `${value[31].value}- ${value[32].value}`,
-                `${value[33].value}- ${value[34].value}`,
-                `${value[35].value}- ${value[36].value}`,
-                `${value[37].value}- ${value[38].value}`,
-                `${value[39].value}- ${value[40].value}\n`
+                `${value[27].value}-${fifteenMinSub(value[28].value)}`,
+                `${value[29].value}-${fifteenMinSub(value[30].value)}`,
+                `${value[31].value}-${fifteenMinSub(value[32].value)}`,
+                `${value[33].value}-${fifteenMinSub(value[34].value)}`,
+                `${value[35].value}-${fifteenMinSub(value[36].value)}`,
+                `${value[37].value}-${fifteenMinSub(value[38].value)}`,
+                `${value[39].value}-${fifteenMinSub(value[40].value)}\n`
               ];
               console.log([...driveT])
               loadedData.push(...driveT);
@@ -49,13 +51,13 @@ function deliverooWriter(data, isDeliveroo){
               const dineIn = [
                 "Deliveroo ID Here",
                 value[0].value,
-                `${value[13].value}- ${value[14].value}`,
-                `${value[15].value}- ${value[16].value}`,
-                `${value[17].value}- ${value[18].value}`,
-                `${value[19].value}- ${value[20].value}`,
-                `${value[21].value}- ${value[22].value}`,
-                `${value[23].value}- ${value[24].value}`,
-                `${value[25].value}- ${value[26].value}`,
+                `${value[13].value}- ${fifteenMinSub(value[14].value)}`,
+                `${value[15].value}- ${fifteenMinSub(value[16].value)}`,
+                `${value[17].value}- ${fifteenMinSub(value[18].value)}`,
+                `${value[19].value}- ${fifteenMinSub(value[20].value)}`,
+                `${value[21].value}- ${fifteenMinSub(value[22].value)}`,
+                `${value[23].value}- ${fifteenMinSub(value[24].value)}`,
+                `${value[25].value}- ${fifteenMinSub(value[26].value)}`,
                 "\n",
               ];
               return dineIn;
