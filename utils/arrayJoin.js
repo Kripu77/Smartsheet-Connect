@@ -1,4 +1,10 @@
 
+const arrayTwo = [
+  ["hello", "Javascript"],
+  
+];
+
+
 function arrayJoine(twoDarray){
 
     return twoDarray
@@ -8,5 +14,5 @@ function arrayJoine(twoDarray){
      
 
 }
-
+console.log(arrayJoine(arrayTwo))
 module.exports ={arrayJoine}
