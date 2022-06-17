@@ -1,6 +1,7 @@
 const{fifteenMinSub}= require('../utils/fifteenMinCalc')
 
 const deliverooHeader = [
+  [
   "Deliveroo Restaurant ID",
   "HJ Store Number",
   "Monday",
@@ -9,7 +10,7 @@ const deliverooHeader = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday\n"
+  "Sunday\n"]
 ];
 
 
@@ -42,8 +43,8 @@ function deliverooWriter(data, isDeliveroo){
                 `${value[37].value}-${fifteenMinSub(value[38].value)}`,
                 `${value[39].value}-${fifteenMinSub(value[40].value)}\n`
               ];
-              console.log([...driveT])
-              loadedData.push(...driveT);
+           
+              loadedData.push(driveT);
               return driveT;
             }
 
@@ -60,6 +61,7 @@ function deliverooWriter(data, isDeliveroo){
                 `${value[25].value}-${fifteenMinSub(value[26].value)}`,
                 "\n",
               ];
+              loadedData.push(dineIn)
               return dineIn;
             }
           }
