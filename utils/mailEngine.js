@@ -9,12 +9,21 @@ var transporter = nodemailer.createTransport({
   },
 });
 
-function callMailengine(dateCalc, csv, menulog, deliveroo, uber ){
+//main mail fn
+function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker ){
   var mailOptions = {
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes for ${dateCalc}`,
-    text: "Please find the Trading Hours Changes required in the attached file!",
+    html: `  <center> <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
+    </center>
+    <h3>Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length} new request has been received for Hours Change via Smartsheet portal.</h3>
+ 
+    </br> 
+    <p>Regards, </br>
+    Trading Hour Gen.
+    </p>
+    `,
     attachments: [
       {
         filename: `Trading hours ${dateCalc}.csv`,

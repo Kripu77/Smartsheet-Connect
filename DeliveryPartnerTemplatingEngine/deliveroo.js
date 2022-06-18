@@ -26,8 +26,7 @@ function deliverooWriter(data, isDeliveroo){
 
    isDeliveroo.map((deliverooStore, deliVerooindex) => {
       return data.map((value, index, array) => {
-          // console.log(isDeliveroo[index].storeNumber)
-          console.log(isDeliveroo[deliVerooindex].storeNumber);
+        
 
           if (value[0].value == `${isDeliveroo[deliVerooindex].storeNumber}`) {
            

@@ -72,22 +72,28 @@ setTimeout(() => {
     const { cells } = eachCell;
     // console.log(cells)
 
-    return (finalRowData = cells.map((singleCell) => {
+    finalRowData = cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
       return !value
         ? ""
         : displayValue
         ? `"${displayValue.toString()}"`
         : `"${value.toString()}"`;
-    }));
-  });
+    });
+    finalRowData.push("\n")
    
+    return finalRowData
+   
+  });
+ 
 
 
   
   //complied state for normal hours file
   compiledData.push(columnHeader);
-  compiledData.push(storeDataArray);
+  
+  compiledData.push(...storeDataArray);
+  console.log(compiledData)
   // console.log(finalRowData)
 
   //for Delivery Aggs Cleansing
@@ -107,7 +113,6 @@ setTimeout(() => {
   
 
 
-console.log(storeChecker)
   let deliverooPre =[];
   let mlPre = [];
   let uberPre =[];
@@ -129,7 +134,7 @@ console.log(storeChecker)
   //ml conn
 
    dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-     console.log(menulogStores);
+    console.log(menulogStores)
      const mlPrex = menulogWriter(data, menulogStores);
      mlPre.push(...mlPrex);
    });
@@ -139,7 +144,7 @@ console.log(storeChecker)
 
 
 setTimeout(() => {
-  console.log(deliverooPre);
+  
   const deliveroo = arrayJoine(deliverooHeader.concat(deliverooPre)).toString();
 
   //uber compiled
@@ -151,7 +156,7 @@ setTimeout(() => {
   const csv = arrayJoine(compiledData).toString();
 
   //mailEngine call
-  callMailengine(dateCalc, csv, menulog, deliveroo, uber);
+  callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker);
   columnHeader = [];
   neededData = [];
   finalRowData = [];

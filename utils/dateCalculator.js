@@ -30,7 +30,6 @@ const yesterDayDateCal = `${thisYear}-${zeroChecker(
 )}-${zeroChecker(fullDate.getDate() )}`;
 
 
-
 module.exports = {
   dateCalc,
   tommorowDateCal,
