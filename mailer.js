@@ -1,6 +1,7 @@
 var client = require("smartsheet");
 var cron = require("node-cron");
 require("dotenv").config();
+const{checkerData} = require("./localWriter.js")
 const {
   dateCalc,
   tommorowDateCal,
@@ -20,6 +21,9 @@ const {
   uberWriter,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
 const { callMailengine } = require("./utils/mailEngine");
+const { dbconnect } = require("./mongoConnection/newcon");
+
+
 //smartsheet instance
 var smartsheet = client.createClient({
   accessToken: process.env.ACCESS_TOKEN,
@@ -30,6 +34,7 @@ var columnHeader = [];
 var neededData = [];
 var finalRowData = [];
 var compiledData = [];
+var storeChecker =[]
 
 //smartsheet sheet id
 const options = {
@@ -77,6 +82,8 @@ setTimeout(() => {
         : `"${value.toString()}"`;
     }));
   });
+   
+
 
   
   //complied state for normal hours file
@@ -92,58 +99,67 @@ setTimeout(() => {
     return storeData;
   });
 
-  //ml compiled
-  const menulog = arrayJoine(mlHeader.concat(menulogWriter(data))).toString();
+   const final = data.map((value) => {
+     return value[0].displayValue;
+   });
+   //  console.log(final);
+   storeChecker.push(...final);
 
-  //deliveroo complied
-  const deliverooTest = [
-    {
-      // _id: new ObjectId("6295727a59dfcc77018fa4f5"),
-      storeNumber: "3104",
-      storeName: "Belmont WA",
-      deliverooId: "314054",
-    },
-    {
-      // _id: new ObjectId("6295727a59dfcc77018fa5a7"),
-      storeNumber: "3541",
-      storeName: "Morayfield",
-      deliverooId: "348687",
-    },
-    {
-      // _id: new ObjectId("6295727a59dfcc77018fa5a8"),
-      storeNumber: "3501",
-      storeName: "Kippa Ring",
-      deliverooId: "348685",
-    },
-    {
-      // _id: new ObjectId("6295727a59dfcc77018fa5cf"),
-      storeNumber: "3603",
-      storeName: "Smith Street",
-      deliverooId: "376811",
-    },
-    {
-      // _id: new ObjectId("6295727a59dfcc77018fa5e1"),
-      storeNumber: "3593",
-      storeName: "Burpengary",
-      deliverooId: "394413",
-    },
-  ];
-  const deliverooPre = deliverooWriter(data, deliverooTest);
+  
+
+
+console.log(storeChecker)
+  let deliverooPre =[];
+  let mlPre = [];
+  let uberPre =[];
+
+  //delivero conn 
+  dbconnect("deliverooID", storeChecker).then((deliverooTest) => {
+
+    const deliverooPrex = deliverooWriter(data, deliverooTest);
+    deliverooPre.push(...deliverooPrex);
+  });
+
+  //uber conn
+  dbconnect("uberID", storeChecker).then((uberStores) => {
+    console.log(uberStores)
+    const uberPrex = uberWriter(data, uberStores);
+    uberPre.push(...uberPrex);
+  });
+
+  //ml conn
+
+   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
+     console.log(menulogStores);
+     const mlPrex = menulogWriter(data, menulogStores);
+     mlPre.push(...mlPrex);
+   });
+
+
+
+
+
+setTimeout(() => {
+  console.log(deliverooPre);
   const deliveroo = arrayJoine(deliverooHeader.concat(deliverooPre)).toString();
 
   //uber compiled
 
-  const uber = arrayJoine(uberHeader.concat(uberWriter(data))).toString();
+  const uber = arrayJoine(uberHeader.concat(uberPre)).toString();
+  //ml compiled
+  const menulog = arrayJoine(mlHeader.concat(mlPre)).toString();
 
   const csv = arrayJoine(compiledData).toString();
 
   //mailEngine call
-   callMailengine(dateCalc, csv, menulog, deliveroo, uber);
-
-  //for row and column clear existing state
+  callMailengine(dateCalc, csv, menulog, deliveroo, uber);
   columnHeader = [];
   neededData = [];
   finalRowData = [];
   compiledData = [];
-}, 15000);
+}, 3000);
+
+  //for row and column clear existing state
+ 
+}, 10000);
 //  })

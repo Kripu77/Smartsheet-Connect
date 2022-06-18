@@ -19,11 +19,14 @@ const uberHeader = [
 
 function uberWriter(data, isUber) {
   let storeHours = [];
-   [].concat(
+
+     isUber.map((uberStore, uberIndex) => {
     data.map((value) => {
+      
+          if (value[0].value == `${isUber[uberIndex].storeNumber}`) {
       if (value[8].value === "Drive Thru") {
         const menuHours = [
-          "Uber ID Here",
+          isUber[uberIndex].storeUUID,
 
           "MENU",
           "TRUE",
@@ -38,7 +41,7 @@ function uberWriter(data, isUber) {
         storeHours.push(menuHours);
 
         const brekfastHours = [
-          "Uber ID here",
+          isUber[uberIndex].storeUUID,
           "Breakfast",
           "TRUE",
           brekkyHrValidator(value[39].value),
@@ -54,7 +57,7 @@ function uberWriter(data, isUber) {
 
       if (value[8].value === "Dine In") {
         const dineinMenu = [
-          "uber ID Here",
+          isUber[uberIndex].storeUUID,
           "MENU",
           "TRUE",
           uberDataPrep(value[26].value),
@@ -66,13 +69,12 @@ function uberWriter(data, isUber) {
           uberDataPrep(value[24].value),
 
           "\n",
-          
         ];
         storeHours.push(dineinMenu);
 
         
       const dineinBreakfast = [
-        "Uber ID here",
+        isUber[uberIndex].storeUUID,
         "Breakfast",
         "TRUE",
         brekkyHrValidator(value[25].value),
@@ -87,8 +89,8 @@ function uberWriter(data, isUber) {
       storeHours.push(dineinBreakfast);
       }
 
-    })
-  );
+      } })
+  })
   return storeHours;
 }
 

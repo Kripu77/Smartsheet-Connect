@@ -1,14 +1,14 @@
-const {  checkerData} = require("../localWriter.js");
 
-const collectionData = async (client) => {
+
+const collectionData = async (client, collectionName, storesID) => {
   const database = client.db("MDM-EXTRACT");
-  const storeInfo = database.collection("storeInfo");
-  const uberuuiDs = database.collection("uberID");
-  const deliverooids = database.collection("deliverooID");
+  const storeInfo = database.collection(collectionName);
+  // const uberuuiDs = database.collection("uberID");
+  // const deliverooids = database.collection("deliverooID");
 
   let storeDetails=[];
-  let storeUberUUID =[];
-  let storeDeliverooID =[];
+  // let storeUberUUID =[];
+  // let storeDeliverooID =[];
 
   // const changeStore= await storeInfo.findOne({storeNumber: '3431'})
   // console.log(changeStore)
@@ -21,23 +21,23 @@ const collectionData = async (client) => {
 
   // console.log(changeStoreDeliverooIDS)
 
-  const newxxx = ["3104", "3603", "3501", "3541", "3593", "5362"];
+  
  
   
- await storeInfo.find({ storeNumber: { $in: newxxx  } }).forEach((data) => {
+ await storeInfo.find({ storeNumber: { $in:storesID  } }).forEach((data) => {
   storeDetails.push(data)
   });
 
 
 
-  await uberuuiDs.find({ storeCode: { $in: newxxx } }).forEach((data) => {
-    storeUberUUID.push(data)
-  });
+  // await uberuuiDs.find({ storeCode: { $in: newxxx } }).forEach((data) => {
+  //   storeUberUUID.push(data)
+  // });
 
-  await deliverooids.find({ storeNumber: { $in: newxxx } }).forEach((data) => {
-    storeDeliverooID.push(data)
-  });
-return storeDetails, storeUberUUID, storeDeliverooID
+  // await deliverooids.find({ storeNumber: { $in: newxxx } }).forEach((data) => {
+  //   storeDeliverooID.push(data)
+  // });
+return storeDetails
    
 };
 

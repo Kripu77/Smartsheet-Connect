@@ -1,5 +1,5 @@
 //format fixer fn
-const{fifteenMinSub} = require('./fifteenMinCalc')
+const { fifteenMinSub } = require("./fifteenMinCalc");
 function formatChecker(arr) {
   const arrx = arr.split("");
 
@@ -15,7 +15,9 @@ function formatChecker(arr) {
 function uberDataPrep(dayHour) {
   let timeNumParser = formatChecker(dayHour);
   if (timeNumParser <= 5 && timeNumParser > 0) {
-    return `"10:45-23:59,00:00-0${dayHour==='5:00'?'4:59':fifteenMinSub(dayHour)}"`;
+    return `"10:45-23:59,00:00-0${
+      dayHour === "5:00" ? "4:59" : fifteenMinSub(dayHour)
+    }"`;
   } else {
     return `10:45-${fifteenMinSub(dayHour)}`;
   }
@@ -25,17 +27,12 @@ function uberDataPrep(dayHour) {
 
 function brekkyHrValidator(brekkyHour) {
   let timeNumParser = formatChecker(brekkyHour);
-
   if (timeNumParser >= 11) {
     return "Closed";
   } else {
     return timeNumParser >= 10 ? `${brekkyHour}-10:45` : `0${brekkyHour}-10:45`;
   }
 }
-
-console.log(brekkyHrValidator("9:30"));
-
-// console.log(uberDataPrep("0:00"));
 
 module.exports = {
   uberDataPrep,

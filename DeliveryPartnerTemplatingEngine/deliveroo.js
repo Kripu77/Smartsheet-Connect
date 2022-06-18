@@ -27,8 +27,9 @@ function deliverooWriter(data, isDeliveroo){
    isDeliveroo.map((deliverooStore, deliVerooindex) => {
       return data.map((value, index, array) => {
           // console.log(isDeliveroo[index].storeNumber)
+          console.log(isDeliveroo[deliVerooindex].storeNumber);
 
-          if (value[0].value == isDeliveroo[deliVerooindex].storeNumber) {
+          if (value[0].value == `${isDeliveroo[deliVerooindex].storeNumber}`) {
            
 
             if (value[8].value === "Drive Thru") {
@@ -50,7 +51,7 @@ function deliverooWriter(data, isDeliveroo){
 
             if (value[8].value === "Dine In") {
               const dineIn = [
-                "Deliveroo ID Here",
+                isDeliveroo[deliVerooindex].deliverooId,
                 value[0].value,
                 `${value[13].value}-${fifteenMinSub(value[14].value)}`,
                 `${value[15].value}-${fifteenMinSub(value[16].value)}`,

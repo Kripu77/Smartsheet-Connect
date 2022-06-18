@@ -1,18 +1,21 @@
 
-const arrayTwo = [
-  ["hello", "Javascript"],
-  
-];
 
+//2D array to 1DArray Converter fn
+function arrayJoine(twoDarray) {
+  let output = twoDarray
+    .map((singleArr) => {
+      return singleArr.join(",");
+    })
+    .join("\n");
 
-function arrayJoine(twoDarray){
-
-    return twoDarray
-      .map((singleArr) => {
-        return singleArr.join(",");;
-      }).join("\n")
-     
-
+  return output;
 }
-console.log(arrayJoine(arrayTwo))
-module.exports ={arrayJoine}
+
+//AOO to AOA to 1DArray converter fn
+function objectConverter(input) {
+  let outputData = arrayTwo.map(Object.values);
+  outputData = arrayJoine(outputData)
+  return outputData;
+}
+
+module.exports = { arrayJoine };
