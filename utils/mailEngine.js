@@ -17,9 +17,11 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker ){
     subject: `Trading Hour Changes for ${dateCalc}`,
     html: `  <center> <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
     </center>
-    <h3>Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length} new request has been received for Hours Change via Smartsheet portal.</h3>
+    <strong>Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length} new request has been received for Hours Change via Smartsheet portal.</strong>
+    
  
     </br> 
+   
     <p>Regards, </br>
     Trading Hour Gen.
     </p>

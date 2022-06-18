@@ -11,7 +11,7 @@ const uberHeader = [
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday\n",
+    "Saturday",
   ],
 ];
 
@@ -36,7 +36,7 @@ function uberWriter(data, isUber) {
           uberDataPrep(value[32].value),
           uberDataPrep(value[34].value),
           uberDataPrep(value[36].value),
-          `${uberDataPrep(value[38].value)}\n`,
+          `${uberDataPrep(value[38].value)}`,
         ];
         storeHours.push(menuHours);
 
@@ -66,9 +66,9 @@ function uberWriter(data, isUber) {
           uberDataPrep(value[18].value),
           uberDataPrep(value[20].value),
           uberDataPrep(value[22].value),
-          uberDataPrep(value[24].value),
+          uberDataPrep(value[24].value)
 
-          "\n",
+          
         ];
         storeHours.push(dineinMenu);
 
@@ -83,8 +83,7 @@ function uberWriter(data, isUber) {
         brekkyHrValidator(value[17].value),
         brekkyHrValidator(value[19].value),
         brekkyHrValidator(value[21].value),
-        brekkyHrValidator(value[23].value),
-        "\n",
+        brekkyHrValidator(value[23].value)
       ];
       storeHours.push(dineinBreakfast);
       }

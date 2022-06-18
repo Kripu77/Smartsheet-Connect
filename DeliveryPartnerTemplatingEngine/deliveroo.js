@@ -10,7 +10,7 @@ const deliverooHeader = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday\n"]
+  "Sunday"]
 ];
 
 

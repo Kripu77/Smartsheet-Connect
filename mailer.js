@@ -53,7 +53,7 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
   });
   //extracts the title
   columnHeader.push(...fullColumnData);
-  columnHeader.push("\n");
+
 
   const filterd = newSheet.filter((idx) => {
     const { cells } = idx;

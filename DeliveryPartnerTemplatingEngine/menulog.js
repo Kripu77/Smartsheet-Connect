@@ -8,7 +8,7 @@ const mlHeader = [
     "Day",
     "Open",
     "Close",
-    "Effective Date\n",
+    "Effective Date",
   ],
 ];
 
