@@ -1,7 +1,6 @@
 var client = require("smartsheet");
 var cron = require("node-cron");
 require("dotenv").config();
-const{checkerData} = require("./localWriter.js")
 const {
   dateCalc,
   tommorowDateCal,
