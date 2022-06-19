@@ -15,14 +15,15 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker ){
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes for ${dateCalc}`,
-    html: `  <center> <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
-    </center>
-    <p>Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
+    html: ` <p>Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
     
  
     </br> 
    
-    <p>Regards, </br>
+    <p>Regards, 
+    </br>
+    <center> <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
+    </center>
   
     </p>
     `,
