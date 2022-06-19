@@ -79,7 +79,7 @@ function menulogWriter(data, isMenulog) {
           return driveT;
         }
 
-        if (value[8].value === "Dine In") {
+        if (value[8].value === "Food Court/ Dine In ONLY") {
           const dineIn = [
             value[0].value,
             value[1].value,
@@ -89,53 +89,53 @@ function menulogWriter(data, isMenulog) {
             fifteenMinSub(value[14].value),
             value[value.length - 3].value,
             "\n",
-            "",
+           
             value[1].value,
             "Y",
             "Tuesday",
             value[15].value,
             fifteenMinSub(value[16].value),
-            "",
+           
             "\n",
-            "",
+        
             value[1].value,
             "Y",
             "Wednesday",
             value[17].value,
             fifteenMinSub(value[18].value),
-            "",
+           
             "\n",
-            "",
+            
             value[1].value,
             "Y",
             "Thursday",
             value[19].value,
             fifteenMinSub(value[20].value),
-            "",
+            
             "\n",
-            "",
+            
             value[1].value,
             "Y",
             "Friday",
             value[21].value,
             fifteenMinSub(value[22].value),
-            "",
+         
             "\n",
-            "",
+            
             value[1].value,
             "Y",
             "Saturday",
             value[23].value,
             fifteenMinSub(value[24].value),
-            "",
+            
             "\n",
-            "",
+          
             value[1].value,
             "Y",
             "Sunday",
             value[25].value,
             fifteenMinSub(value[26].value),
-            " ",
+           
             "\n",
           ];
           mlHours.push(dineIn);

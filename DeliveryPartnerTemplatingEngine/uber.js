@@ -55,7 +55,7 @@ function uberWriter(data, isUber) {
         storeHours.push(brekfastHours);
       }
 
-      if (value[8].value === "Dine In") {
+      if (value[8].value === "Food Court/ Dine In ONLY") {
         const dineinMenu = [
           isUber[uberIndex].storeUUID,
           "MENU",

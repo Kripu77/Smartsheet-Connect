@@ -48,7 +48,7 @@ function deliverooWriter(data, isDeliveroo){
               return driveT;
             }
 
-            if (value[8].value === "Dine In") {
+            if (value[8].value === "Food Court/ Dine In ONLY") {
               const dineIn = [
                 isDeliveroo[deliVerooindex].deliverooId,
                 value[0].value,
