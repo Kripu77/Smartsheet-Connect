@@ -14,17 +14,14 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "bugs": {
     "url": "https://github.com/Kripu77/Smartsheet-Connect/issues"
   },
   "homepage": "https://github.com/Kripu77/Smartsheet-Connect#readme",
   "dependencies": {
-    "convert-array-to-csv": "^2.0.0",
     "dotenv": "^16.0.1",
-    "exceljs": "^4.3.0",
-    "json2csv": "^5.0.7",
     "mongodb": "^4.6.0",
     "node-cron": "^3.0.0",
     "nodemailer": "^6.7.5",
