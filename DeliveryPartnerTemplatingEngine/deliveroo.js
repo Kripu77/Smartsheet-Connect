@@ -20,7 +20,7 @@ const deliverooHeader = [
 
 function deliverooWriter(data, isDeliveroo){
 
-    //isDeliveroo checker will only run if Store has Y on the info sheet 
+    //isDeliveroo checker will only run if Store number is matched with the deliveroo info available in db 
 
     let loadedData=[];
 
