@@ -6,7 +6,7 @@ function arrayJoine(twoDarray) {
     .map((singleArr) => {
       return singleArr.join(",");
     })
-    .join("\n");
+    .join("");
 
   return output;
 }
