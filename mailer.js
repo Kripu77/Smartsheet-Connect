@@ -6,6 +6,7 @@ const {
   yesterDayDateCal,
 } = require("./utils/dateCalculator.js");
 const { arrayJoine } = require("./utils/arrayJoin.js");
+const {sheetHeader, sheetPrep} =require('./DeliveryPartnerTemplatingEngine/cleanSheet.js')
 const {
   menulogWriter,
   mlHeader,
@@ -161,10 +162,15 @@ setTimeout(() => {
     //ml compiled
     const menulog = arrayJoine(mlHeader.concat(mlPre)).toString();
 
+    //main file
     const csv = arrayJoine(compiledData).toString();
 
+    //cleansed sheet file
+ 
+    const cleansedSheet = arrayJoine(sheetHeader.concat(sheetPrep(data))).toString();
+console.log(cleansedSheet)
     //mailEngine call
-    callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker);
+    callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet);
     columnHeader = [];
     neededData = [];
     finalRowData = [];

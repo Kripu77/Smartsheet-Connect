@@ -10,13 +10,13 @@ var transporter = nodemailer.createTransport({
 });
 
 //main mail fn
-function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker ){
+function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet ){
   var mailOptions = {
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes for ${dateCalc}`,
-    html: `
-     <p>Hi Team,
+    html: 
+    ` <p>Hi Team,
     </br>
     </br>
      Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
@@ -29,6 +29,10 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker ){
       {
         filename: `Trading hours ${dateCalc}.csv`,
         content: csv,
+      },
+      {
+        filename: `Trading hours ${dateCalc} prepped.csv`,
+        content: cleansedSheet,
       },
       {
         filename: `Menulog Trading hours Update ${dateCalc}.csv`,
