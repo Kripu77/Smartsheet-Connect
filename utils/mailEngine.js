@@ -31,11 +31,11 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
         content: csv,
       },
       {
-        filename: `Trading hours ${dateCalc} prepped.csv`,
+        filename: `Prepped Trading hours ${dateCalc}.csv`,
         content: cleansedSheet,
       },
       {
-        filename: `Menulog Trading hours Update ${dateCalc}.csv`,
+        filename: `Trading hours Update ${dateCalc} ML.csv`,
         content: menulog,
       },
       {
@@ -43,7 +43,7 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
         content: deliveroo,
       },
       {
-        filename: `Uber Trading hours Update ${dateCalc}.csv`,
+        filename: `Trading hours Update ${dateCalc.replaceAll("-",".")}.csv`,
         content: uber,
       },
     ],
