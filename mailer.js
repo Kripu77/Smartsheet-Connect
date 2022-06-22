@@ -179,7 +179,7 @@ setTimeout(() => {
 
     //mailEngine call only if any stores have requested changes
   
-    //storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
+    storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
     
     columnHeader = [];
     neededData = [];
