@@ -43,11 +43,12 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
         content: deliveroo,
       },
       {
-        filename: `Trading hours Update ${dateCalc.replaceAll("-",".")}.csv`,
+        filename: `Trading hours Update ${dateCalc.replaceAll("-", ".")}.csv`,
         content: uber,
       },
     ],
   };
+  
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

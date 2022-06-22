@@ -168,9 +168,11 @@ setTimeout(() => {
     //cleansed sheet file
  
     const cleansedSheet = arrayJoine(sheetHeader.concat(sheetPrep(data))).toString();
-console.log(cleansedSheet)
-    //mailEngine call
-    callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet);
+
+    //mailEngine call only if any stores have requested changes
+  
+    storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
+    
     columnHeader = [];
     neededData = [];
     finalRowData = [];
