@@ -87,7 +87,12 @@ setTimeout(() => {
 
   //complied state for normal hours file
   compiledData.push(columnHeader);
-  compiledData.push(...storeDataArray);
+  //console.log(storeDataArray)
+  let storeClosureFilter = storeDataArray.filter((value)=>{
+    return !value ===value.includes('"Temporary Closure Activation"')
+  })
+  console.log(storeClosureFilter)
+  compiledData.push(...storeClosureFilter);
 
 
 
@@ -105,17 +110,20 @@ setTimeout(() => {
         return value[0].displayValue;
       }
 
-      //below to check store closure
-      //  if (value[9].hasOwnProperty("value")) {
-      //   console.log("im running")
-      //   return value;
-      // }
+      // below to check store closure
+       if (value[9].hasOwnProperty("value")) {
+        console.log("im running")
+        return value;
+      }
     });
   }
   //  const final = data.map((value) => {
   //    return value[0].displayValue;
   //  });
+
+ 
   storeChecker.push(...dynamicExtractor(data, `storeChecker`));
+  
 
   //  tempClosure.push(
   //    ...dynamicExtractor(data, "Temporary Closure Activation").filter(
@@ -171,7 +179,7 @@ setTimeout(() => {
 
     //mailEngine call only if any stores have requested changes
   
-    storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
+    //storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
     
     columnHeader = [];
     neededData = [];
