@@ -20,6 +20,8 @@ const {
   uberWriter,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
 const { callMailengine } = require("./utils/mailEngine");
+const {callClosureMailengine} =require("./utils/closureMailer");
+const{  closureHeader, closureClean} =require("./DeliveryPartnerTemplatingEngine/closureCleaner")
 const { dbconnect } = require("./mongoConnection/newcon");
 
 //smartsheet instance
@@ -85,45 +87,59 @@ setTimeout(() => {
     return finalRowData;
   });
 
-  //complied state for normal hours file
+  //complied state for normal hours file & filter for the main file
   compiledData.push(columnHeader);
-  //console.log(storeDataArray)
   let storeClosureFilter = storeDataArray.filter((value)=>{
     return !value ===value.includes('"Temporary Closure Activation"')
   })
-  console.log(storeClosureFilter)
+  //  console.log(storeClosureFilter)
   compiledData.push(...storeClosureFilter);
 
 
 
   //for Delivery Aggs Cleansing
-  const data = neededData.map((datax) => {
+  let data = neededData.map((datax) => {
     const { cells } = datax;
     const storeData = [...cells];
     return storeData;
   });
 
+
+  //extracts if any store have filled out temproary closure data
+  tempClosure = data.filter((inputDetails)=>{
+  return inputDetails[9].value === "Temporary Closure Activation"
+
+  })
+
+
+  //filters out the temp closure store from the normal distribution list
+ data = data.filter((inputDetails)=>{
+
+    return inputDetails[9].value != "Temporary Closure Activation"
+
+  })
+
+
   //store num extractor
   function dynamicExtractor(data, lookUpValue) {
     return data.map((value) => {
       if (lookUpValue === "storeChecker") {
-        return value[0].displayValue;
+        return value[0].replaceAll('"', "");
       }
 
-      // below to check store closure
-       if (value[9].hasOwnProperty("value")) {
-        console.log("im running")
-        return value;
-      }
+      //below to check store closure
+      //  if (value[9].hasOwnProperty("value")) {
+      //   console.log("im running")
+      //   return value;
+      // }
     });
   }
   //  const final = data.map((value) => {
   //    return value[0].displayValue;
   //  });
+  storeChecker.push(...dynamicExtractor(storeClosureFilter, `storeChecker`));
 
- 
-  storeChecker.push(...dynamicExtractor(data, `storeChecker`));
-  
+  // console.log(storeChecker)
 
   //  tempClosure.push(
   //    ...dynamicExtractor(data, "Temporary Closure Activation").filter(
@@ -153,19 +169,21 @@ setTimeout(() => {
   //ml conn
 
   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-    console.log(menulogStores);
+   console.log(menulogStores);
     const mlPrex = menulogWriter(data, menulogStores);
     mlPre.push(...mlPrex);
   });
 
   setTimeout(() => {
+
     const deliveroo = arrayJoine(
       deliverooHeader.concat(deliverooPre)
     ).toString();
-
+   
     //uber compiled
 
     const uber = arrayJoine(uberHeader.concat(uberPre)).toString();
+
     
     //ml compiled
     const menulog = arrayJoine(mlHeader.concat(mlPre)).toString();
@@ -177,9 +195,15 @@ setTimeout(() => {
  
     const cleansedSheet = arrayJoine(sheetHeader.concat(sheetPrep(data))).toString();
 
+    //store Closure main file
+
+    const closureStore = arrayJoine(closureHeader.concat(closureClean(tempClosure))).toString()
+
     //mailEngine call only if any stores have requested changes
   
-    storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : "";
+     storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : console.log("Hello WorldXD");
+
+     tempClosure.length>1 ?  callClosureMailengine(dateCalc, closureStore) : console.log("XD XD")
     
     columnHeader = [];
     neededData = [];

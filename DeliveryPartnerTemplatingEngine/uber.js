@@ -32,7 +32,7 @@ function uberWriter(data, isUber) {
             uberDataPrep(value[32].value),
             uberDataPrep(value[34].value),
             uberDataPrep(value[36].value),
-            uberDataPrep(value[38].value),
+            uberDataPrep(value[38].value)
           ];
           header.push(...dataInverse(menuHours))
           storeHours.push(header);
@@ -48,7 +48,7 @@ function uberWriter(data, isUber) {
             brekkyHrValidator(value[31].value),
             brekkyHrValidator(value[33].value),
             brekkyHrValidator(value[35].value),
-            `${brekkyHrValidator(value[37].value)}\n`,
+            `${brekkyHrValidator(value[37].value)}\n`
           ];
           storeHours.push(brekfastHours);
         }
@@ -62,7 +62,7 @@ function uberWriter(data, isUber) {
             uberDataPrep(value[18].value),
             uberDataPrep(value[20].value),
             uberDataPrep(value[22].value),
-            uberDataPrep(value[24].value),
+            uberDataPrep(value[24].value)
           ];
          dineInHeader.push(...dataInverse(dineinMenu));
          storeHours.push(dineInHeader);
@@ -77,7 +77,7 @@ function uberWriter(data, isUber) {
             brekkyHrValidator(value[17].value),
             brekkyHrValidator(value[19].value),
             brekkyHrValidator(value[21].value),
-            `${brekkyHrValidator(value[23].value)}\n`,
+            `${brekkyHrValidator(value[23].value)}\n`
           ];
           storeHours.push(dineinBreakfast);
         }

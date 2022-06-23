@@ -1,0 +1,37 @@
+//store closure file prep
+
+const closureHeader =[
+    ['Store Number',
+    "Store Name", 
+    "Store Type", 
+    "Store Closed From", 
+    "Store Closed Till\n"]
+
+]
+
+
+
+function closureClean(tempClosure){
+let closureStore =[];
+tempClosure.map((storeData)=>{
+   
+const allData =[
+    storeData[0].value, 
+    storeData[1].value,
+    storeData[2].value, 
+    storeData[10].value, 
+    `${!storeData[12].value? "TBC" :storeData[12].value}\n`
+]
+closureStore.push(allData)
+
+})
+console.log(closureStore)
+
+return closureStore;
+
+
+}
+
+module.exports={
+    closureHeader, closureClean
+}

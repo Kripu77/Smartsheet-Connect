@@ -10,7 +10,7 @@ const sheetHeader =[
     "Drive Thru Close",
     "Dine In Open", 
     "Dine In Close",
-    "Effective Date\n",
+    "Effective Date\n"
     ]
  ]
 
@@ -78,7 +78,7 @@ const sheetHeader =[
             value[25].value,
             value[26].value,
 
-            "\n",
+            "\n"
         ]
 
 cleansedData.push(allData)

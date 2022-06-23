@@ -58,8 +58,8 @@ function deliverooWriter(data, isDeliveroo){
                 `${value[19].value}-${fifteenMinSub(value[20].value)}`,
                 `${value[21].value}-${fifteenMinSub(value[22].value)}`,
                 `${value[23].value}-${fifteenMinSub(value[24].value)}`,
-                `${value[25].value}-${fifteenMinSub(value[26].value)}`,
-                "\n",
+                `${value[25].value}-${fifteenMinSub(value[26].value)}\n`
+                
               ];
               loadedData.push(dineIn)
               return dineIn;

@@ -73,7 +73,7 @@ function menulogWriter(data, isMenulog) {
             value[39].value,
             fifteenMinSub(value[40].value),
 
-            "\n",
+            "\n"
           ];
           mlHours.push(driveT);
           return driveT;
