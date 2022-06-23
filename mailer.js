@@ -6,7 +6,10 @@ const {
   yesterDayDateCal,
 } = require("./utils/dateCalculator.js");
 const { arrayJoine } = require("./utils/arrayJoin.js");
-const {sheetHeader, sheetPrep} =require('./DeliveryPartnerTemplatingEngine/cleanSheet.js')
+const {
+  sheetHeader,
+  sheetPrep,
+} = require("./DeliveryPartnerTemplatingEngine/cleanSheet.js");
 const {
   menulogWriter,
   mlHeader,
@@ -20,8 +23,11 @@ const {
   uberWriter,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
 const { callMailengine } = require("./utils/mailEngine");
-const {callClosureMailengine} =require("./utils/closureMailer");
-const{  closureHeader, closureClean} =require("./DeliveryPartnerTemplatingEngine/closureCleaner")
+const { callClosureMailengine } = require("./utils/closureMailer");
+const {
+  closureHeader,
+  closureClean,
+} = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
 const { dbconnect } = require("./mongoConnection/newcon");
 
 //smartsheet instance
@@ -72,7 +78,6 @@ setTimeout(() => {
   //for regular extraction
   const storeDataArray = neededData.map((eachCell) => {
     const { cells } = eachCell;
-    // console.log(cells)
 
     finalRowData = cells.map((singleCell) => {
       const { value, displayValue } = singleCell;
@@ -89,13 +94,10 @@ setTimeout(() => {
 
   //complied state for normal hours file & filter for the main file
   compiledData.push(columnHeader);
-  let storeClosureFilter = storeDataArray.filter((value)=>{
-    return !value ===value.includes('"Temporary Closure Activation"')
-  })
-  //  console.log(storeClosureFilter)
+  let storeClosureFilter = storeDataArray.filter((value) => {
+    return !value === value.includes('"Temporary Closure Activation"');
+  });
   compiledData.push(...storeClosureFilter);
-
-
 
   //for Delivery Aggs Cleansing
   let data = neededData.map((datax) => {
@@ -104,21 +106,15 @@ setTimeout(() => {
     return storeData;
   });
 
-
   //extracts if any store have filled out temproary closure data
-  tempClosure = data.filter((inputDetails)=>{
-  return inputDetails[9].value === "Temporary Closure Activation"
-
-  })
-
+  tempClosure = data.filter((inputDetails) => {
+    return inputDetails[9].value === "Temporary Closure Activation";
+  });
 
   //filters out the temp closure store from the normal distribution list
- data = data.filter((inputDetails)=>{
-
-    return inputDetails[9].value != "Temporary Closure Activation"
-
-  })
-
+  data = data.filter((inputDetails) => {
+    return inputDetails[9].value != "Temporary Closure Activation";
+  });
 
   //store num extractor
   function dynamicExtractor(data, lookUpValue) {
@@ -134,20 +130,8 @@ setTimeout(() => {
       // }
     });
   }
-  //  const final = data.map((value) => {
-  //    return value[0].displayValue;
-  //  });
+
   storeChecker.push(...dynamicExtractor(storeClosureFilter, `storeChecker`));
-
-  // console.log(storeChecker)
-
-  //  tempClosure.push(
-  //    ...dynamicExtractor(data, "Temporary Closure Activation").filter(
-  //      (stores) => {
-  //        return stores !== undefined;
-  //      }
-  //    )
-  //  );
 
   let deliverooPre = [];
   let mlPre = [];
@@ -169,22 +153,20 @@ setTimeout(() => {
   //ml conn
 
   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-   console.log(menulogStores);
+    console.log(menulogStores);
     const mlPrex = menulogWriter(data, menulogStores);
     mlPre.push(...mlPrex);
   });
 
   setTimeout(() => {
-
     const deliveroo = arrayJoine(
       deliverooHeader.concat(deliverooPre)
     ).toString();
-   
+
     //uber compiled
 
     const uber = arrayJoine(uberHeader.concat(uberPre)).toString();
 
-    
     //ml compiled
     const menulog = arrayJoine(mlHeader.concat(mlPre)).toString();
 
@@ -192,25 +174,39 @@ setTimeout(() => {
     const csv = arrayJoine(compiledData).toString();
 
     //cleansed sheet file
- 
-    const cleansedSheet = arrayJoine(sheetHeader.concat(sheetPrep(data))).toString();
+
+    const cleansedSheet = arrayJoine(
+      sheetHeader.concat(sheetPrep(data))
+    ).toString();
 
     //store Closure main file
 
-    const closureStore = arrayJoine(closureHeader.concat(closureClean(tempClosure))).toString()
+    const closureStore = arrayJoine(
+      closureHeader.concat(closureClean(tempClosure))
+    ).toString();
 
     //mailEngine call only if any stores have requested changes
-  
-     storeChecker.length >1 ?callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet) : console.log("Hello WorldXD");
 
-     tempClosure.length>1 ?  callClosureMailengine(dateCalc, closureStore) : console.log("XD XD")
-    
+    storeChecker.length > 1
+      ? callMailengine(
+          dateCalc,
+          csv,
+          menulog,
+          deliveroo,
+          uber,
+          storeChecker,
+          cleansedSheet
+        )
+      : console.log("No Hour Changes");
+
+    tempClosure.length > 1
+      ? callClosureMailengine(dateCalc, closureStore)
+      : console.log("No temp closure");
+
     columnHeader = [];
     neededData = [];
     finalRowData = [];
     compiledData = [];
   }, 3000);
-
-
 }, 10000);
 //  })

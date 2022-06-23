@@ -38,7 +38,7 @@ function brekkyHrValidator(brekkyHour) {
   }
 }
 
-//main formater file for 24*7 stores
+//main formatter file for 24*7 stores
 function dataInverse(data) {
   let result = data.map((s) => s.split(/,\s*/));
 
