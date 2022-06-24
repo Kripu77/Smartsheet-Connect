@@ -187,7 +187,7 @@ setTimeout(() => {
 
     //mailEngine call only if any stores have requested changes
 
-    storeChecker.length > 1
+    storeChecker.length >0
       ? callMailengine(
           dateCalc,
           csv,
@@ -199,7 +199,7 @@ setTimeout(() => {
         )
       : console.log("No Hour Changes");
 
-    tempClosure.length > 1
+    tempClosure.length > 0
       ? callClosureMailengine(dateCalc, closureStore)
       : console.log("No temp closure");
 
