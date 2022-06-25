@@ -1,5 +1,4 @@
-let client = require("smartsheet");
-require("dotenv").config();
+let{columnHeader, neededData} = require("./smartsheetConnection/getSmartsheetData")
 const {
   dateCalc,
   tommorowDateCal,
@@ -30,14 +29,8 @@ const {
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
 const { dbconnect } = require("./mongoConnection/newcon");
 
-//smartsheet instance
-var smartsheet = client.createClient({
-  accessToken: process.env.ACCESS_TOKEN,
-});
 
-//for row and column initial state
-var columnHeader = [];
-var neededData = [];
+
 var finalRowData = [];
 var compiledData = [];
 var storeChecker = [];
@@ -46,62 +39,16 @@ var tempClosure = [];
 var dbLookup =[];
 var oldRecordsDB = [];
 
-//smartsheet sheet id
-const options = {
-  id: process.env.SHEET_ID,
-};
+
 
 //cron will execute as per the hour we set
 // cron.schedule("0 20 * * *", () => {
-smartsheet.sheets.getSheet(options).then((sheetInfo) => {
-  const newSheet = Array.from(sheetInfo.rows);
-  //for default column header
-  const columnData = Array.from(sheetInfo.columns);
-  //extract all col headers
-  const fullColumnData = columnData.map((data) => {
-    const { title } = data;
-    return title;
-  });
-  //extracts the title
-  columnHeader.push(...fullColumnData);
-  columnHeader.push("\n");
 
-  const filterd = newSheet.filter((idx) => {
-    const { cells } = idx;
-    return (
-      cells[45].value === dateCalc ||
-      cells[45].value === tommorowDateCal ||
-      cells[45].value === yesterDayDateCal
-    );
-  });
-  neededData.push(...filterd);
-});
 
 setTimeout(() => {
-  //for regular extraction
+  
 
-  const storeDataArray = neededData.map((eachCell) => {
-    const { cells } = eachCell;
-
-    finalRowData = cells.map((singleCell) => {
-      const { value, displayValue } = singleCell;
-      return !value
-        ? ""
-        : displayValue
-        ? `"${displayValue.toString()}"`
-        : `"${value.toString()}"`;
-    });
-    finalRowData.push("\n");
-
-    return finalRowData;
-  });
-
-  //complied state for normal hours file & filter for the main file
-  compiledData.push(columnHeader);
-  let storeClosureFilter = storeDataArray.filter((value) => {
-    return !value === value.includes('"Temporary Closure Activation"');
-  });
-  compiledData.push(...storeClosureFilter);
+  
 
   //for Delivery Aggs Cleansing
   let data = neededData.map((datax) => {
@@ -109,6 +56,8 @@ setTimeout(() => {
     const storeData = [...cells];
     return storeData;
   });
+
+  
 
   //to store the required datasets for comparision of records
   data.forEach((value) => {
@@ -118,7 +67,7 @@ setTimeout(() => {
       createdDate: value[7].value,
     });
   });
-  // console.log(recordPusher)
+
 
   //extracts if any store have filled out temproary closure data
   tempClosure = data.filter((inputDetails) => {
@@ -130,22 +79,39 @@ setTimeout(() => {
     return inputDetails[9].value != "Temporary Closure Activation";
   });
 
+
+// logic simplified for main file
+    const storeDataArray =data.map((singleCell) => {
+    finalRowData=singleCell.map((singleStore) => {
+            const { value, displayValue } = singleStore;
+            return !value
+              ? ""
+              : displayValue
+              ? `"${displayValue.toString()}"`
+              : `"${value.toString()}"`;
+          });
+          finalRowData.push("\n");
+          return finalRowData;
+    });
+    //complied state for normal hours file column and row
+  compiledData.push(columnHeader);
+ compiledData.push(...storeDataArray)
+   
+
+
+
+
+
   //store num extractor
   function dynamicExtractor(data, lookUpValue) {
     return data.map((value) => {
       if (lookUpValue === "storeChecker") {
-        return value[0].replaceAll('"', "");
+        return value[0];
       }
-
-      //below to check store closure
-      //  if (value[9].hasOwnProperty("value")) {
-      //   console.log("im running")
-      //   return value;
-      // }
     });
   }
 
-  storeChecker.push(...dynamicExtractor(storeClosureFilter, `storeChecker`));
+  storeChecker.push(...dynamicExtractor(storeDataArray, `storeChecker`));
 
   let deliverooPre = [];
   let mlPre = [];
@@ -159,7 +125,7 @@ setTimeout(() => {
 
   //uber conn
   dbconnect("uberID", storeChecker).then((uberStores) => {
-    // console.log(uberStores);
+    console.log(uberStores);
     const uberPrex = uberWriter(data, uberStores);
     uberPre.push(...uberPrex);
   });
@@ -167,7 +133,7 @@ setTimeout(() => {
   //ml conn
 
   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-    // console.log(menulogStores);
+    console.log(menulogStores);
     const mlPrex = menulogWriter(data, menulogStores);
     mlPre.push(...mlPrex);
   });
