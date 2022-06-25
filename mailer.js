@@ -1,9 +1,8 @@
-let{columnHeader, neededData} = require("./smartsheetConnection/getSmartsheetData")
-const {
-  dateCalc,
-  tommorowDateCal,
-  yesterDayDateCal,
-} = require("./utils/dateCalculator.js");
+let {
+  columnHeader,
+  neededData,
+} = require("./smartsheetConnection/getSmartsheetData");
+const { dateCalc } = require("./utils/dateCalculator.js");
 const { arrayJoine } = require("./utils/arrayJoin.js");
 const {
   sheetHeader,
@@ -21,43 +20,32 @@ const {
   uberHeader,
   uberWriter,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
-const { callMailengine } = require("./utils/mailEngine");
-const { callClosureMailengine } = require("./utils/closureMailer");
+const { callMailengine } = require("./emailTemplating/mailEngine");
+const { callClosureMailengine } = require("./emailTemplating/closureMailer");
 const {
   closureHeader,
   closureClean,
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
 const { dbconnect } = require("./mongoConnection/newcon");
 
-
-
 var finalRowData = [];
 var compiledData = [];
 var storeChecker = [];
 var recordPusher = [];
 var tempClosure = [];
-var dbLookup =[];
+var dbLookup = [];
 var oldRecordsDB = [];
-
-
 
 //cron will execute as per the hour we set
 // cron.schedule("0 20 * * *", () => {
 
-
 setTimeout(() => {
-  
-
-  
-
   //for Delivery Aggs Cleansing
   let data = neededData.map((datax) => {
     const { cells } = datax;
     const storeData = [...cells];
     return storeData;
   });
-
-  
 
   //to store the required datasets for comparision of records
   data.forEach((value) => {
@@ -67,7 +55,6 @@ setTimeout(() => {
       createdDate: value[7].value,
     });
   });
-
 
   //extracts if any store have filled out temproary closure data
   tempClosure = data.filter((inputDetails) => {
@@ -79,28 +66,22 @@ setTimeout(() => {
     return inputDetails[9].value != "Temporary Closure Activation";
   });
 
-
-// logic simplified for main file
-    const storeDataArray =data.map((singleCell) => {
-    finalRowData=singleCell.map((singleStore) => {
-            const { value, displayValue } = singleStore;
-            return !value
-              ? ""
-              : displayValue
-              ? `"${displayValue.toString()}"`
-              : `"${value.toString()}"`;
-          });
-          finalRowData.push("\n");
-          return finalRowData;
+  // logic simplified for main file
+  const storeDataArray = data.map((singleCell) => {
+    finalRowData = singleCell.map((singleStore) => {
+      const { value, displayValue } = singleStore;
+      return !value
+        ? ""
+        : displayValue
+        ? `"${displayValue.toString()}"`
+        : `"${value.toString()}"`;
     });
-    //complied state for normal hours file column and row
+    finalRowData.push("\n");
+    return finalRowData;
+  });
+  //complied state for normal hours file column and row
   compiledData.push(columnHeader);
- compiledData.push(...storeDataArray)
-   
-
-
-
-
+  compiledData.push(...storeDataArray);
 
   //store num extractor
   function dynamicExtractor(data, lookUpValue) {

@@ -2,9 +2,9 @@
 
 const { MongoClient } = require("mongodb");
 const env = require("dotenv");
-const { collectionData } = require("../utils/collectionData.js");
-const{insertData} = require("../utils/insertData.js");
-const{oldCollectionData} = require("../utils/oldCollection.js")
+const { collectionData } = require("../mongoCollection/collectionData.js");
+const{insertData} = require("../mongoCollection/insertData.js");
+const{oldCollectionData} = require("../mongoCollection/oldCollection.js")
 
 env.config();
 
