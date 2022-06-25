@@ -42,7 +42,7 @@ const options = {
     const filterd = newSheet.filter((idx) => {
       const { cells } = idx;
       return (
-        cells[45].value === '2022-06-21'||
+        cells[45].value === dateCalc||
         cells[45].value === tommorowDateCal ||
         cells[45].value === yesterDayDateCal
       );
