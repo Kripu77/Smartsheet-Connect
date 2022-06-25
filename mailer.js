@@ -106,7 +106,7 @@ setTimeout(() => {
   function dynamicExtractor(data, lookUpValue) {
     return data.map((value) => {
       if (lookUpValue === "storeChecker") {
-        return value[0];
+        return value[0].replaceAll('"', "");
       }
     });
   }
@@ -199,5 +199,5 @@ setTimeout(() => {
     finalRowData = [];
     compiledData = [];
   }, 7000);
-}, 10000);
+}, 6000);
 //  })
