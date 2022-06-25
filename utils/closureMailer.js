@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-require("dotenv").config();
+
 
 //nodemailer instance
 var transporter = nodemailer.createTransport({
@@ -11,16 +11,16 @@ var transporter = nodemailer.createTransport({
 });
 
 //main mail fn
-function callClosureMailengine(dateCalc, main){
+function callClosureMailengine(dateCalc, main, bodyText, attachmentName, recepeints, cc){
   var mailOptions = {
     from: process.env.EMAIL,
-    to: "kripu.khadka@hungryjacks.com.au",
-    subject: `Trading Hour Changes for ${dateCalc}`,
+    to: `${recepeints}`,
+    subject: `${attachmentName} ${dateCalc}`,
     html: 
     ` <p>Hi Team,
     </br>
     </br>
-     Please find the Store Closure Request Received in the attached file via Smartsheet portal.</p>
+     Please find the ${bodyText}.</p>
     <p>Regards, 
     </br>
   </p>
@@ -28,7 +28,7 @@ function callClosureMailengine(dateCalc, main){
     `,
     attachments: [
       {
-        filename: `Temproary Closure Hours ${dateCalc}.csv`,
+        filename: ` ${attachmentName+ " "+ dateCalc}.csv`,
         content: main,
       }
      

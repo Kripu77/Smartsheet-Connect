@@ -1,4 +1,4 @@
-var client = require("smartsheet");
+let client = require("smartsheet");
 require("dotenv").config();
 const {
   dateCalc,
@@ -41,7 +41,10 @@ var neededData = [];
 var finalRowData = [];
 var compiledData = [];
 var storeChecker = [];
+var recordPusher = [];
 var tempClosure = [];
+var dbLookup =[];
+var oldRecordsDB = [];
 
 //smartsheet sheet id
 const options = {
@@ -76,6 +79,7 @@ smartsheet.sheets.getSheet(options).then((sheetInfo) => {
 
 setTimeout(() => {
   //for regular extraction
+
   const storeDataArray = neededData.map((eachCell) => {
     const { cells } = eachCell;
 
@@ -105,6 +109,16 @@ setTimeout(() => {
     const storeData = [...cells];
     return storeData;
   });
+
+  //to store the required datasets for comparision of records
+  data.forEach((value) => {
+    recordPusher.push({
+      storeNumber: value[0].value.toString(),
+      date: value[4].value,
+      createdDate: value[7].value,
+    });
+  });
+  // console.log(recordPusher)
 
   //extracts if any store have filled out temproary closure data
   tempClosure = data.filter((inputDetails) => {
@@ -145,7 +159,7 @@ setTimeout(() => {
 
   //uber conn
   dbconnect("uberID", storeChecker).then((uberStores) => {
-    console.log(uberStores);
+    // console.log(uberStores);
     const uberPrex = uberWriter(data, uberStores);
     uberPre.push(...uberPrex);
   });
@@ -153,10 +167,15 @@ setTimeout(() => {
   //ml conn
 
   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-    console.log(menulogStores);
+    // console.log(menulogStores);
     const mlPrex = menulogWriter(data, menulogStores);
     mlPre.push(...mlPrex);
   });
+
+  //finally insert the historyRecord data
+  recordPusher.length > 0
+    ? dbconnect("insertData", recordPusher)
+    : console.log("No data to insert");
 
   setTimeout(() => {
     const deliveroo = arrayJoine(
@@ -187,7 +206,7 @@ setTimeout(() => {
 
     //mailEngine call only if any stores have requested changes
 
-    storeChecker.length >0
+    storeChecker.length > 0
       ? callMailengine(
           dateCalc,
           csv,
@@ -197,16 +216,22 @@ setTimeout(() => {
           storeChecker,
           cleansedSheet
         )
-      : console.log("No Hour Changes");
+      : console.log("No trading hour changes");
 
     tempClosure.length > 0
-      ? callClosureMailengine(dateCalc, closureStore)
+      ? callClosureMailengine(
+          dateCalc,
+          closureStore,
+          "Store Closure Request Received in the attached file via Smartsheet portal",
+          "Temproary Closure Hours",
+          "kripu.khadka@hungryjacks.com.au"
+        )
       : console.log("No temp closure");
 
     columnHeader = [];
     neededData = [];
     finalRowData = [];
     compiledData = [];
-  }, 3000);
+  }, 7000);
 }, 10000);
 //  })

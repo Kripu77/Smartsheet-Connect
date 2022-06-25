@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-require("dotenv").config();
+
 
 //nodemailer instance
 var transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
   var mailOptions = {
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
-    subject: `Trading Hour Changes for ${dateCalc}`,
+    subject: `Trading Hour Changes ${dateCalc}`,
     html: 
     ` <p>Hi Team,
     </br>

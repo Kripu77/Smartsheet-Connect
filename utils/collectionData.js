@@ -1,4 +1,4 @@
-//test module only
+//main data collection getter
 
 const collectionData = async (client, collectionName, storesID) => {
   const database = client.db("MDM-EXTRACT");
@@ -7,7 +7,7 @@ const collectionData = async (client, collectionName, storesID) => {
   let storeDetails=[];
  
   
- await storeInfo.find({ storeNumber: { $in:storesID  } }).forEach((data) => {
+ await storeInfo.find({ storeNumber: { $in:storesID  }   }).forEach((data) => {
   storeDetails.push(data)
   });
 
