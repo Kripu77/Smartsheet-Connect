@@ -26,6 +26,7 @@ const {
   closureHeader,
   closureClean,
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
+const{mlClosureHeader, menulogClosureWriter} =require("./DeliveryPartnerTemplatingEngine/menulogClosure")
 const { dbconnect } = require("./mongoConnection/newcon");
 
 var finalRowData = [];
@@ -33,6 +34,7 @@ var compiledData = [];
 var storeChecker = [];
 var recordPusher = [];
 var tempClosure = [];
+var menulogClosureStore =[];
 var dbLookup = [];
 var oldRecordsDB = [];
 
@@ -143,12 +145,28 @@ oldRecordsDB.map((dbValue, dbindex)=>{
     mlPre.push(...mlPrex);
   });
 
+  //for temp closure aggs
+
+  // if(tempClosure.length > 0){
+
+  //   dbconnect("storeInfo", tempClosure).then((menulogStore)=>{
+ 
+
+  //     const mlClosurex = menulogClosureWriter(tempClosure, menulogStore)
+  //     menulogClosureStore.push(...mlClosurex)
+
+  //   })
+  // }
+
+ 
+
   //finally insert the historyRecord data
   recordPusher.length > 0
     ? dbconnect("insertData", recordPusher)
     : console.log("No data to insert");
 
   setTimeout(() => {
+
     const deliveroo = arrayJoine(
       deliverooHeader.concat(deliverooPre)
     ).toString();
@@ -175,6 +193,11 @@ oldRecordsDB.map((dbValue, dbindex)=>{
       closureHeader.concat(closureClean(tempClosure))
     ).toString();
 
+    // menulog 
+
+    // const menulogClosureFinal = arrayJoine(mlClosureHeader.concat(menulogClosureWriter(menulogClosureStore))).toString
+
+    // console.log(menulogClosureFinal)
     //mailEngine call only if any stores have requested changes
 
     storeChecker.length > 0
@@ -195,9 +218,43 @@ oldRecordsDB.map((dbValue, dbindex)=>{
           closureStore,
           "Store Closure Request Received in the attached file via Smartsheet portal",
           "Temproary Closure Hours",
-          "kripu.khadka@hungryjacks.com.au"
+          "kripu.khadka@hungryjacks.com.au",
+          "Team"
         )
       : console.log("No temp closure");
+
+     mlPre.length > 0
+      ? callClosureMailengine(
+          dateCalc,
+          menulog,
+          "trading hours update required on Menulog listings, please advise once done",
+          "Trading Hours Update ML",
+          "kripu.khadka@hungryjacks.com.au", 
+          "Xuan"
+        )
+      : console.log("No ML Hour update");
+
+      uberPre.length>0?
+       callClosureMailengine(
+        dateCalc.replaceAll("-", "."),
+        uber,
+        "Bulk upload file for trading hours update, please advise once done",
+        "Trading Hours Update",
+        "kripu.khadka@hungryjacks.com.au", 
+        "Esc Eng"
+      )
+    : console.log("No UBER Hours update");
+
+    deliverooPre.length>0 ?
+    callClosureMailengine(
+     dateCalc,
+     deliveroo,
+     "attached file for the trading hours update, please advise once done",
+     "Deliveroo Trading Hours Update HJ",
+     "kripu.khadka@hungryjacks.com.au", 
+     "Team"
+   )
+ : console.log("No deliveroo Hours update");
 
     columnHeader = [];
     neededData = [];

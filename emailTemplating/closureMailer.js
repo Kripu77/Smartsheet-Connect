@@ -11,13 +11,13 @@ var transporter = nodemailer.createTransport({
 });
 
 //main mail fn
-function callClosureMailengine(dateCalc, main, bodyText, attachmentName, recepeints, cc){
+function callClosureMailengine(dateCalc, main, bodyText, attachmentName, recepeints, recepientsName){
   var mailOptions = {
     from: process.env.EMAIL,
     to: `${recepeints}`,
     subject: `${attachmentName} ${dateCalc}`,
     html: 
-    ` <p>Hi Team,
+    ` <p>Hi ${recepientsName},
     </br>
     </br>
      Please find the ${bodyText}.</p>
