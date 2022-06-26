@@ -1,7 +1,7 @@
-const nodemailer = require("nodemailer");
+let nodemailer = require("nodemailer");
 
 
-//nodemailer instance
+//nodemailer instance with SMTP provider
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {

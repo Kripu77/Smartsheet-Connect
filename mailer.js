@@ -180,5 +180,5 @@ setTimeout(() => {
     finalRowData = [];
     compiledData = [];
   }, 7000);
-}, 6000);
+}, 10000);
 //  })

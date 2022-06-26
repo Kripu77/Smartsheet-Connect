@@ -1,5 +1,4 @@
 //store closure file prep
-
 const closureHeader =[
     ['Store Number',
     "Store Name", 
@@ -10,7 +9,6 @@ const closureHeader =[
 ]
 
 
-
 function closureClean(tempClosure){
 let closureStore =[];
 tempClosure.map((storeData)=>{
@@ -19,7 +17,7 @@ const allData =[
     storeData[0].value, 
     storeData[1].value,
     storeData[2].value, 
-    storeData[10].value, 
+    `${!storeData[10].value? "TBC" :storeData[12].value}`, 
     `${!storeData[12].value? "TBC" :storeData[12].value}\n`
 ]
 closureStore.push(allData)

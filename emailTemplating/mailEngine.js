@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+let nodemailer = require("nodemailer");
 
 
 //nodemailer instance
