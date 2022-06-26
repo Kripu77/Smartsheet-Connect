@@ -7,7 +7,7 @@ const oldCollectionData = async (client, collectionName, createdDate) => {
     let storeDetails=[];
    
     
-   await storeInfo.find({ createdDate: { $in:createdDate}   }).forEach((data) => {
+   await storeInfo.find({ storeNumber: { $in:createdDate}   }).forEach((data) => {
     storeDetails.push(data)
     });
     console.log(storeDetails)

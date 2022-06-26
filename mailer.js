@@ -47,6 +47,16 @@ setTimeout(() => {
     return storeData;
   });
 
+  //for db lookup
+  data.forEach((value)=>{
+    dbLookup.push(value[0].displayValue)
+
+  })
+
+dbconnect("oldRecords", dbLookup).then((data)=>{
+oldRecordsDB.push(...data)
+})
+console.log(oldRecordsDB)
   //to store the required datasets for comparision of records
   data.forEach((value) => {
     recordPusher.push({
@@ -55,6 +65,20 @@ setTimeout(() => {
       createdDate: value[7].value,
     });
   });
+
+  setTimeout(()=>{
+  //filter out the data if the data that we have has already been inserted to db
+oldRecordsDB.map((dbValue, dbindex)=>{
+
+
+  data = data.filter((value, index)=>{
+    console.log(oldRecordsDB[dbindex].createdDate)
+    console.log(value[7].value)
+
+    return value[7].value != oldRecordsDB[dbindex].createdDate
+
+  })
+})
 
   //extracts if any store have filled out temproary closure data
   tempClosure = data.filter((inputDetails) => {
@@ -106,7 +130,7 @@ setTimeout(() => {
 
   //uber conn
   dbconnect("uberID", storeChecker).then((uberStores) => {
-    console.log(uberStores);
+    //console.log(uberStores);
     const uberPrex = uberWriter(data, uberStores);
     uberPre.push(...uberPrex);
   });
@@ -114,7 +138,7 @@ setTimeout(() => {
   //ml conn
 
   dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-    console.log(menulogStores);
+    //console.log(menulogStores);
     const mlPrex = menulogWriter(data, menulogStores);
     mlPre.push(...mlPrex);
   });
@@ -179,6 +203,7 @@ setTimeout(() => {
     neededData = [];
     finalRowData = [];
     compiledData = [];
+  }, 6000)
   }, 7000);
 }, 10000);
 //  })
