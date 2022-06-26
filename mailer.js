@@ -61,14 +61,7 @@ setTimeout(() => {
     oldRecordsDB.push(...data);
   });
   console.log(oldRecordsDB);
-  //to store the required datasets for comparision of records
-  data.forEach((value) => {
-    recordPusher.push({
-      storeNumber: value[0].value.toString(),
-      date: value[4].value,
-      createdDate: value[7].value,
-    });
-  });
+ 
 
   setTimeout(() => {
     //filter out the data if the data that we have has already been inserted to db
@@ -80,6 +73,14 @@ setTimeout(() => {
         return value[7].value != oldRecordsDB[dbindex].createdDate;
       });
     });
+     //to store the required datasets for comparision of records
+  data.forEach((value) => {
+    recordPusher.push({
+      storeNumber: value[0].value.toString(),
+      date: value[4].value,
+      createdDate: value[7].value,
+    });
+  });
 
     //extracts if any store have filled out temproary closure data
     tempClosure = data.filter((inputDetails) => {
