@@ -12,6 +12,17 @@ const mlHeader = [
   ],
 ];
 
+const mlClosureHeader = [
+  [
+    "State",
+    "Store Number",
+    "Restaurant",
+    "Temp Closure Start",
+    "Temp Closure End\n",
+  ],
+];
+
+
 //templating function
 
 function menulogWriter(data, isMenulog) {
@@ -20,8 +31,23 @@ function menulogWriter(data, isMenulog) {
 
     return data.map((value) => {
 
+      
+
       if (value[0].value == `${isMenulog[mlIndex].storeNumber}` && "Y" === `${isMenulog[mlIndex].menulog}`) {
-        console.log(isMenulog[mlIndex].menulog);
+    
+
+        if(value[9].value === "Temporary Closure Activation" ){
+          const store = [
+            value[5].value,
+            value[0].value,
+            value[1].value,
+            `${!value[10].value ? "TBC" : value[10].value}`,
+            `${!value[12].value ? "TBC" : value[12].value}\n`,
+          ];
+          mlHours.push(store);
+          return store
+  
+        }
         if (value[8].value === "Drive Thru") {
           const driveT = [
             value[0].value,
@@ -141,10 +167,11 @@ function menulogWriter(data, isMenulog) {
           mlHours.push(dineIn);
           return dineIn;
         }
+      
       }
     });
   });
   return mlHours;
 }
 
-module.exports = { menulogWriter, mlHeader };
+module.exports = { menulogWriter, mlHeader, mlClosureHeader };

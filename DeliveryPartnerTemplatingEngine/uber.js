@@ -15,6 +15,16 @@ const uberHeader = [
   ],
 ];
 
+const uberClosureHeader = [
+  [  "Store Number",
+    "UUID",
+     "Store",
+    "Temp Closure Start",
+    "Temp Closure End\n",
+  ],
+];
+
+
 //main fn
 
 function uberWriter(data, isUber) {
@@ -23,6 +33,20 @@ function uberWriter(data, isUber) {
   isUber.map((uberStore, uberIndex) => {
     data.map((value) => {
       if (value[0].value == `${isUber[uberIndex].storeNumber}`) {
+
+        if(value[9].value === "Temporary Closure Activation" ){
+          const store = [
+            value[0].value,
+            isUber[uberIndex].storeUUID,
+            value[1].value,
+            `${!value[10].value ? "TBC" : value[10].value}`,
+            `${!value[12].value ? "TBC" : value[12].value}\n`,
+          ];
+          storeHours.push(store);
+          return store
+  
+        }
+
         if (value[8].value === "Drive Thru") {
           let header = [isUber[uberIndex].storeUUID, "MENU", "TRUE"];
           const menuHours = [
@@ -87,4 +111,4 @@ function uberWriter(data, isUber) {
   return storeHours;
 }
 
-module.exports = { uberHeader, uberWriter };
+module.exports = { uberHeader, uberWriter, uberClosureHeader };

@@ -11,6 +11,7 @@ const {
 const {
   menulogWriter,
   mlHeader,
+  mlClosureHeader,
 } = require("./DeliveryPartnerTemplatingEngine/menulog.js");
 const {
   deliverooHeader,
@@ -19,6 +20,7 @@ const {
 const {
   uberHeader,
   uberWriter,
+  uberClosureHeader,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
 const { callMailengine } = require("./emailTemplating/mailEngine");
 const { callClosureMailengine } = require("./emailTemplating/closureMailer");
@@ -26,10 +28,7 @@ const {
   closureHeader,
   closureClean,
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
-const {
-  mlClosureHeader,
-  menulogClosureWriter,
-} = require("./DeliveryPartnerTemplatingEngine/menulogClosure");
+
 const { dbconnect } = require("./mongoConnection/newcon");
 
 var finalRowData = [];
@@ -37,7 +36,7 @@ var compiledData = [];
 var storeChecker = [];
 var recordPusher = [];
 var tempClosure = [];
-var menulogClosureStore = [];
+var closureStore = [];
 var dbLookup = [];
 var oldRecordsDB = [];
 
@@ -57,30 +56,26 @@ setTimeout(() => {
     dbLookup.push(value[0].displayValue);
   });
 
+  //get old records from db
   dbconnect("oldRecords", dbLookup).then((data) => {
     oldRecordsDB.push(...data);
   });
-  console.log(oldRecordsDB);
- 
 
   setTimeout(() => {
     //filter out the data if the data that we have has already been inserted to db
     oldRecordsDB.map((dbValue, dbindex) => {
       data = data.filter((value, index) => {
-        console.log(oldRecordsDB[dbindex].createdDate);
-        console.log(value[7].value);
-
         return value[7].value != oldRecordsDB[dbindex].createdDate;
       });
     });
-     //to store the required datasets for comparision of records
-  data.forEach((value) => {
-    recordPusher.push({
-      storeNumber: value[0].value.toString(),
-      date: value[4].value,
-      createdDate: value[7].value,
+    //to store the required datasets for comparision of records
+    data.forEach((value) => {
+      recordPusher.push({
+        storeNumber: value[0].value.toString(),
+        date: value[4].value,
+        createdDate: value[7].value,
+      });
     });
-  });
 
     //extracts if any store have filled out temproary closure data
     tempClosure = data.filter((inputDetails) => {
@@ -115,14 +110,22 @@ setTimeout(() => {
         if (lookUpValue === "storeChecker") {
           return value[0].replaceAll('"', "");
         }
+        if (lookUpValue === "closureChecker") {
+          return value[0].displayValue;
+        }
       });
     }
 
+    //non-closure store number holder
     storeChecker.push(...dynamicExtractor(storeDataArray, `storeChecker`));
+    //closure store number holder
+    closureStore.push(...dynamicExtractor(tempClosure, "closureChecker"));
 
     let deliverooPre = [];
     let mlPre = [];
     let uberPre = [];
+    let mlClosurePre = [];
+    let uberClosurePre = [];
 
     //delivero conn
     dbconnect("deliverooID", storeChecker).then((deliverooTest) => {
@@ -145,17 +148,20 @@ setTimeout(() => {
       mlPre.push(...mlPrex);
     });
 
-    //for temp closure aggs
+    //for temp closure aggs only invoked when a store closure is received
 
-    // if(tempClosure.length > 0){
+    if (tempClosure.length > 0) {
+      dbconnect("storeInfo", closureStore).then((menulogStores) => {
+        const menulogClosurePre = menulogWriter(tempClosure, menulogStores);
+        mlClosurePre.push(...menulogClosurePre);
+      });
 
-    //   dbconnect("storeInfo", tempClosure).then((menulogStore)=>{
-
-    //     const mlClosurex = menulogClosureWriter(tempClosure, menulogStore)
-    //     menulogClosureStore.push(...mlClosurex)
-
-    //   })
-    // }
+      dbconnect("uberID", closureStore).then((uberStores) => {
+        //console.log(uberStores);
+        const uberClosurePrex = uberWriter(tempClosure, uberStores);
+        uberClosurePre.push(...uberClosurePrex);
+      });
+    }
 
     //finally insert the historyRecord data
     recordPusher.length > 0
@@ -191,7 +197,15 @@ setTimeout(() => {
 
       // menulog
 
-      // const menulogClosureFinal = arrayJoine(mlClosureHeader.concat(menulogClosureWriter(menulogClosureStore))).toString
+      const menulogClosureFinal = arrayJoine(
+        mlClosureHeader.concat(mlClosurePre)
+      ).toString();
+
+      //uber closure
+
+      const uberClosureFinal = arrayJoine(
+        uberClosureHeader.concat(uberClosurePre)
+      ).toString();
 
       // console.log(menulogClosureFinal)
       //mailEngine call only if any stores have requested changes
@@ -251,6 +265,28 @@ setTimeout(() => {
             "Team"
           )
         : console.log("No deliveroo Hours update");
+
+      uberClosurePre.length > 0
+        ? callClosureMailengine(
+            dateCalc,
+            uberClosureFinal,
+            "attached file for the store Temproaray Closure, please advise once done",
+            "Temporary Closure Update Uber",
+            "kripu.khadka@hungryjacks.com.au",
+            "Esc Eng"
+          )
+        : console.log("No Uber Temp closure update");
+
+      mlClosurePre.length > 0
+        ? callClosureMailengine(
+            dateCalc,
+            menulogClosureFinal,
+            "attached file for the store Temproaray Closure, please advise once done",
+            "Temporary Closure Update",
+            "kripu.khadka@hungryjacks.com.au",
+            "TXuan"
+          )
+        : console.log("No ML Temp closure update");
 
       columnHeader = [];
       neededData = [];
