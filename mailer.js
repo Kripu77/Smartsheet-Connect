@@ -284,7 +284,7 @@ setTimeout(() => {
             "attached file for the store Temproaray Closure, please advise once done",
             "Temporary Closure Update",
             "kripu.khadka@hungryjacks.com.au",
-            "TXuan"
+            "Xuan"
           )
         : console.log("No ML Temp closure update");
 
