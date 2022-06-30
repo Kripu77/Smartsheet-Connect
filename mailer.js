@@ -209,6 +209,8 @@ setTimeout(() => {
 
       // console.log(menulogClosureFinal)
       //mailEngine call only if any stores have requested changes
+setTimeout(()=>{
+
 
       storeChecker.length > 0
         ? callMailengine(
@@ -220,7 +222,7 @@ setTimeout(() => {
             storeChecker,
             cleansedSheet
           )
-        : console.log("No trading hour changes");
+        : console.log("No trading hour changes");}, 1000)
 
       tempClosure.length > 0
         ? callClosureMailengine(
@@ -233,7 +235,9 @@ setTimeout(() => {
           )
         : console.log("No temp closure");
 
-      mlPre.length > 0
+        setTimeout(()=>{
+
+         mlPre.length > 0
         ? callClosureMailengine(
             dateCalc,
             menulog,
@@ -242,7 +246,7 @@ setTimeout(() => {
             "kripu.khadka@hungryjacks.com.au",
             "Xuan"
           )
-        : console.log("No ML Hour update");
+        : console.log("No ML Hour update"); }, 1000)
 
       uberPre.length > 0
         ? callClosureMailengine(
@@ -255,7 +259,7 @@ setTimeout(() => {
           )
         : console.log("No UBER Hours update");
 
-      deliverooPre.length > 0
+        setTimeout(()=>{deliverooPre.length > 0
         ? callClosureMailengine(
             dateCalc,
             deliveroo,
@@ -265,6 +269,7 @@ setTimeout(() => {
             "Team"
           )
         : console.log("No deliveroo Hours update");
+      },2000) 
 
       uberClosurePre.length > 0
         ? callClosureMailengine(
@@ -277,16 +282,18 @@ setTimeout(() => {
           )
         : console.log("No Uber Temp closure update");
 
+    setTimeout(()=>{
       mlClosurePre.length > 0
-        ? callClosureMailengine(
-            dateCalc,
-            menulogClosureFinal,
-            "attached file for the store Temproaray Closure, please advise once done",
-            "Temporary Closure Update",
-            "kripu.khadka@hungryjacks.com.au",
-            "Xuan"
-          )
-        : console.log("No ML Temp closure update");
+      ? callClosureMailengine(
+          dateCalc,
+          menulogClosureFinal,
+          "attached file for the store Temproaray Closure, please advise once done",
+          "Temporary Closure Update",
+          "kripu.khadka@hungryjacks.com.au",
+          "Xuan"
+        )
+      : console.log("No ML Temp closure update");
+    },2000)  
 
       columnHeader = [];
       neededData = [];
