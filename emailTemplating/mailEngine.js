@@ -2,13 +2,28 @@ let nodemailer = require("nodemailer");
 
 
 //nodemailer instance
+// var transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL,
+//     pass: process.env.PASSWORD,
+//   },
+// });
+
 var transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-mail.outlook.com", // hostname
+  secureConnection: false, // TLS requires secureConnection to be false
+  port: 587, // port for secure SMTP
+  tls: {
+     ciphers:'SSLv3'
+  },
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
+        pass: process.env.PASSWORD
+  }
 });
+
+
 
 //main mail fn
 function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet ){

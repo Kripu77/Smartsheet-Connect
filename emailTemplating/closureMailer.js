@@ -3,12 +3,18 @@ let nodemailer = require("nodemailer");
 
 //nodemailer instance with SMTP provider
 var transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-mail.outlook.com", // hostname
+  secureConnection: false, // TLS requires secureConnection to be false
+  port: 587, // port for secure SMTP
+  tls: {
+     ciphers:'SSLv3'
+  },
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
+        pass: process.env.PASSWORD
+  }
 });
+
 
 //main mail fn
 function callClosureMailengine(dateCalc, main, bodyText, attachmentName, recepeints, recepientsName){
