@@ -3,11 +3,12 @@ let nodemailer = require("nodemailer");
 
 //nodemailer instance
 // var transporter = nodemailer.createTransport({
-//   service: "gmail",
+//   host: "smtp.mailtrap.io",
+//   port: 2525,
 //   auth: {
-//     user: process.env.EMAIL,
-//     pass: process.env.PASSWORD,
-//   },
+//     user: "30fe70e2a0ba27",
+//     pass: "71c049a8f93af1"
+//   }
 // });
 
 var transporter = nodemailer.createTransport({
@@ -15,7 +16,8 @@ var transporter = nodemailer.createTransport({
   secureConnection: false, // TLS requires secureConnection to be false
   port: 587, // port for secure SMTP
   tls: {
-     ciphers:'SSLv3'
+     ciphers:'SSLv3',
+     
   },
   auth: {
     user: process.env.EMAIL,
@@ -30,16 +32,31 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
   var mailOptions = {
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
+    cc: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes ${dateCalc}`,
     html: 
-    ` <p>Hi Team,
-    </br>
-    </br>
-     Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
-    <p>Regards, 
-    </br>
-  </p>
- <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
+    ` <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            <p>Hi Team,
+            </br>
+            </br>
+             Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
+            <p>Regards, 
+            </br>
+          </p>
+         HJ Master Data
+        </div>
+        
+    </body>
+    </html>
     `,
     attachments: [
       {

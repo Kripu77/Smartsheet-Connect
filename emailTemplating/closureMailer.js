@@ -2,6 +2,15 @@ let nodemailer = require("nodemailer");
 
 
 //nodemailer instance with SMTP provider
+// var transporter = nodemailer.createTransport({
+//   host: "smtp.mailtrap.io",
+//   port: 2525,
+//   auth: {
+//     user: "30fe70e2a0ba27",
+//     pass: "71c049a8f93af1"
+//   }
+// });
+
 var transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com", // hostname
   secureConnection: false, // TLS requires secureConnection to be false
@@ -21,16 +30,35 @@ function callClosureMailengine(dateCalc, main, bodyText, attachmentName, recepei
   var mailOptions = {
     from: process.env.EMAIL,
     to: `${recepeints}`,
+    cc: "kripu.khadka@hungryjacks.com.au",
     subject: `${attachmentName} ${dateCalc}`,
     html: 
-    ` <p>Hi ${recepientsName},
-    </br>
-    </br>
-     Please find the ${bodyText}.</p>
-    <p>Regards, 
-    </br>
-  </p>
- <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
+    ` <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+                <p>Hi ${recepientsName},
+                </br>
+                </br>
+                 Please find the ${bodyText}.</p>
+                <p>  Regards, 
+               
+                </br>
+                HJ Master Data
+              </p>
+            
+       
+         <img src="https://www.hungryjacks.com.au/App_Themes/HJ/assets/images/HJLogo.svg"/>
+        </div>
+        
+    </body>
+    </html>
     `,
     attachments: [
       {

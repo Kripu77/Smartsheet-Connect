@@ -23,7 +23,7 @@ const dateCalc = `${thisYear}-${zeroChecker(thisMonth + 1)}-${zeroChecker(
   todaysDate
 )}`;
 const tommorowDateCal = `${thisYear}-${zeroChecker(
-  thisMonth + 2
+  thisMonth + 1
 )}-${zeroChecker(tomorrowsFullDate.getDate())}`;
 const yesterDayDateCal = `${thisYear}-${zeroChecker(
   fullDate.getMonth() + 1
