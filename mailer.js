@@ -56,7 +56,7 @@ setTimeout(() => {
 
   //remove repetative store submission data;
   data = getUniqueListBy(data)
-  console.log(data)
+
 
   //for db lookup
   data.forEach((value) => {

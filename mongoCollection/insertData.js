@@ -9,7 +9,7 @@ const insertData = async(client, collectionName, values )=>{
     // this option prevents additional documents from being inserted if one fails
     const options = { ordered: true };
     const result = await collection.insertMany(values, options);
-    console.log(`${result.insertedCount} documents were inserted`);
+    console.log(`${result.insertedCount} stores were inserted`);
 
 
 }

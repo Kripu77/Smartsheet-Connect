@@ -10,9 +10,6 @@ env.config();
 
 //connection handler function
 
-const stores = [
-  { storeNumber: "3431", createdAt: "2022-1-2", modifiedAt: "Today" },
-];
 
 const dbconnect = async (string, storesID) => {
   const uri = process.env.MONGODB_URI;
@@ -44,7 +41,7 @@ const dbconnect = async (string, storesID) => {
   }
 };
 
-// console.log(dbconnect("googleRecords", ["3431"]).then((res)=>console.log(res)))
+
 
 module.exports = { dbconnect };
 
