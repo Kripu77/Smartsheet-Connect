@@ -1,5 +1,3 @@
-
-
 //2D array to 1DArray Converter fn
 function arrayJoine(twoDarray) {
   let output = twoDarray
@@ -14,7 +12,7 @@ function arrayJoine(twoDarray) {
 //AOO to AOA to 1DArray converter fn
 function objectConverter(input) {
   let outputData = arrayTwo.map(Object.values);
-  outputData = arrayJoine(outputData)
+  outputData = arrayJoine(outputData);
   return outputData;
 }
 

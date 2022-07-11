@@ -57,9 +57,8 @@ function dataInverse(data) {
     // What drops off at the end, should be inserted at the start
     result[0] = [result[0], ...overflow].join(",");
     //  add \n to the last index of the array
-   
   }
-   result.push("\n")
+  result.push("\n");
   // only insert "" if the string matches the 24*7 fromat
   const formatted = result.map((string) => {
     return string.length <= 20 ? string : `"${string}\"`;

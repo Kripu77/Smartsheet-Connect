@@ -2,14 +2,7 @@ let nodemailer = require("nodemailer");
 
 
 //nodemailer instance with SMTP provider
-// var transporter = nodemailer.createTransport({
-//   host: "smtp.mailtrap.io",
-//   port: 2525,
-//   auth: {
-//     user: "30fe70e2a0ba27",
-//     pass: "71c049a8f93af1"
-//   }
-// });
+
 
 var transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com", // hostname

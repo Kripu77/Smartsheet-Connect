@@ -20,7 +20,7 @@ var transporter = nodemailer.createTransport({
 
 
 //main mail fn
-function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, cleansedSheet ){
+function callMailengine(dateCalc, csv, menulog, deliveroo, uber, googleFile, storeChecker, cleansedSheet ){
   var mailOptions = {
     from: process.env.EMAIL,
     to: "kripu.khadka@hungryjacks.com.au",
@@ -70,6 +70,10 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, storeChecker, c
       {
         filename: `Trading hours Update ${dateCalc.replaceAll("-", ".")}.csv`,
         content: uber,
+      },
+      {
+        filename: `Google Upload hours Update ${dateCalc}.csv`,
+        content: googleFile,
       },
     ],
   };

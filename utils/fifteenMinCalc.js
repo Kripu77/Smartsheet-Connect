@@ -18,5 +18,4 @@ function fifteenMinSub(closeHour) {
   }
 }
 
-
 module.exports = { fifteenMinSub };

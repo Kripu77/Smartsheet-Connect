@@ -5,27 +5,22 @@ var neededData = [];
 var columnHeader = [];
 
 const {
-    dateCalc,
-    tommorowDateCal,
-    yesterDayDateCal,
-  } = require("../utils/dateCalculator.js");
-
+  dateCalc,
+  tommorowDateCal,
+  yesterDayDateCal,
+} = require("../utils/dateCalculator.js");
 
 //smartsheet instance
 let smartsheet = client.createClient({
-    accessToken: process.env.ACCESS_TOKEN,
-  });
-  
+  accessToken: process.env.ACCESS_TOKEN,
+});
 
-  //smartsheet sheet id
+//smartsheet sheet id
 const options = {
-    id: process.env.SHEET_ID,
-  };
+  id: process.env.SHEET_ID,
+};
 
-  const smartsheetCaller =()=>{
-
- 
-
+const smartsheetCaller = () => {
   smartsheet.sheets.getSheet(options).then((sheetInfo) => {
     const newSheet = Array.from(sheetInfo.rows);
     //for default column header
@@ -38,23 +33,19 @@ const options = {
     //extracts the title
     columnHeader.push(...fullColumnData);
     columnHeader.push("\n");
-  
+
     const filterd = newSheet.filter((idx) => {
       const { cells } = idx;
       return (
-        cells[45].value === dateCalc||
+        cells[45].value === dateCalc ||
         cells[45].value === tommorowDateCal ||
         cells[45].value === yesterDayDateCal
       );
     });
     neededData.push(...filterd);
   });
-
-
-}
+};
 
 smartsheetCaller();
 
-
-
-module.exports={neededData, columnHeader}
+module.exports = { neededData, columnHeader };

@@ -25,7 +25,7 @@ const dbconnect = async (string, storesID) => {
     if (
       string === "storeInfo" ||
       string === "deliverooID" ||
-      string === "uberID"
+      string === "uberID" || string ==="googleRecords"
     ) {
       let storeInfo = await collectionData(client, `${string}`, storesID);
       return storeInfo;
@@ -44,4 +44,8 @@ const dbconnect = async (string, storesID) => {
   }
 };
 
+// console.log(dbconnect("googleRecords", ["3431"]).then((res)=>console.log(res)))
+
 module.exports = { dbconnect };
+
+

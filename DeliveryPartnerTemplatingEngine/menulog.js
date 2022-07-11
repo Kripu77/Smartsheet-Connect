@@ -22,21 +22,17 @@ const mlClosureHeader = [
   ],
 ];
 
-
 //templating function
 
 function menulogWriter(data, isMenulog) {
   let mlHours = [];
   isMenulog.map((mlStore, mlIndex) => {
-
     return data.map((value) => {
-
-      
-
-      if (value[0].value == `${isMenulog[mlIndex].storeNumber}` && "Y" === `${isMenulog[mlIndex].menulog}`) {
-    
-
-        if(value[9].value === "Temporary Closure Activation" ){
+      if (
+        value[0].value == `${isMenulog[mlIndex].storeNumber}` &&
+        "Y" === `${isMenulog[mlIndex].menulog}`
+      ) {
+        if (value[9].value === "Temporary Closure Activation") {
           const store = [
             value[5].value,
             value[0].value,
@@ -45,8 +41,7 @@ function menulogWriter(data, isMenulog) {
             `${!value[12].value ? "TBC" : value[12].value}\n`,
           ];
           mlHours.push(store);
-          return store
-  
+          return store;
         }
         if (value[8].value === "Drive Thru") {
           const driveT = [
@@ -99,7 +94,7 @@ function menulogWriter(data, isMenulog) {
             value[39].value,
             fifteenMinSub(value[40].value),
 
-            "\n"
+            "\n",
           ];
           mlHours.push(driveT);
           return driveT;
@@ -115,59 +110,58 @@ function menulogWriter(data, isMenulog) {
             fifteenMinSub(value[14].value),
             value[value.length - 3].value,
             "\n",
-           
+
             value[1].value,
             "Y",
             "Tuesday",
             value[15].value,
             fifteenMinSub(value[16].value),
-           
+
             "\n",
-        
+
             value[1].value,
             "Y",
             "Wednesday",
             value[17].value,
             fifteenMinSub(value[18].value),
-           
+
             "\n",
-            
+
             value[1].value,
             "Y",
             "Thursday",
             value[19].value,
             fifteenMinSub(value[20].value),
-            
+
             "\n",
-            
+
             value[1].value,
             "Y",
             "Friday",
             value[21].value,
             fifteenMinSub(value[22].value),
-         
+
             "\n",
-            
+
             value[1].value,
             "Y",
             "Saturday",
             value[23].value,
             fifteenMinSub(value[24].value),
-            
+
             "\n",
-          
+
             value[1].value,
             "Y",
             "Sunday",
             value[25].value,
             fifteenMinSub(value[26].value),
-           
+
             "\n",
           ];
           mlHours.push(dineIn);
           return dineIn;
         }
-      
       }
     });
   });

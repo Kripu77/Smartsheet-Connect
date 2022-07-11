@@ -20,14 +20,16 @@ const {
 const {
   uberHeader,
   uberWriter,
-  uberClosureHeader,
+  uberClosureHeader
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
+const {googleHeader, googleWriter}= require("./DeliveryPartnerTemplatingEngine/google")
 const { callMailengine } = require("./emailTemplating/mailEngine");
 const { callClosureMailengine } = require("./emailTemplating/closureMailer");
 const {
   closureHeader,
   closureClean,
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
+const{getUniqueListBy} = require('./utils/uniqueList')
 
 const { dbconnect } = require("./mongoConnection/newcon");
 
@@ -40,6 +42,7 @@ var closureStore = [];
 var dbLookup = [];
 var oldRecordsDB = [];
 
+
 //cron will execute as per the hour we set
 // cron.schedule("0 20 * * *", () => {
 
@@ -50,6 +53,10 @@ setTimeout(() => {
     const storeData = [...cells];
     return storeData;
   });
+
+  //remove repetative store submission data;
+  data = getUniqueListBy(data)
+  console.log(data)
 
   //for db lookup
   data.forEach((value) => {
@@ -126,6 +133,7 @@ setTimeout(() => {
     let uberPre = [];
     let mlClosurePre = [];
     let uberClosurePre = [];
+    let googlePre = [];
 
     //delivero conn
     dbconnect("deliverooID", storeChecker).then((deliverooTest) => {
@@ -146,6 +154,14 @@ setTimeout(() => {
       //console.log(menulogStores);
       const mlPrex = menulogWriter(data, menulogStores);
       mlPre.push(...mlPrex);
+    });
+
+    //for google bulk upload file data gen
+
+    dbconnect("googleRecords", storeChecker).then((googleStore) => {
+      console.log(googleStore)
+      const googlePrex = googleWriter(data, googleStore);
+      googlePre.push(...googlePrex);
     });
 
     //for temp closure aggs only invoked when a store closure is received
@@ -183,6 +199,12 @@ setTimeout(() => {
       //main file
       const csv = arrayJoine(compiledData).toString();
 
+      //google file
+
+      const googleFile = arrayJoine(googleHeader.concat(googlePre)).toString();
+
+      console.log(googleFile)
+
       //cleansed sheet file
 
       const cleansedSheet = arrayJoine(
@@ -195,7 +217,7 @@ setTimeout(() => {
         closureHeader.concat(closureClean(tempClosure))
       ).toString();
 
-      // menulog
+      // menulog closure
 
       const menulogClosureFinal = arrayJoine(
         mlClosureHeader.concat(mlClosurePre)
@@ -208,7 +230,7 @@ setTimeout(() => {
       ).toString();
 
       // console.log(menulogClosureFinal)
-      //mailEngine call only if any stores have requested changes
+     // mailEngine call only if any stores have requested changes
 setTimeout(()=>{
 
 
@@ -218,7 +240,7 @@ setTimeout(()=>{
             csv,
             menulog,
             deliveroo,
-            uber,
+            uber, googleFile,
             storeChecker,
             cleansedSheet
           )
