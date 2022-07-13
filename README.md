@@ -3,13 +3,14 @@
 ![tradinghours](https://user-images.githubusercontent.com/84505567/174243205-3994a12e-1aed-42a9-ae1d-e7f52959c6d6.png)
 
 - A Automation project done with the motivation to reduce manual human intervention.  
+
 Prior to the development of this automation engine, tasks were done in a traditional fashion: The process included getting data from the Smartsheet Source in a bulk (Huge Dataset in often cases not required ones) which would take 3-5 mins (Depeniding on the bandwith of the internet). 
-- Once the data would finally load in the Local present Excel Sheet, team would run it through a gigantic flow of Tableau Flow to cleanse the dat. However, the painful part was the data was still not obtained in the required format as per our stakeholders. 
-- The process would involve more cleasning and manual intervention by a human to produce the exact desired format as our Stakeholders. To add the process was error prone.
+- Once the data would finally load in the Locally present Excel Sheet, team would run it through a gigantic flow of Tableau prep to cleanse the data. However, the painful part was the data was still not obtained in the required format as per our stakeholders. 
+- The process would involve more cleasning and manual intervention by a human to produce the desired format required by our Stakeholders. To add on the process was highly error prone and repeatative.
 
-So, here the story beings wouldn't it be ideal if the data that is alredy located somewhere in the internet can be extracted on a cloud sever, then have the final required set of data as per the stakeholder sent to them on the fly?
+So, here the story beings wouldn't it be ideal if the data that is alredy located somewhere in the cloud can be extracted on a cloud sever, then have the final required set of data as per the stakeholder sent to them on the fly?
 
-Long story short this is how this idea forstered and ultimately the project scaled on a broarder terms as I progressed with adding bunch of functionality to the engine. 
+This is how the idea forstered and ultimately the project scaled on a broarder terms as I progressed with adding bunch of functionality to the engine. 
 
 The tech stack of the project looks like:
 
@@ -19,5 +20,5 @@ The tech stack of the project looks like:
 - Node Mailer integrated with Outlook SMTP provider.
 - Currently Deployed in Heroku (Migration to AWS on the way).
 
-Luckily, as invovation is required to overcome manual intervention. This project gave birth to my Simplistic package to write CSV with Node.js which is a WIP for it's first release. 
+Luckily, as invovation grows. This project gave birth to my Simplistic package to write CSV with Node.js which is a WIP for it's first release. 
 
