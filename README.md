@@ -4,7 +4,18 @@
 - Once the data would finally load in the Local present Excel Sheet, team would run it through a gigantic flow of Tableau Flow to cleanse the dat. However, the painful part was the data was still not obtained in the required format as per our stakeholders. 
 - The process would involve more cleasning and manual intervention by a human to produce the exact desired format as our Stakeholders. To add the process was error prone.
 
-So, here the story beings wouldn't it be ideal if the data tht is alredy located somewhere in the internet can be extracted on a cloud sever, then send the final required set of data as per the stakeholders format on the fly?
+So, here the story beings wouldn't it be ideal if the data that is alredy located somewhere in the internet can be extracted on a cloud sever, then have the final required set of data as per the stakeholder sent to them on the fly?
 
+Long story short this is how this idea forstered and ultimately the project scaled on a broarder terms as I progressed with adding bunch of functionality to the engine. 
+
+The tech stack of the project looks like:
+
+- Node.js
+- Smartsheet API SDK for JavaScript. 
+- MongoDB. 
+- Node Mailer integrated with Outlook SMTP provider.
+- Currently Deployed in Heroku (Migration to AWS on the way).
+
+Luckily, as invovation is required to overcome manual intervention. This project gave birth to my Simplistic package to write CSV with Node.js which is a WIP for it's first release. 
 
 ![tradinghours](https://user-images.githubusercontent.com/84505567/174243205-3994a12e-1aed-42a9-ae1d-e7f52959c6d6.png)
