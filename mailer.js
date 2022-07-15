@@ -44,7 +44,7 @@ var oldRecordsDB = [];
 
 
 //cron will execute as per the hour we set
-// cron.schedule("0 20 * * *", () => {
+ cron.schedule("0 21 * * *", () => {
 
 setTimeout(() => {
   //for Delivery Aggs Cleansing
@@ -324,4 +324,4 @@ setTimeout(()=>{
     }, 6000);
   }, 7000);
 }, 10000);
-//  })
+  })
