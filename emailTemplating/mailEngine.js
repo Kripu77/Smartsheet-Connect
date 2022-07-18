@@ -23,7 +23,7 @@ var transporter = nodemailer.createTransport({
 function callMailengine(dateCalc, csv, menulog, deliveroo, uber, googleFile, storeChecker, cleansedSheet ){
   var mailOptions = {
     from: process.env.EMAIL,
-    to: "kripu.khadka@hungryjacks.com.au",
+    to:process.env.MASTER_CC,
     cc: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes ${dateCalc}`,
     html: 
@@ -42,9 +42,7 @@ function callMailengine(dateCalc, csv, menulog, deliveroo, uber, googleFile, sto
             </br>
              Please find the Trading Hours Changes required in the attached file. </br> ${storeChecker.length>0? `${storeChecker.length}`: "no"} new request has been received for Hours Change via Smartsheet portal.</p>
             <p>Regards, 
-            </br>
-          </p>
-         HJ Master Data
+            <div dir="ltr" style="mso-line-height-rule:exactly;-webkit-text-size-adjust:100%;direction:ltr;"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr style="font-size:0;"><td align="left" style="vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0" style="font-size:0;"><tr style="font-size:0;"><td align="left" style="padding:0;vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0" style="font-size:0;"><tr style="font-size:0;"><td align="left" style="vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:0;color:#000001;font-style:normal;font-weight:700;white-space:nowrap;"><tr style="font-size:13.33px;"><td align="left" style="vertical-align:top;font-family:Arial;">Hungry Jack's Master Data<span style="font-family:remialcxesans;font-size:1px;color:#FFFFFF;line-height:1px;">​</span></td></tr><tr style="font-size:13.33px;"><td align="left" style="padding:13px 0 0;vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0" style="font-size:0;color:#000001;font-style:normal;font-weight:400;white-space:nowrap;"><tr style="font-size:10.67px;white-space:normal;"><td align="left" style="padding:0;vertical-align:top;font-family:Arial;">Level 6, 100 William Street<br>Woolloomooloo<br>NSW 2011, </td></tr><tr style="font-size:0;"><td align="left" style="padding:0;vertical-align:middle;"></td></tr><tr style="font-size:0;"><td align="left" style="padding:0;vertical-align:middle;"></td></tr><tr style="font-size:10.67px;"><td align="left" style="padding:0;vertical-align:middle;font-family:Arial;"><a href="mailto:masterdata@hungryjacks.com.au" target="_blank" id="LPlnk689713" style="text-decoration:none;color:#000001;"><strong style="font-weight:400;">hjmasterdata@hungryjacks.com.au</strong></a></td></tr><tr style="font-size:10.67px;"><td align="left" style="padding:0;vertical-align:top;font-family:Arial;"><br></td></tr></table></td></tr></table></td></tr></table></div>
         </div>
         
     </body>
