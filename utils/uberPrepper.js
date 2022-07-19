@@ -20,7 +20,7 @@ function uberDataPrep(dayHour) {
     }`;
   } else {
     if (dayHour === "CLOSED") {
-      return "CLOSED";
+      return " ";
     } else {
       return `10:45-${fifteenMinSub(dayHour)}`;
     }
@@ -32,7 +32,7 @@ function uberDataPrep(dayHour) {
 function brekkyHrValidator(brekkyHour) {
   let timeNumParser = formatChecker(brekkyHour);
   if (timeNumParser >= 11 || brekkyHour === "CLOSED") {
-    return "CLOSED";
+    return " ";
   } else {
     return timeNumParser >= 10 ? `${brekkyHour}-10:45` : `0${brekkyHour}-10:45`;
   }
