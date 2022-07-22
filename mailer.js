@@ -250,9 +250,9 @@ setTimeout(()=>{
         ? callClosureMailengine(
             dateCalc,
             closureStore,
-            "Store Closure Request Received in the attached file via Smartsheet portal",
+            "Store Closure Request Received in the attached file via the Smartsheet portal",
             "Temproary Closure Hours",
-            "kripu.khadka@hungryjacks.com.au",
+            process.env.MASTER_CC,
             "Team"
           )
         : console.log("No temp closure");
@@ -263,7 +263,7 @@ setTimeout(()=>{
         ? callClosureMailengine(
             dateCalc,
             menulog,
-            "trading hours update required on Menulog listings, please advise once done",
+            "trading hours update required on the Menulog listings, please advise once done",
             "Trading Hours Update ML",
             "kripu.khadka@hungryjacks.com.au",
             "Xuan"
@@ -274,7 +274,7 @@ setTimeout(()=>{
         ? callClosureMailengine(
             dateCalc.replaceAll("-", "."),
             uber,
-            "Bulk upload file for trading hours update, please advise once done",
+            "Bulk upload file for the trading hours update, please advise once done",
             "Trading Hours Update",
             "kripu.khadka@hungryjacks.com.au",
             "Esc Eng"
