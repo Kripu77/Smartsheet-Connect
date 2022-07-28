@@ -56,7 +56,7 @@ function googleWriter(data, isgoogle){
                 `${value[17].value}-${value[18].value}`,
                 `${value[19].value}-${value[20].value}`,
                 `${value[21].value}-${value[22].value}`,
-                `${value[23].value}-${value[24].value}`,
+                `${value[23].value}-${value[24].value}\n`,
                 
                 
               ];
