@@ -4,7 +4,7 @@ const {dbconnect} = require("../mongoConnection/newcon")
 
 //for UUIDS/Info for closure stores
 
-async  function closureCompiler (closureStore){
+async  function getClosureStoresDetails (closureStore){
     try{
         let mlClosureStores = await dbconnect("storeInfo", closureStore);
     
@@ -22,5 +22,5 @@ async  function closureCompiler (closureStore){
 }
 
 module.exports = {
-    closureCompiler
+    getClosureStoresDetails
 }

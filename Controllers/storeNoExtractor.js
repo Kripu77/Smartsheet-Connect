@@ -1,7 +1,7 @@
-const {dynamicExtractor} = require("../Controllers/dynamicExtractor")
+const {dynamicExtractor} = require("./dynamicExtractor")
 // this fn returns store number based on temp closure/normal update request
 
-async function csvCompiler (dataSet){
+async function extractStoreNumber (dataSet){
 
     try{
   
@@ -17,5 +17,5 @@ async function csvCompiler (dataSet){
   
 
   module.exports ={
-    csvCompiler
+    extractStoreNumber
   }

@@ -13,7 +13,7 @@ function callMailengine(
 ) {
   var mailOptions = {
     from: process.env.EMAIL,
-    to: "kripu.12345@gmail.com",
+    to: process.env.MASTER_CC,
     cc: "kripu.khadka@hungryjacks.com.au",
     subject: `Trading Hour Changes ${dateCalc}`,
     html: ` <!DOCTYPE html>

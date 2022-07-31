@@ -1,9 +1,9 @@
 let { smartsheetCaller } = require("./smartsheetConnection/getSmartsheetData");
 const { getUniqueListBy } = require("./utils/uniqueList");
 const { complier } = require("./Controllers/compiler");
-const { csvCompiler } = require("./Controllers/csvCompiler");
+const { extractStoreNumber } = require("./Controllers/storeNoExtractor");
 const { aggregatorLookup } = require("./mongoLookup/aggsRecords");
-const { closureCompiler } = require("./Controllers/closureCompiler");
+const { getClosureStoresDetails } = require("./Controllers/closureStoresDetails");
 const { sheetSender } = require("./Controllers/sheetSender");
 
 //pass this as cb fn once cron execution process
@@ -34,7 +34,7 @@ async function main() {
     let dataSet = await complier(source, dbLookup, data);
 
     //returns store number for db lookup
-    let numExtraction = await csvCompiler(dataSet);
+    let numExtraction = await extractStoreNumber(dataSet);
 
     //destrcutring the datasets
     let { storeChecker, closureStore } = numExtraction;
@@ -43,7 +43,7 @@ async function main() {
     let aggslookupDB = await aggregatorLookup(numExtraction, dataSet);
 
     //for temp closure aggs only invoked when a store closure is received
-    let closureStoresInfo = await closureCompiler(closureStore);
+    let closureStoresInfo = await getClosureStoresDetails(closureStore);
 
     //finally invoke the sheetSender fn with required dataset
     await sheetSender(storeChecker, dataSet, aggslookupDB, closureStoresInfo);

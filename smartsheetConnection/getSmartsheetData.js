@@ -51,14 +51,12 @@ const smartsheetCaller = async () => {
 
     rowData.push(...filterd);
 
-    return {columnHeader:columnHeader, rowData:rowData};
+    return { columnHeader: columnHeader, rowData: rowData };
   } catch (err) {
     throw err;
   }
 };
 
-module.exports ={
-  smartsheetCaller
-}
-
-
+module.exports = {
+  smartsheetCaller,
+};
