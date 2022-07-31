@@ -1,7 +1,4 @@
-let {
-  columnHeader,
-  neededData,
-} = require("./smartsheetConnection/getSmartsheetData");
+let { smartsheetCaller } = require("./smartsheetConnection/getSmartsheetData");
 const { dateCalc } = require("./utils/dateCalculator.js");
 const { arrayJoine } = require("./utils/arrayJoin.js");
 const {
@@ -20,43 +17,48 @@ const {
 const {
   uberHeader,
   uberWriter,
-  uberClosureHeader
+  uberClosureHeader,
 } = require("./DeliveryPartnerTemplatingEngine/uber.js");
-const {googleHeader, googleWriter}= require("./DeliveryPartnerTemplatingEngine/google")
+const {
+  googleHeader,
+  googleWriter,
+} = require("./DeliveryPartnerTemplatingEngine/google");
 const { callMailengine } = require("./emailTemplating/mailEngine");
-const { callClosureMailengine } = require("./emailTemplating/closureMailer");
+const { callDynamicMailengine } = require("./emailTemplating/dynamicMailer");
 const {
   closureHeader,
   closureClean,
 } = require("./DeliveryPartnerTemplatingEngine/closureCleaner");
-const{getUniqueListBy} = require('./utils/uniqueList')
+const { getUniqueListBy } = require("./utils/uniqueList");
 
 const { dbconnect } = require("./mongoConnection/newcon");
 
-var finalRowData = [];
-var compiledData = [];
-var storeChecker = [];
-var recordPusher = [];
-var tempClosure = [];
-var closureStore = [];
-var dbLookup = [];
-var oldRecordsDB = [];
-
+let finalRowData = [];
+let compiledData = [];
+let storeChecker = [];
+let recordPusher = [];
+let tempClosure = [];
+let closureStore = [];
+let dbLookup = [];
+let oldRecordsDB = [];
 
 //cron will execute as per the hour we set
 // cron.schedule("0 20 * * *", () => {
 
-setTimeout(() => {
+//pass this as cb fn once cron execution process
+
+async function main() {
+  let source = await smartsheetCaller();
+
   //for Delivery Aggs Cleansing
-  let data = neededData.map((datax) => {
+  let data = source.rowData.map((datax) => {
     const { cells } = datax;
     const storeData = [...cells];
     return storeData;
   });
 
   //remove repetative store submission data;
-  data = getUniqueListBy(data)
-
+  data = getUniqueListBy(data);
 
   //for db lookup
   data.forEach((value) => {
@@ -108,7 +110,7 @@ setTimeout(() => {
       return finalRowData;
     });
     //complied state for normal hours file column and row
-    compiledData.push(columnHeader);
+    compiledData.push(source.columnHeader);
     compiledData.push(...storeDataArray);
 
     //store num extractor
@@ -143,7 +145,7 @@ setTimeout(() => {
 
     //uber conn
     dbconnect("uberID", storeChecker).then((uberStores) => {
-      //console.log(uberStores);
+
       const uberPrex = uberWriter(data, uberStores);
       uberPre.push(...uberPrex);
     });
@@ -151,7 +153,7 @@ setTimeout(() => {
     //ml conn
 
     dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-      //console.log(menulogStores);
+   
       const mlPrex = menulogWriter(data, menulogStores);
       mlPre.push(...mlPrex);
     });
@@ -159,7 +161,7 @@ setTimeout(() => {
     //for google bulk upload file data gen
 
     dbconnect("googleRecords", storeChecker).then((googleStore) => {
-      console.log(googleStore)
+     
       const googlePrex = googleWriter(data, googleStore);
       googlePre.push(...googlePrex);
     });
@@ -173,7 +175,7 @@ setTimeout(() => {
       });
 
       dbconnect("uberID", closureStore).then((uberStores) => {
-        //console.log(uberStores);
+    
         const uberClosurePrex = uberWriter(tempClosure, uberStores);
         uberClosurePre.push(...uberClosurePrex);
       });
@@ -203,7 +205,7 @@ setTimeout(() => {
 
       const googleFile = arrayJoine(googleHeader.concat(googlePre)).toString();
 
-      console.log(googleFile)
+    
 
       //cleansed sheet file
 
@@ -213,7 +215,7 @@ setTimeout(() => {
 
       //store Closure main file
 
-      const closureStore = arrayJoine(
+      const closureStoreFinal = arrayJoine(
         closureHeader.concat(closureClean(tempClosure))
       ).toString();
 
@@ -229,27 +231,27 @@ setTimeout(() => {
         uberClosureHeader.concat(uberClosurePre)
       ).toString();
 
-      // console.log(menulogClosureFinal)
-     // mailEngine call only if any stores have requested changes
-setTimeout(()=>{
-
-
-      storeChecker.length > 0
-        ? callMailengine(
-            dateCalc,
-            csv,
-            menulog,
-            deliveroo,
-            uber, googleFile,
-            storeChecker,
-            cleansedSheet
-          )
-        : console.log("No trading hour changes");}, 1000)
+     
+      // mailEngine call only if any stores have requested changes
+   
+        storeChecker.length > 0
+          ? callMailengine(
+              dateCalc,
+              csv,
+              menulog,
+              deliveroo,
+              uber,
+              googleFile,
+              storeChecker,
+              cleansedSheet
+            )
+          : console.log("No trading hour changes");
+      
 
       tempClosure.length > 0
-        ? callClosureMailengine(
+        ? callDynamicMailengine(
             dateCalc,
-            closureStore,
+            closureStoreFinal,
             "Store Closure Request Received in the attached file via the Smartsheet portal",
             "Temproary Closure Hours",
             process.env.MASTER_CC,
@@ -257,21 +259,21 @@ setTimeout(()=>{
           )
         : console.log("No temp closure");
 
-        setTimeout(()=>{
-
-         mlPre.length > 0
-        ? callClosureMailengine(
-            dateCalc,
-            menulog,
-            "trading hours update required on the Menulog listings, please advise once done",
-            "Trading Hours Update ML",
-            "kripu.khadka@hungryjacks.com.au",
-            "Xuan"
-          )
-        : console.log("No ML Hour update"); }, 1000)
+      setTimeout(() => {
+        mlPre.length > 0
+          ? callDynamicMailengine(
+              dateCalc,
+              menulog,
+              "trading hours update required on the Menulog listings, please advise once done",
+              "Trading Hours Update ML",
+              "kripu.khadka@hungryjacks.com.au",
+              "Xuan"
+            )
+          : console.log("No ML Hour update");
+      }, 1000);
 
       uberPre.length > 0
-        ? callClosureMailengine(
+        ? callDynamicMailengine(
             dateCalc.replaceAll("-", "."),
             uber,
             "Bulk upload file for the trading hours update, please advise once done",
@@ -281,20 +283,21 @@ setTimeout(()=>{
           )
         : console.log("No UBER Hours update");
 
-        setTimeout(()=>{deliverooPre.length > 0
-        ? callClosureMailengine(
-            dateCalc,
-            deliveroo,
-            "attached file for the trading hours update, please advise once done",
-            "Deliveroo Trading Hours Update HJ",
-            "kripu.khadka@hungryjacks.com.au",
-            "Team"
-          )
-        : console.log("No deliveroo Hours update");
-      },2000) 
+      setTimeout(() => {
+        deliverooPre.length > 0
+          ? callDynamicMailengine(
+              dateCalc,
+              deliveroo,
+              "attached file for the trading hours update, please advise once done",
+              "Deliveroo Trading Hours Update HJ",
+              "kripu.khadka@hungryjacks.com.au",
+              "Team"
+            )
+          : console.log("No deliveroo Hours update");
+      }, 2000);
 
       uberClosurePre.length > 0
-        ? callClosureMailengine(
+        ? callDynamicMailengine(
             dateCalc,
             uberClosureFinal,
             "attached file for the store Temproaray Closure, please advise once done",
@@ -304,24 +307,31 @@ setTimeout(()=>{
           )
         : console.log("No Uber Temp closure update");
 
-    setTimeout(()=>{
-      mlClosurePre.length > 0
-      ? callClosureMailengine(
-          dateCalc,
-          menulogClosureFinal,
-          "attached file for the store Temproaray Closure, please advise once done",
-          "Temporary Closure Update",
-          "kripu.khadka@hungryjacks.com.au",
-          "Xuan"
-        )
-      : console.log("No ML Temp closure update");
-    },2000)  
+      setTimeout(() => {
+        mlClosurePre.length > 0
+          ? callDynamicMailengine(
+              dateCalc,
+              menulogClosureFinal,
+              "attached file for the store Temproaray Closure, please advise once done",
+              "Temporary Closure Update",
+              "kripu.khadka@hungryjacks.com.au",
+              "Xuan"
+            )
+          : console.log("No ML Temp closure update");
+      }, 2000);
 
-      columnHeader = [];
-      neededData = [];
       finalRowData = [];
       compiledData = [];
+      storeChecker = [];
+      recordPusher = [];
+      tempClosure = [];
+      closureStore = [];
+      dbLookup = [];
+      oldRecordsDB = [];
     }, 6000);
   }, 7000);
-}, 10000);
-//  })
+}
+
+module.exports = {
+  main,
+};

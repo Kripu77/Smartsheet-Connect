@@ -1,5 +1,4 @@
-// const datexx = new Date().getDate();
-// console.log(datexx)
+
 const fullDate = new Date();
 const tomorrowsFullDate = new Date();
 const todaysDate = new Date().getDate();
@@ -11,6 +10,8 @@ fullDate.setDate(fullDate.getDate() - 1); //subrtraction sets it to yesterdays d
 tomorrowsFullDate.setDate(tomorrowsFullDate.getDate() + 1);
 
 
+
+//to match smartsheet date format
 function zeroChecker(value) {
   if (value < 10) {
     return "0" + value;
@@ -19,6 +20,7 @@ function zeroChecker(value) {
   }
 }
 
+//required dates stored in variables
 const dateCalc = `${thisYear}-${zeroChecker(thisMonth + 1)}-${zeroChecker(
   todaysDate
 )}`;
