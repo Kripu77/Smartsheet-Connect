@@ -45,6 +45,9 @@ let oldRecordsDB = [];
 
 
 //pass this as cb fn once cron execution process
+main().then(()=>{
+  console.log("Job Started")
+}).catch((err)=>{console.log(err)})
 
 async function main() {
   let source = await smartsheetCaller();
