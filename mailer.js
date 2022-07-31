@@ -42,8 +42,7 @@ let closureStore = [];
 let dbLookup = [];
 let oldRecordsDB = [];
 
-//cron will execute as per the hour we set
-// cron.schedule("0 20 * * *", () => {
+
 
 //pass this as cb fn once cron execution process
 
@@ -145,7 +144,6 @@ async function main() {
 
     //uber conn
     dbconnect("uberID", storeChecker).then((uberStores) => {
-
       const uberPrex = uberWriter(data, uberStores);
       uberPre.push(...uberPrex);
     });
@@ -153,7 +151,6 @@ async function main() {
     //ml conn
 
     dbconnect("storeInfo", storeChecker).then((menulogStores) => {
-   
       const mlPrex = menulogWriter(data, menulogStores);
       mlPre.push(...mlPrex);
     });
@@ -161,7 +158,6 @@ async function main() {
     //for google bulk upload file data gen
 
     dbconnect("googleRecords", storeChecker).then((googleStore) => {
-     
       const googlePrex = googleWriter(data, googleStore);
       googlePre.push(...googlePrex);
     });
@@ -175,7 +171,6 @@ async function main() {
       });
 
       dbconnect("uberID", closureStore).then((uberStores) => {
-    
         const uberClosurePrex = uberWriter(tempClosure, uberStores);
         uberClosurePre.push(...uberClosurePrex);
       });
@@ -205,8 +200,6 @@ async function main() {
 
       const googleFile = arrayJoine(googleHeader.concat(googlePre)).toString();
 
-    
-
       //cleansed sheet file
 
       const cleansedSheet = arrayJoine(
@@ -231,22 +224,20 @@ async function main() {
         uberClosureHeader.concat(uberClosurePre)
       ).toString();
 
-     
       // mailEngine call only if any stores have requested changes
-   
-        storeChecker.length > 0
-          ? callMailengine(
-              dateCalc,
-              csv,
-              menulog,
-              deliveroo,
-              uber,
-              googleFile,
-              storeChecker,
-              cleansedSheet
-            )
-          : console.log("No trading hour changes");
-      
+
+      storeChecker.length > 0
+        ? callMailengine(
+            dateCalc,
+            csv,
+            menulog,
+            deliveroo,
+            uber,
+            googleFile,
+            storeChecker,
+            cleansedSheet
+          )
+        : console.log("No trading hour changes");
 
       tempClosure.length > 0
         ? callDynamicMailengine(
