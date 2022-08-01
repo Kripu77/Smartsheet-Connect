@@ -21,7 +21,8 @@ const {
 const { callDynamicMailengine } = require("../emailTemplating/dynamicMailer");
 const { callMailengine } = require("../emailTemplating/mailEngine");
 const { arrayJoine } = require("../utils/arrayJoin");
-const { dateCalc} = require("../utils/dateCalculator")
+const { dateCalc} = require("../utils/dateCalculator");
+require('dotenv').config();
 
 async function sheetSender(
   storeChecker,
@@ -112,7 +113,7 @@ async function sheetSender(
             menulog,
             "trading hours update required on the Menulog listings, please advise once done",
             "Trading Hours Update ML",
-            "kripu.khadka@hungryjacks.com.au",
+            process.env.MENULOG_RECEIPIENT,
             "Xuan"
           )
         : console.log("No ML Hour update");
@@ -124,7 +125,7 @@ async function sheetSender(
           uber,
           "Bulk upload file for the trading hours update, please advise once done",
           "Trading Hours Update",
-          "kripu.khadka@hungryjacks.com.au",
+          process.env.UBER_RECEIPIENT,
           "Esc Eng"
         )
       : console.log("No UBER Hours update");
@@ -136,7 +137,7 @@ async function sheetSender(
             deliveroo,
             "attached file for the trading hours update, please advise once done",
             "Deliveroo Trading Hours Update HJ",
-            "kripu.khadka@hungryjacks.com.au",
+            process.env.DELIVEROO_RECEIPIENT,
             "Team"
           )
         : console.log("No deliveroo Hours update");
@@ -148,7 +149,7 @@ async function sheetSender(
           uberClosureFinal,
           "attached file for the store Temproaray Closure, please advise once done",
           "Temporary Closure Update Uber",
-          "kripu.khadka@hungryjacks.com.au",
+          process.env.UBER_RECEIPIENT,
           "Esc Eng"
         )
       : console.log("No Uber Temp closure update");
@@ -160,7 +161,7 @@ async function sheetSender(
             menulogClosureFinal,
             "attached file for the store Temproaray Closure, please advise once done",
             "Temporary Closure Update",
-            "kripu.khadka@hungryjacks.com.au",
+            process.env.MENULOG_RECEIPIENT,
             "Xuan"
           )
         : console.log("No ML Temp closure update");

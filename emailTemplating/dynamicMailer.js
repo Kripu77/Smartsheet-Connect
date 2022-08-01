@@ -5,7 +5,7 @@ function callDynamicMailengine(dateCalc, main, bodyText, attachmentName, recepei
   var mailOptions = {
     from: process.env.EMAIL,
     to: `${recepeints}`,
-    cc: "kripu.khadka@hungryjacks.com.au",
+    cc: process.env.MASTER_CC,
     subject: `${attachmentName} ${dateCalc}`,
     html: 
     ` <!DOCTYPE html>

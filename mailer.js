@@ -12,6 +12,7 @@ main()
 
 async function main() {
   try {
+    console.time("Time taken to complete the Job")
     //data from smartsheet source
     let source = await smartsheetCaller();
 
@@ -51,7 +52,8 @@ async function main() {
     console.log(err);
   }
   finally{
-    console.log("Job Completed")
+    console.log("Job Completed");
+    console.timeEnd("Time taken to complete the Job")
   }
 }
 module.exports = {
