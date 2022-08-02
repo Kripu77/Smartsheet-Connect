@@ -117,7 +117,7 @@ async function sheetSender(
           )
         : console.log("No ML Hour update");
     }, 1000);
-
+setTimeout( ()=>{
     uberPre.length > 0
       ? callDynamicMailengine(
           dateCalc.replaceAll("-", "."),
@@ -128,7 +128,7 @@ async function sheetSender(
           "Esc Eng"
         )
       : console.log("No UBER Hours update");
-
+    }, 1500);
     setTimeout(() => {
       deliverooPre.length > 0
         ? callDynamicMailengine(
