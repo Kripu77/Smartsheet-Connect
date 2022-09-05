@@ -141,13 +141,13 @@ async function sheetSender(
             "Team"
           )
         : console.log("No deliveroo Hours update");
-    }, 2000);
+    }, 2500);
     setTimeout(() => {
     uberClosurePre.length > 0
       ? callDynamicMailengine(
           dateCalc,
           uberClosureFinal,
-          "attached file for the store Temproaray Closure, please advise once done",
+          "attached file for the store Temporary Closure, please advise once done",
           "Temporary Closure Update Uber",
          "Kripu.Khadka@hungryjacks.com.au",
           "Esc Eng"
@@ -160,13 +160,13 @@ async function sheetSender(
         ? callDynamicMailengine(
             dateCalc,
             menulogClosureFinal,
-            "attached file for the store Temproaray Closure, please advise once done",
+            "attached file for the store Temporary Closure, please advise once done",
             "Temporary Closure Update",
             process.env.MENULOG_RECEIPIENT,
             "Xuan"
           )
         : console.log("No ML Temp closure update");
-    }, 2000);
+    }, 3000);
   } catch (err) {
     console.log(err);
   }
