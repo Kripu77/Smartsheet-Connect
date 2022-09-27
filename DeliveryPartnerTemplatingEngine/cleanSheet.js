@@ -1,4 +1,3 @@
-
 // main clean sheet provider fn
 
 const sheetHeader = [
@@ -6,8 +5,8 @@ const sheetHeader = [
     "Store Number",
     "Restaurant",
     "State",
-    "Day",
     "Store Type",
+    "Day",
     "Dine In Open",
     "Dine In Close",
     "Drive Thru Open",
