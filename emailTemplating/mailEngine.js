@@ -45,7 +45,7 @@ function callMailengine(
         content: csv,
       },
       {
-        filename: `Prepped Trading hours ${dateCalc}.csv`,
+        filename: `Oracle Trading hours ${dateCalc}.csv`,
         content: cleansedSheet,
       },
       {
@@ -57,7 +57,7 @@ function callMailengine(
         content: deliveroo,
       },
       {
-        filename: `Trading hours Update ${dateCalc.replaceAll("-", ".")}.csv`,
+        filename: `Trading hours Update UberEats ${dateCalc.replaceAll("-", ".")}.csv`,
         content: uber,
       },
       {
