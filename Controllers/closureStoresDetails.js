@@ -7,7 +7,7 @@ const {dbconnect} = require("../mongoConnection/newcon")
 async  function getClosureStoresDetails (closureStore){
     try{
         let mlClosureStores = await dbconnect("storeInfo", closureStore);
-    
+   
         let mlClosurePre = menulogWriter(tempClosure, mlClosureStores);
     
         let uberClosureStores =  await dbconnect("uberID", closureStore);
