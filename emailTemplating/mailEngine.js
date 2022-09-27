@@ -45,7 +45,7 @@ function callMailengine(
         content: csv,
       },
       {
-        filename: `Oracle Trading hours ${dateCalc}.csv`,
+        filename: `Oracle Trading hours Update ${dateCalc}.csv`,
         content: cleansedSheet,
       },
       {
