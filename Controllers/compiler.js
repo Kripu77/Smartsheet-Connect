@@ -1,7 +1,7 @@
 const {getOldRecords} = require("../mongoLookup/oldRecords")
 
 async function complier(source,dbLookup, data) {
-    //filter out the data if the data that we have has already been inserted to db
+    //filter out the data if the data that we has already been inserted to db
     try {
       let oldRecordsFromDb = await getOldRecords(dbLookup);
       let oldRecordsDB = oldRecordsFromDb.oldRecordsDB;
