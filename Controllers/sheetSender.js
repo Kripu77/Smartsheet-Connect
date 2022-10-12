@@ -21,7 +21,8 @@ const {
 const { callDynamicMailengine } = require("../emailTemplating/dynamicMailer");
 const { callMailengine } = require("../emailTemplating/mailEngine");
 const { arrayJoine } = require("../utils/arrayJoin");
-const { dateCalc} = require("../utils/dateCalculator")
+const { dateCalc} = require("../utils/dateCalculator");
+const {streamFileWriter} = require("../File Writer/writer");
 
 async function sheetSender(
   storeChecker,
@@ -77,94 +78,45 @@ async function sheetSender(
       uberClosureHeader.concat(uberClosurePre)
     ).toString();
 
-    // mailEngine call only if any stores have requested changes
 
-    storeChecker.length > 0
-      ? callMailengine(
-          dateCalc,
-          csv,
-          menulog,
-          deliveroo,
-          uber,
-          googleFile,
-          storeChecker,
-          cleansedSheet
-        )
-      : console.log("No trading hour changes");
+    //main file writer
+    storeChecker.length>0 ? streamFileWriter(dateCalc, "Trading Hours Changes ", csv): console.log("No new request");
+
+    //Oracle file writer
+    storeChecker.length>0 ? streamFileWriter(dateCalc, "Oracle Trading Hours Update ", cleansedSheet): console.log("No new request");
+
+    //google file writer
+    storeChecker.length>0 ? streamFileWriter(dateCalc, "Google Upload Hours ", cleansedSheet): console.log("No Google Hours update");
 
     tempClosure.length > 0
-      ? callDynamicMailengine(
-          dateCalc,
-          closureStoreFinal,
-          "Store Closure Request Received in the attached file via the Smartsheet portal",
-          "Temproary Closure Hours",
-          process.env.MASTER_CC,
-          "Team"
-        )
+      ? streamFileWriter(dateCalc, "Temporary Clousre Hours", closureStoreFinal)
       : console.log("No temp closure");
 
-    //used setTimeout to resolve issue with outlook rate limitation while sending automated concurrent emails. Eg: 4 per Second - refer to outlook nodemailer docs from microsoft
-
-    setTimeout(() => {
+   
       mlPre.length > 0
-        ? callDynamicMailengine(
-            dateCalc,
-            menulog,
-            "trading hours update required on the Menulog listings, please advise once done",
-            "Trading Hours Update ML",
-            "kripu.khadka@hungryjacks.com.au",
-            "Xuan"
-          )
+        ?  streamFileWriter(dateCalc, "Trading Hours Update ML", menulog)
         : console.log("No ML Hour update");
-    }, 1000);
-setTimeout( ()=>{
+   
+
     uberPre.length > 0
-      ? callDynamicMailengine(
-          dateCalc.replaceAll("-", "."),
-          uber,
-          "Bulk upload file for the trading hours update, please advise once done",
-          "Trading Hours Update",
-          "kripu.khadka@hungryjacks.com.au",
-          "Esc Eng"
-        )
+      ? streamFileWriter(dateCalc.replaceAll("-", "."), "Trading Hours Update Uber Eats", uber)
       : console.log("No UBER Hours update");
-    }, 1500);
-    setTimeout(() => {
+ 
+  
       deliverooPre.length > 0
-        ? callDynamicMailengine(
-            dateCalc,
-            deliveroo,
-            "attached file for the trading hours update, please advise once done",
-            "Deliveroo Trading Hours Update HJ",
-            "kripu.khadka@hungryjacks.com.au",
-            "Team"
-          )
+        ? streamFileWriter(dateCalc, "Deliveroo Trading Hours Update HJ", deliveroo)
         : console.log("No deliveroo Hours update");
-    }, 2000);
+
 
     uberClosurePre.length > 0
-      ? callDynamicMailengine(
-          dateCalc,
-          uberClosureFinal,
-          "attached file for the store Temproaray Closure, please advise once done",
-          "Temporary Closure Update Uber",
-          "kripu.khadka@hungryjacks.com.au",
-          "Esc Eng"
-        )
+      ?  streamFileWriter(dateCalc, "Temporary Closure Update Uber", uberClosureFinal)
       : console.log("No Uber Temp closure update");
 
-    setTimeout(() => {
+   
       mlClosurePre.length > 0
-        ? callDynamicMailengine(
-            dateCalc,
-            menulogClosureFinal,
-            "attached file for the store Temproaray Closure, please advise once done",
-            "Temporary Closure Update",
-            "kripu.khadka@hungryjacks.com.au",
-            "Xuan"
-          )
+        ?  streamFileWriter(dateCalc, "Temporary Closure Update ML", menulogClosureFinal)
         : console.log("No ML Temp closure update");
-    }, 2000);
+  
   } catch (err) {
     console.log(err);
   }
