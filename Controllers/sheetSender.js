@@ -86,7 +86,7 @@ async function sheetSender(
     storeChecker.length>0 ? streamFileWriter(dateCalc, "Oracle Trading Hours Update ", cleansedSheet): console.log("No new request");
 
     //google file writer
-    storeChecker.length>0 ? streamFileWriter(dateCalc, "Google Upload Hours ", cleansedSheet): console.log("No Google Hours update");
+    storeChecker.length>0 ? streamFileWriter(dateCalc, "Google Upload Hours ", googleFile): console.log("No Google Hours update");
 
     tempClosure.length > 0
       ? streamFileWriter(dateCalc, "Temporary Clousre Hours", closureStoreFinal)
