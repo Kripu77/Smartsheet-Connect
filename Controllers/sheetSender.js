@@ -18,8 +18,6 @@ const {
   uberHeader,
   uberClosureHeader,
 } = require("../DeliveryPartnerTemplatingEngine/uber");
-const { callDynamicMailengine } = require("../emailTemplating/dynamicMailer");
-const { callMailengine } = require("../emailTemplating/mailEngine");
 const { arrayJoine } = require("../utils/arrayJoin");
 const { dateCalc} = require("../utils/dateCalculator");
 const {streamFileWriter} = require("../File Writer/writer");
