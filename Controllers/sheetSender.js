@@ -79,19 +79,21 @@ async function sheetSender(
     ).toString();
 
     // mailEngine call only if any stores have requested changes
-
-    storeChecker.length > 0
-      ? callMailengine(
-          dateCalc,
-          csv,
-          menulog,
-          deliveroo,
-          uber,
-          googleFile,
-          storeChecker,
-          cleansedSheet
-        )
-      : console.log("No trading hour changes");
+setTimeout(()=>{
+  storeChecker.length > 0
+  ? callMailengine(
+      dateCalc,
+      csv,
+      menulog,
+      deliveroo,
+      uber,
+      googleFile,
+      storeChecker,
+      cleansedSheet
+    )
+  : console.log("No trading hour changes");
+}, 1300)
+    
 
     tempClosure.length > 0
       ? callDynamicMailengine(
