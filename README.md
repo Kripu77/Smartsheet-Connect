@@ -1,5 +1,6 @@
 # Smartsheet-Integration-Node
-![Trading Hours Gen Engine](https://user-images.githubusercontent.com/84505567/193702475-44ef6542-91b1-4b89-9b60-4fd5690d47d6.png)
+
+![Untitled-2022-10-28-2206](https://user-images.githubusercontent.com/84505567/198813062-5cd04612-686e-4cca-ab1e-170b95513e7c.png)
 
 
 - Automation project done with the motivation to reduce manual human intervention.  
