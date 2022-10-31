@@ -43,9 +43,9 @@ const smartsheetCaller = async () => {
     const filterd = rows.filter((idx) => {
       const { cells } = idx;
       return (
-        cells[45].value === dateCalc ||
-        cells[45].value === tommorowDateCal ||
-        cells[45].value === yesterDayDateCal
+        cells[46].value === dateCalc ||
+        cells[46].value === tommorowDateCal ||
+        cells[46].value === yesterDayDateCal
       );
     });
 
