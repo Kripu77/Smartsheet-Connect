@@ -11,6 +11,7 @@ const sheetHeader = [
     "Dine In Close",
     "Drive Thru Open",
     "Drive Thru Close",
+    "MMX Workflow Update",
     "Effective Date\n",
   ],
 ];
@@ -18,6 +19,8 @@ const sheetHeader = [
 function sheetPrep(data) {
   let cleansedData = [];
   data.map((value) => {
+
+    console.log(value)
     const allData = [
       value[0].value,
       value[1].value,
@@ -83,6 +86,7 @@ function sheetPrep(data) {
       value[26].value,
       value[39].value,
       value[40].value,
+    
       "\n",
     ];
 

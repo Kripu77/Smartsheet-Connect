@@ -127,7 +127,7 @@ setTimeout(()=>{
             uber,
             "Bulk upload file for the trading hours update, please advise once done",
             "Trading Hours Update",
-            process.env.UBER_CC,
+            process.env.UBER_RECEIPIENT,
             "Esc Eng"
           )
         : console.log("No UBER Hours update");
