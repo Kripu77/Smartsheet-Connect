@@ -18,6 +18,9 @@ const {
   uberHeader,
   uberClosureHeader,
 } = require("../DeliveryPartnerTemplatingEngine/uber");
+
+const {dDashWriter} = require("../DeliveryPartnerTemplatingEngine/doordash");
+const {deliverooWriter} = require("../DeliveryPartnerTemplatingEngine/deliveroo");
 const { callDynamicMailengine } = require("../emailTemplating/dynamicMailer");
 const { callMailengine } = require("../emailTemplating/mailEngine");
 const { arrayJoine } = require("../utils/arrayJoin");
@@ -34,7 +37,7 @@ async function sheetSender(
     //destrcutring the objects set in the aggregatorLookup fn
     let { finaldata, compiledData, tempClosure } = dataSet;
     let { deliverooPre, uberPre, mlPre, googlePre } = aggslookupDB;
-    let { mlClosurePre, uberClosurePre } = closureStoresInfo;
+    let { mlClosurePre, uberClosurePre, doordashClosurePre, deliverooClosurePre } = closureStoresInfo;
 
     const deliveroo = arrayJoine(
       deliverooHeader.concat(deliverooPre)
@@ -78,8 +81,20 @@ async function sheetSender(
       uberClosureHeader.concat(uberClosurePre)
     ).toString();
 
+    //doordash closure
+    const doordashClosureFinal = arrayJoine(
+      mlClosureHeader.concat(doordashClosurePre)
+
+    ).toString();
+
+    //deliveroo closure
+    const deliverooClosureFinal = arrayJoine(mlClosureHeader.concat(deliverooClosurePre)).toString();
+
+
+
     // mailEngine call only if any stores have requested changes
-setTimeout(()=>{
+ // mailEngine call only if any stores have requested changes
+ setTimeout(()=>{
   storeChecker.length > 0
   ? callMailengine(
       dateCalc,
@@ -151,7 +166,7 @@ setTimeout(()=>{
           uberClosureFinal,
           "attached file for the store Temporary Closure, please advise once done",
           "Temporary Closure Update Uber",
-         "Kripu.Khadka@hungryjacks.com.au",
+         process.env.UBER_RECEIPIENT,
           "Esc Eng"
         )
       : console.log("No Uber Temp closure update");
@@ -169,10 +184,42 @@ setTimeout(()=>{
           )
         : console.log("No ML Temp closure update");
     }, 3000);
+
+    setTimeout(()=>{
+      deliverooClosurePre.length>0? callDynamicMailengine(
+       dateCalc,
+       deliverooClosureFinal,
+       "attached file for the store Temporary Closure in the deliveroo listings, please advise once done",
+       "Temporary Closure Update Deliveroo",
+       process.env.DELIVEROO_RECEIPIENT,
+       "Team"
+     )
+   : console.log("No Deliveroo Temp closure update");
+   
+     }, 2300)
+   
+      setTimeout(()=>{
+      doordashClosurePre.length>0? callDynamicMailengine(
+       dateCalc,
+       doordashClosureFinal,
+       "attached file for the store Temporary Closure in the doordash listings, please advise once done",
+       "Temporary Closure Update Doordash",
+       process.env.DOORDASH_CC,
+       "There"
+     )
+   : console.log("No Deliveroo Temp closure update");
+   
+     }, 2800)
+   
   } catch (err) {
     console.log(err);
   }
+
+ 
+
 }
+
+
 
 module.exports = {
   sheetSender,

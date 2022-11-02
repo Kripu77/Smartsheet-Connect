@@ -15,7 +15,7 @@ async function complier(source,dbLookup, data) {
 
       //to store the required datasets for comparision of records
       let recordPusher = data.map((value) => {
-          return {storeNumber: value[0].value.toString(), date: value[4].value,  createdDate: value[7].value };
+          return {storeNumber: value[0].value.toString(), storeName:value[1].value.toString(), dateAdded: value[4].value, effectiveDate:value[46].value,  createdDate: value[7].value };
       });
 
       //extracts if any store have filled out temproary closure data
