@@ -11,7 +11,6 @@ const sheetHeader = [
     "Dine In Close",
     "Drive Thru Open",
     "Drive Thru Close",
-    "MMX Workflow Update",
     "Effective Date\n",
   ],
 ];
