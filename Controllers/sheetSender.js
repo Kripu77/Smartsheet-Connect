@@ -18,6 +18,8 @@ const {
   uberHeader,
   uberClosureHeader,
 } = require("../DeliveryPartnerTemplatingEngine/uber");
+const {dDashWriter} = require("../DeliveryPartnerTemplatingEngine/doordash");
+const {deliverooWriter} = require("../DeliveryPartnerTemplatingEngine/deliveroo");
 const { arrayJoine } = require("../utils/arrayJoin");
 const { dateCalc} = require("../utils/dateCalculator");
 const {streamFileWriter} = require("../File Writer/writer");
@@ -32,7 +34,7 @@ async function sheetSender(
     //destrcutring the objects set in the aggregatorLookup fn
     let { finaldata, compiledData, tempClosure } = dataSet;
     let { deliverooPre, uberPre, mlPre, googlePre } = aggslookupDB;
-    let { mlClosurePre, uberClosurePre } = closureStoresInfo;
+    let { mlClosurePre, uberClosurePre,doordashClosurePre, deliverooClosurePre  } = closureStoresInfo;
 
     const deliveroo = arrayJoine(
       deliverooHeader.concat(deliverooPre)
@@ -76,6 +78,15 @@ async function sheetSender(
       uberClosureHeader.concat(uberClosurePre)
     ).toString();
 
+    //doordash closure
+    const doordashClosureFinal = arrayJoine(
+      mlClosureHeader.concat(doordashClosurePre)
+
+    ).toString();
+
+    //deliveroo closure
+    const deliverooClosureFinal = arrayJoine(mlClosureHeader.concat(deliverooClosurePre)).toString();
+
 
     //main file writer
     storeChecker.length>0 ? streamFileWriter(dateCalc, "Trading Hours Changes ", csv): console.log("No new request");
@@ -114,7 +125,16 @@ async function sheetSender(
       mlClosurePre.length > 0
         ?  streamFileWriter(dateCalc, "Temporary Closure Update ML", menulogClosureFinal)
         : console.log("No ML Temp closure update");
+
+        deliverooClosurePre.length>0
+         ?  streamFileWriter(dateCalc, "Temporary Closure Update Deliveroo", deliverooClosureFinal)
+        : console.log("No Deliveroo Temp closure update");
   
+        doordashClosurePre.length>0?
+        streamFileWriter(dateCalc, "Temporary Closure Update Doordash", doordashClosureFinal)
+        : console.log("No Doordash Temp closure update");
+
+
   } catch (err) {
     console.log(err);
   }

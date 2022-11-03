@@ -29,6 +29,19 @@ function deliverooWriter(data, isDeliveroo){
         
 
           if (value[0].value == `${isDeliveroo[deliVerooindex].storeNumber}`) {
+
+            if (value[9].value === "Temporary Closure Activation") {
+              const store = [
+                value[5].value,
+                value[0].value,
+                value[1].value,
+                `${!value[10].value ? "TBC" : value[10].value}`,
+                `${!value[12].value ? "TBC" : value[12].value}\n`,
+              ];
+              loadedData.push(store);
+              return store;
+            }
+      
            
 
             if (value[8].value === "Drive Thru") {
