@@ -27,8 +27,8 @@ const smartsheetCaller = async () => {
     var rowData = [];
 
     let data = await smartsheet.sheets.getSheet(options);
-    let rows = await Array.from(data.rows);
-    let columnData = await Array.from(data.columns);
+    let rows =  Array.from(data.rows);
+    let columnData = Array.from(data.columns);
 
     // extract all col headers
     const fullColumnData = columnData.map((data) => {
@@ -43,7 +43,9 @@ const smartsheetCaller = async () => {
     const filterd = rows.filter((idx) => {
       const { cells } = idx;
       return (
-        cells[46].value === "2022-10-30"
+        cells[46].value === dateCalc ||
+        cells[46].value === tommorowDateCal ||
+        cells[46].value === yesterDayDateCal
       );
     });
 
