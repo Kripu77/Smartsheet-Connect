@@ -36,10 +36,7 @@ async function sheetSender(
     let { deliverooPre, uberPre, mlPre, googlePre } = aggslookupDB;
     let { mlClosurePre, uberClosurePre,doordashClosurePre, deliverooClosurePre  } = closureStoresInfo;
 
-    const deliveroo = arrayJoine(
-      deliverooHeader.concat(deliverooPre)
-    ).toString();
-
+  
     //uber compiled
 
     const uber = arrayJoine(uberHeader.concat(uberPre)).toString();
@@ -84,8 +81,7 @@ async function sheetSender(
 
     ).toString();
 
-    //deliveroo closure
-    const deliverooClosureFinal = arrayJoine(mlClosureHeader.concat(deliverooClosurePre)).toString();
+
 
 
     //main file writer
@@ -112,9 +108,7 @@ async function sheetSender(
       : console.log("No UBER Hours update");
  
   
-      deliverooPre.length > 0
-        ? streamFileWriter(dateCalc, "Deliveroo Trading Hours Update HJ", deliveroo)
-        : console.log("No deliveroo Hours update");
+     
 
 
     uberClosurePre.length > 0
@@ -126,9 +120,6 @@ async function sheetSender(
         ?  streamFileWriter(dateCalc, "Temporary Closure Update ML", menulogClosureFinal)
         : console.log("No ML Temp closure update");
 
-        deliverooClosurePre.length>0
-         ?  streamFileWriter(dateCalc, "Temporary Closure Update Deliveroo", deliverooClosureFinal)
-        : console.log("No Deliveroo Temp closure update");
   
         doordashClosurePre.length>0?
         streamFileWriter(dateCalc, "Temporary Closure Update Doordash", doordashClosureFinal)
