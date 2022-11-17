@@ -36,8 +36,8 @@ async function sheetSender(
   try {
     //destrcutring the objects set in the aggregatorLookup fn
     let { finaldata, compiledData, tempClosure } = dataSet;
-    let { deliverooPre, uberPre, mlPre, googlePre } = aggslookupDB;
-    let { mlClosurePre, uberClosurePre, doordashClosurePre, deliverooClosurePre } = closureStoresInfo;
+    let {  uberPre, mlPre, googlePre } = aggslookupDB;
+    let { mlClosurePre, uberClosurePre, doordashClosurePre } = closureStoresInfo;
 
    
 
@@ -95,7 +95,6 @@ async function sheetSender(
       dateCalc,
       csv,
       menulog,
-      deliveroo,
       uber,
       googleFile,
       storeChecker,
@@ -179,7 +178,7 @@ async function sheetSender(
        process.env.DOORDASH_CC,
        "There"
      )
-   : console.log("No Deliveroo Temp closure update");
+   : console.log("No Doordash Temp closure update");
    
      }, 2800)
    

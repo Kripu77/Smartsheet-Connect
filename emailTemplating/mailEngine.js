@@ -5,7 +5,6 @@ function callMailengine(
   dateCalc,
   csv,
   menulog,
-  deliveroo,
   uber,
   googleFile,
   storeChecker,
@@ -50,10 +49,6 @@ function callMailengine(
       {
         filename: `Trading hours Update ${dateCalc} ML.csv`,
         content: menulog,
-      },
-      {
-        filename: `Deliveroo Trading hours Update ${dateCalc}.csv`,
-        content: deliveroo,
       },
       {
         filename: `Trading hours Update UberEats ${dateCalc.replaceAll("-", ".")}.csv`,
