@@ -1,3 +1,5 @@
+//Note: not in use although compute happens
+
 const{fifteenMinSub}= require('../utils/fifteenMinCalc')
 
 const deliverooHeader = [

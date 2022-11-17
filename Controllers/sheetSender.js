@@ -39,9 +39,7 @@ async function sheetSender(
     let { deliverooPre, uberPre, mlPre, googlePre } = aggslookupDB;
     let { mlClosurePre, uberClosurePre, doordashClosurePre, deliverooClosurePre } = closureStoresInfo;
 
-    const deliveroo = arrayJoine(
-      deliverooHeader.concat(deliverooPre)
-    ).toString();
+   
 
     //uber compiled
 
@@ -86,9 +84,6 @@ async function sheetSender(
       mlClosureHeader.concat(doordashClosurePre)
 
     ).toString();
-
-    //deliveroo closure
-    const deliverooClosureFinal = arrayJoine(mlClosureHeader.concat(deliverooClosurePre)).toString();
 
 
 
@@ -148,18 +143,6 @@ async function sheetSender(
         : console.log("No UBER Hours update");
    
     setTimeout(() => {
-      deliverooPre.length > 0
-        ? callDynamicMailengine(
-            dateCalc,
-            deliveroo,
-            "attached file for the trading hours update, please advise once done",
-            "Deliveroo Trading Hours Update HJ",
-            process.env.DELIVEROO_RECEIPIENT,
-            "Team"
-          )
-        : console.log("No deliveroo Hours update");
-    }, 2500);
-    setTimeout(() => {
     uberClosurePre.length > 0
       ? callDynamicMailengine(
           dateCalc,
@@ -185,18 +168,7 @@ async function sheetSender(
         : console.log("No ML Temp closure update");
     }, 3000);
 
-    setTimeout(()=>{
-      deliverooClosurePre.length>0? callDynamicMailengine(
-       dateCalc,
-       deliverooClosureFinal,
-       "attached file for the store Temporary Closure in the deliveroo listings, please advise once done",
-       "Temporary Closure Update Deliveroo",
-       process.env.DELIVEROO_RECEIPIENT,
-       "Team"
-     )
-   : console.log("No Deliveroo Temp closure update");
    
-     }, 2300)
    
       setTimeout(()=>{
       doordashClosurePre.length>0? callDynamicMailengine(
