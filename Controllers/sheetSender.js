@@ -100,7 +100,7 @@ async function sheetSender(
       dateCalc,
       csv,
       menulog,
-      deliveroo,
+     
       uber,
       googleFile,
       storeChecker,
@@ -147,18 +147,7 @@ async function sheetSender(
           )
         : console.log("No UBER Hours update");
    
-    setTimeout(() => {
-      deliverooPre.length > 0
-        ? callDynamicMailengine(
-            dateCalc,
-            deliveroo,
-            "attached file for the trading hours update, please advise once done",
-            "Deliveroo Trading Hours Update HJ",
-            process.env.DELIVEROO_RECEIPIENT,
-            "Team"
-          )
-        : console.log("No deliveroo Hours update");
-    }, 2500);
+   
     setTimeout(() => {
     uberClosurePre.length > 0
       ? callDynamicMailengine(
@@ -185,18 +174,7 @@ async function sheetSender(
         : console.log("No ML Temp closure update");
     }, 3000);
 
-    setTimeout(()=>{
-      deliverooClosurePre.length>0? callDynamicMailengine(
-       dateCalc,
-       deliverooClosureFinal,
-       "attached file for the store Temporary Closure in the deliveroo listings, please advise once done",
-       "Temporary Closure Update Deliveroo",
-       process.env.DELIVEROO_RECEIPIENT,
-       "Team"
-     )
-   : console.log("No Deliveroo Temp closure update");
    
-     }, 2300)
    
       setTimeout(()=>{
       doordashClosurePre.length>0? callDynamicMailengine(
