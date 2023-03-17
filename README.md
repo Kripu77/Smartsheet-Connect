@@ -1,6 +1,7 @@
 # Smartsheet-Integration-Node
 
-![Untitled-2022-10-28-2206](https://user-images.githubusercontent.com/84505567/198813062-5cd04612-686e-4cca-ab1e-170b95513e7c.png)
+![tradinghours](https://user-images.githubusercontent.com/84505567/174243205-3994a12e-1aed-42a9-ae1d-e7f52959c6d6.png)
+
 
 
 - Automation project done with the motivation to reduce manual human intervention.  
