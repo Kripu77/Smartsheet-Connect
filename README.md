@@ -22,5 +22,4 @@ The tech stack of the project looks like:
 - Node Mailer integrated with Outlook SMTP provider.
 - Currently Deployed in Heroku (Migration to AWS on the way).
 
-This project gave birth to my Simplistic package to write CSV with Node.js which is a WIP for it's first release. 
 
