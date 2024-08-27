@@ -4,22 +4,50 @@
 
 
 
-- Automation project done with the motivation to reduce manual human intervention.  
+# Automation Engine for Smartsheet Data Processing
 
-Prior to the development of this automation engine, tasks were done in a traditional fashion: The process included getting data from the Smartsheet Source in a bulk (Huge Dataset in often cases not required ones) which would take 3-5 mins (Depeniding on the bandwith of the internet). 
-- Once the data would finally load in the Locally present Excel Sheet, team would run it through a gigantic flow of Tableau prep to cleanse the data. However, the painful part was the data was still not obtained in the required format as per our stakeholders. 
-- The process would involve more cleansing and manual intervention by a human to produce the desired format required by our Stakeholders. To add on the process was highly error prone and repeatative.!
+## Overview
 
-So, here the story beings wouldn't it be ideal if the data that is alredy located somewhere in the cloud can be extracted on a cloud sever, then have the final required set of data as per the stakeholder sent to them on the fly and update the required source accordingly?
+This project automates the process of extracting, cleansing, and formatting data from Smartsheet to reduce manual intervention, improve accuracy, and streamline workflows. Previously, tasks were performed manually, including bulk data retrieval, local Excel sheet manipulations, and extensive Tableau Prep flows. This process was error-prone, repetitive, and inefficient.
 
-This is how the idea forstered and ultimately the project scaled on a broarder terms as I progressed with adding bunch of functionality to the engine. 
+## Solution
 
-The tech stack of the project looks like:
+The automation engine solves these issues by leveraging cloud-based technologies to directly extract data from Smartsheet and process it on a cloud server. The final formatted data is then automatically delivered to stakeholders, minimizing manual effort and enhancing reliability.
 
-- Node.js
-- Smartsheet API SDK for JavaScript. 
-- MongoDB. 
-- Node Mailer integrated with Outlook SMTP provider.
-- Currently Deployed in Heroku (Migration to AWS on the way).
+## Key Features
 
+- **Automated Data Extraction:** Retrieves data from Smartsheet using the Smartsheet API SDK for JavaScript.
+- **Cloud-Based Processing:** Utilizes Node.js and MongoDB for efficient data processing and storage.
+- **Dynamic Data Formatting:** Converts data into the required format as specified by stakeholders.
+- **Email Notifications:** Sends processed data to stakeholders using Node Mailer integrated with Outlook SMTP provider.
+- **Cloud Deployment:** Currently deployed on Heroku, with migration to AWS in progress for better scalability and performance.
 
+## Tech Stack
+
+- **Node.js:** JavaScript runtime environment used for server-side application development.
+- **Smartsheet API SDK for JavaScript:** Provides programmatic access to Smartsheet data.
+- **MongoDB:** NoSQL database used for storing and managing data.
+- **Node Mailer:** Manages email sending functionality.
+- **Heroku:** Cloud platform for deploying and managing applications (migration to AWS in progress).
+
+## Getting Started
+
+To get started with this project:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/kripu77/smartsheet-connect.git
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+    npm install
+   ```
+3. Configure Environment Variables:
+   - Create a .env file in the root directory of the project.
+   - Add your Smartsheet API credentials and Outlook SMTP details to the .env file.
+
+4. Run the application:
+   ```bash
+   npm start
+   ```
